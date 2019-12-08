@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.administratorMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.administrator">
+<mapper namespace="com.ncu.bbs.dao.AdministratorMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Administrator">
     <id column="a_id" jdbcType="INTEGER" property="aId" />
     <result column="a_adminname" jdbcType="VARCHAR" property="aAdminname" />
     <result column="a_password" jdbcType="VARCHAR" property="aPassword" />
@@ -69,7 +69,7 @@
   <sql id="Base_Column_List">
     a_id, a_adminname, a_password, a_headpic, a_email
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.administratorExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.AdministratorExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -93,19 +93,19 @@
     delete from t_administrator
     where a_id = #{aId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.administratorExample">
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.AdministratorExample">
     delete from t_administrator
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.administrator">
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Administrator">
     insert into t_administrator (a_id, a_adminname, a_password, 
       a_headpic, a_email)
     values (#{aId,jdbcType=INTEGER}, #{aAdminname,jdbcType=VARCHAR}, #{aPassword,jdbcType=VARCHAR}, 
       #{aHeadpic,jdbcType=VARCHAR}, #{aEmail,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.administrator">
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Administrator">
     insert into t_administrator
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="aId != null">
@@ -142,7 +142,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.administratorExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.AdministratorExample" resultType="java.lang.Long">
     select count(*) from t_administrator
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -182,7 +182,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.administrator">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Administrator">
     update t_administrator
     <set>
       <if test="aAdminname != null">
@@ -200,7 +200,7 @@
     </set>
     where a_id = #{aId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.administrator">
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Administrator">
     update t_administrator
     set a_adminname = #{aAdminname,jdbcType=VARCHAR},
       a_password = #{aPassword,jdbcType=VARCHAR},

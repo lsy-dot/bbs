@@ -2,7 +2,7 @@ package com.ncu.bbs.bean;
 
 import java.util.Date;
 
-public class main {
+public class Main {
     private Integer mMainid;
 
     private String mContent;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.mainMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.main">
+<mapper namespace="com.ncu.bbs.dao.MainMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Main">
     <id column="m_mainid" jdbcType="INTEGER" property="mMainid" />
     <result column="m_content" jdbcType="VARCHAR" property="mContent" />
     <result column="m_mainerid" jdbcType="INTEGER" property="mMainerid" />
@@ -73,7 +73,7 @@
     m_mainid, m_content, m_mainerid, m_sectionid, m_isontop, m_isperfect, m_maindate, 
     m_point
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.mainExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.MainExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -97,13 +97,13 @@
     delete from t_main
     where m_mainid = #{mMainid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.mainExample">
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.MainExample">
     delete from t_main
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.main">
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Main">
     insert into t_main (m_mainid, m_content, m_mainerid, 
       m_sectionid, m_isontop, m_isperfect, 
       m_maindate, m_point)
@@ -111,7 +111,7 @@
       #{mSectionid,jdbcType=INTEGER}, #{mIsontop,jdbcType=INTEGER}, #{mIsperfect,jdbcType=INTEGER}, 
       #{mMaindate,jdbcType=TIMESTAMP}, #{mPoint,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.main">
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Main">
     insert into t_main
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="mMainid != null">
@@ -166,7 +166,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.mainExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.MainExample" resultType="java.lang.Long">
     select count(*) from t_main
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -218,7 +218,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.main">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Main">
     update t_main
     <set>
       <if test="mContent != null">
@@ -245,7 +245,7 @@
     </set>
     where m_mainid = #{mMainid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.main">
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Main">
     update t_main
     set m_content = #{mContent,jdbcType=VARCHAR},
       m_mainerid = #{mMainerid,jdbcType=INTEGER},

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.sectionMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.section">
-    <id column="s_id" jdbcType="INTEGER" property="sId" />
-    <result column="s_sectionname" jdbcType="VARCHAR" property="sSectionname" />
-    <result column="s_description" jdbcType="VARCHAR" property="sDescription" />
-    <result column="s_banzhuid" jdbcType="INTEGER" property="sBanzhuid" />
+<mapper namespace="com.ncu.bbs.dao.FollowMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Follow">
+    <id column="f_followid" jdbcType="INTEGER" property="fFollowid" />
+    <result column="f_content" jdbcType="VARCHAR" property="fContent" />
+    <result column="f_followerid" jdbcType="INTEGER" property="fFollowerid" />
+    <result column="f_mainid" jdbcType="INTEGER" property="fMainid" />
+    <result column="f_followdate" jdbcType="TIMESTAMP" property="fFollowdate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    s_id, s_sectionname, s_description, s_banzhuid
+    f_followid, f_content, f_followerid, f_mainid, f_followdate
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.sectionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.FollowExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_section
+    from t_follow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_section
-    where s_id = #{sId,jdbcType=INTEGER}
+    from t_follow
+    where f_followid = #{fFollowid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_section
-    where s_id = #{sId,jdbcType=INTEGER}
+    delete from t_follow
+    where f_followid = #{fFollowid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.sectionExample">
-    delete from t_section
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.FollowExample">
+    delete from t_follow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.section">
-    insert into t_section (s_id, s_sectionname, s_description, 
-      s_banzhuid)
-    values (#{sId,jdbcType=INTEGER}, #{sSectionname,jdbcType=VARCHAR}, #{sDescription,jdbcType=VARCHAR}, 
-      #{sBanzhuid,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Follow">
+    insert into t_follow (f_followid, f_content, f_followerid, 
+      f_mainid, f_followdate)
+    values (#{fFollowid,jdbcType=INTEGER}, #{fContent,jdbcType=VARCHAR}, #{fFollowerid,jdbcType=INTEGER}, 
+      #{fMainid,jdbcType=INTEGER}, #{fFollowdate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.section">
-    insert into t_section
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Follow">
+    insert into t_follow
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="sId != null">
-        s_id,
+      <if test="fFollowid != null">
+        f_followid,
       </if>
-      <if test="sSectionname != null">
-        s_sectionname,
+      <if test="fContent != null">
+        f_content,
       </if>
-      <if test="sDescription != null">
-        s_description,
+      <if test="fFollowerid != null">
+        f_followerid,
       </if>
-      <if test="sBanzhuid != null">
-        s_banzhuid,
+      <if test="fMainid != null">
+        f_mainid,
+      </if>
+      <if test="fFollowdate != null">
+        f_followdate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="sId != null">
-        #{sId,jdbcType=INTEGER},
+      <if test="fFollowid != null">
+        #{fFollowid,jdbcType=INTEGER},
       </if>
-      <if test="sSectionname != null">
-        #{sSectionname,jdbcType=VARCHAR},
+      <if test="fContent != null">
+        #{fContent,jdbcType=VARCHAR},
       </if>
-      <if test="sDescription != null">
-        #{sDescription,jdbcType=VARCHAR},
+      <if test="fFollowerid != null">
+        #{fFollowerid,jdbcType=INTEGER},
       </if>
-      <if test="sBanzhuid != null">
-        #{sBanzhuid,jdbcType=INTEGER},
+      <if test="fMainid != null">
+        #{fMainid,jdbcType=INTEGER},
+      </if>
+      <if test="fFollowdate != null">
+        #{fFollowdate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.sectionExample" resultType="java.lang.Long">
-    select count(*) from t_section
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.FollowExample" resultType="java.lang.Long">
+    select count(*) from t_follow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_section
+    update t_follow
     <set>
-      <if test="record.sId != null">
-        s_id = #{record.sId,jdbcType=INTEGER},
+      <if test="record.fFollowid != null">
+        f_followid = #{record.fFollowid,jdbcType=INTEGER},
       </if>
-      <if test="record.sSectionname != null">
-        s_sectionname = #{record.sSectionname,jdbcType=VARCHAR},
+      <if test="record.fContent != null">
+        f_content = #{record.fContent,jdbcType=VARCHAR},
       </if>
-      <if test="record.sDescription != null">
-        s_description = #{record.sDescription,jdbcType=VARCHAR},
+      <if test="record.fFollowerid != null">
+        f_followerid = #{record.fFollowerid,jdbcType=INTEGER},
       </if>
-      <if test="record.sBanzhuid != null">
-        s_banzhuid = #{record.sBanzhuid,jdbcType=INTEGER},
+      <if test="record.fMainid != null">
+        f_mainid = #{record.fMainid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fFollowdate != null">
+        f_followdate = #{record.fFollowdate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_section
-    set s_id = #{record.sId,jdbcType=INTEGER},
-      s_sectionname = #{record.sSectionname,jdbcType=VARCHAR},
-      s_description = #{record.sDescription,jdbcType=VARCHAR},
-      s_banzhuid = #{record.sBanzhuid,jdbcType=INTEGER}
+    update t_follow
+    set f_followid = #{record.fFollowid,jdbcType=INTEGER},
+      f_content = #{record.fContent,jdbcType=VARCHAR},
+      f_followerid = #{record.fFollowerid,jdbcType=INTEGER},
+      f_mainid = #{record.fMainid,jdbcType=INTEGER},
+      f_followdate = #{record.fFollowdate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.section">
-    update t_section
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Follow">
+    update t_follow
     <set>
-      <if test="sSectionname != null">
-        s_sectionname = #{sSectionname,jdbcType=VARCHAR},
+      <if test="fContent != null">
+        f_content = #{fContent,jdbcType=VARCHAR},
       </if>
-      <if test="sDescription != null">
-        s_description = #{sDescription,jdbcType=VARCHAR},
+      <if test="fFollowerid != null">
+        f_followerid = #{fFollowerid,jdbcType=INTEGER},
       </if>
-      <if test="sBanzhuid != null">
-        s_banzhuid = #{sBanzhuid,jdbcType=INTEGER},
+      <if test="fMainid != null">
+        f_mainid = #{fMainid,jdbcType=INTEGER},
+      </if>
+      <if test="fFollowdate != null">
+        f_followdate = #{fFollowdate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where s_id = #{sId,jdbcType=INTEGER}
+    where f_followid = #{fFollowid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.section">
-    update t_section
-    set s_sectionname = #{sSectionname,jdbcType=VARCHAR},
-      s_description = #{sDescription,jdbcType=VARCHAR},
-      s_banzhuid = #{sBanzhuid,jdbcType=INTEGER}
-    where s_id = #{sId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Follow">
+    update t_follow
+    set f_content = #{fContent,jdbcType=VARCHAR},
+      f_followerid = #{fFollowerid,jdbcType=INTEGER},
+      f_mainid = #{fMainid,jdbcType=INTEGER},
+      f_followdate = #{fFollowdate,jdbcType=TIMESTAMP}
+    where f_followid = #{fFollowid,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,6 +1,6 @@
 package com.ncu.bbs.bean;
 
-public class administrator {
+public class Administrator {
     private Integer aId;
 
     private String aAdminname;

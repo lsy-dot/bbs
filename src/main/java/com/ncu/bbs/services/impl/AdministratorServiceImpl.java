@@ -1,8 +1,7 @@
 package com.ncu.bbs.services.impl;
 
-import com.ncu.bbs.bean.administrator;
-import com.ncu.bbs.bean.administratorExample;
-import com.ncu.bbs.dao.administratorMapper;
+import com.ncu.bbs.bean.Administrator;
+import com.ncu.bbs.dao.AdministratorMapper;
 import com.ncu.bbs.services.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,13 @@ import java.util.List;
 @ContextConfiguration("classpath:applicationContext.xml")
 public class AdministratorServiceImpl implements AdministratorService {
     @Autowired
-    administratorMapper administratorMapper;
-    public void insertAdministrator(administrator administrator) {
+    AdministratorMapper administratorMapper;
+    public void insertAdministrator(Administrator administrator) {
         administratorMapper.insert(administrator);
     }
 
-    public List<administrator> selectAllAdministrator() {
-        List<administrator> list=administratorMapper.selectByExample(null);
+    public List<Administrator> selectAllAdministrator() {
+        List<Administrator> list=administratorMapper.selectByExample(null);
         return list;
     }
 }

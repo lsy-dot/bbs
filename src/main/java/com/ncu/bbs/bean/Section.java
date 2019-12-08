@@ -1,6 +1,6 @@
 package com.ncu.bbs.bean;
 
-public class section {
+public class Section {
     private Integer sId;
 
     private String sSectionname;

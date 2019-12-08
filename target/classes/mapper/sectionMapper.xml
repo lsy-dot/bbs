@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.sectionMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.section">
+<mapper namespace="com.ncu.bbs.dao.SectionMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Section">
     <id column="s_id" jdbcType="INTEGER" property="sId" />
     <result column="s_sectionname" jdbcType="VARCHAR" property="sSectionname" />
     <result column="s_description" jdbcType="VARCHAR" property="sDescription" />
@@ -68,7 +68,7 @@
   <sql id="Base_Column_List">
     s_id, s_sectionname, s_description, s_banzhuid
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.sectionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.SectionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -92,19 +92,19 @@
     delete from t_section
     where s_id = #{sId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.sectionExample">
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.SectionExample">
     delete from t_section
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.section">
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Section">
     insert into t_section (s_id, s_sectionname, s_description, 
       s_banzhuid)
     values (#{sId,jdbcType=INTEGER}, #{sSectionname,jdbcType=VARCHAR}, #{sDescription,jdbcType=VARCHAR}, 
       #{sBanzhuid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.section">
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Section">
     insert into t_section
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="sId != null">
@@ -135,7 +135,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.sectionExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.SectionExample" resultType="java.lang.Long">
     select count(*) from t_section
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -171,7 +171,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.section">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Section">
     update t_section
     <set>
       <if test="sSectionname != null">
@@ -186,7 +186,7 @@
     </set>
     where s_id = #{sId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.section">
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Section">
     update t_section
     set s_sectionname = #{sSectionname,jdbcType=VARCHAR},
       s_description = #{sDescription,jdbcType=VARCHAR},

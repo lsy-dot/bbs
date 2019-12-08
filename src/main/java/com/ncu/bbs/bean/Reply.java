@@ -2,7 +2,7 @@ package com.ncu.bbs.bean;
 
 import java.util.Date;
 
-public class reply {
+public class Reply {
     private Integer rReplyid;
 
     private String rContent;

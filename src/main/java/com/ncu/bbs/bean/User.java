@@ -1,6 +1,6 @@
 package com.ncu.bbs.bean;
 
-public class user {
+public class User {
     private Integer uId;
 
     private String uUserid;

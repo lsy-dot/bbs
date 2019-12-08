@@ -2,7 +2,7 @@ package com.ncu.bbs.bean;
 
 import java.util.Date;
 
-public class follow {
+public class Follow {
     private Integer fFollowid;
 
     private String fContent;

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.administratorMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.administrator">
-    <id column="a_id" jdbcType="INTEGER" property="aId" />
-    <result column="a_adminname" jdbcType="VARCHAR" property="aAdminname" />
-    <result column="a_password" jdbcType="VARCHAR" property="aPassword" />
-    <result column="a_headpic" jdbcType="VARCHAR" property="aHeadpic" />
-    <result column="a_email" jdbcType="VARCHAR" property="aEmail" />
+<mapper namespace="com.ncu.bbs.dao.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Reply">
+    <id column="r_replyid" jdbcType="INTEGER" property="rReplyid" />
+    <result column="r_content" jdbcType="VARCHAR" property="rContent" />
+    <result column="r_replyerid" jdbcType="INTEGER" property="rReplyerid" />
+    <result column="r_followid" jdbcType="INTEGER" property="rFollowid" />
+    <result column="r_replydate" jdbcType="TIMESTAMP" property="rReplydate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    a_id, a_adminname, a_password, a_headpic, a_email
+    r_replyid, r_content, r_replyerid, r_followid, r_replydate
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.administratorExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.ReplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_administrator
+    from t_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_administrator
-    where a_id = #{aId,jdbcType=INTEGER}
+    from t_reply
+    where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_administrator
-    where a_id = #{aId,jdbcType=INTEGER}
+    delete from t_reply
+    where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.administratorExample">
-    delete from t_administrator
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.ReplyExample">
+    delete from t_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.administrator">
-    insert into t_administrator (a_id, a_adminname, a_password, 
-      a_headpic, a_email)
-    values (#{aId,jdbcType=INTEGER}, #{aAdminname,jdbcType=VARCHAR}, #{aPassword,jdbcType=VARCHAR}, 
-      #{aHeadpic,jdbcType=VARCHAR}, #{aEmail,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Reply">
+    insert into t_reply (r_replyid, r_content, r_replyerid, 
+      r_followid, r_replydate)
+    values (#{rReplyid,jdbcType=INTEGER}, #{rContent,jdbcType=VARCHAR}, #{rReplyerid,jdbcType=INTEGER}, 
+      #{rFollowid,jdbcType=INTEGER}, #{rReplydate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.administrator">
-    insert into t_administrator
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Reply">
+    insert into t_reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="aId != null">
-        a_id,
+      <if test="rReplyid != null">
+        r_replyid,
       </if>
-      <if test="aAdminname != null">
-        a_adminname,
+      <if test="rContent != null">
+        r_content,
       </if>
-      <if test="aPassword != null">
-        a_password,
+      <if test="rReplyerid != null">
+        r_replyerid,
       </if>
-      <if test="aHeadpic != null">
-        a_headpic,
+      <if test="rFollowid != null">
+        r_followid,
       </if>
-      <if test="aEmail != null">
-        a_email,
+      <if test="rReplydate != null">
+        r_replydate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="aId != null">
-        #{aId,jdbcType=INTEGER},
+      <if test="rReplyid != null">
+        #{rReplyid,jdbcType=INTEGER},
       </if>
-      <if test="aAdminname != null">
-        #{aAdminname,jdbcType=VARCHAR},
+      <if test="rContent != null">
+        #{rContent,jdbcType=VARCHAR},
       </if>
-      <if test="aPassword != null">
-        #{aPassword,jdbcType=VARCHAR},
+      <if test="rReplyerid != null">
+        #{rReplyerid,jdbcType=INTEGER},
       </if>
-      <if test="aHeadpic != null">
-        #{aHeadpic,jdbcType=VARCHAR},
+      <if test="rFollowid != null">
+        #{rFollowid,jdbcType=INTEGER},
       </if>
-      <if test="aEmail != null">
-        #{aEmail,jdbcType=VARCHAR},
+      <if test="rReplydate != null">
+        #{rReplydate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.administratorExample" resultType="java.lang.Long">
-    select count(*) from t_administrator
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.ReplyExample" resultType="java.lang.Long">
+    select count(*) from t_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_administrator
+    update t_reply
     <set>
-      <if test="record.aId != null">
-        a_id = #{record.aId,jdbcType=INTEGER},
+      <if test="record.rReplyid != null">
+        r_replyid = #{record.rReplyid,jdbcType=INTEGER},
       </if>
-      <if test="record.aAdminname != null">
-        a_adminname = #{record.aAdminname,jdbcType=VARCHAR},
+      <if test="record.rContent != null">
+        r_content = #{record.rContent,jdbcType=VARCHAR},
       </if>
-      <if test="record.aPassword != null">
-        a_password = #{record.aPassword,jdbcType=VARCHAR},
+      <if test="record.rReplyerid != null">
+        r_replyerid = #{record.rReplyerid,jdbcType=INTEGER},
       </if>
-      <if test="record.aHeadpic != null">
-        a_headpic = #{record.aHeadpic,jdbcType=VARCHAR},
+      <if test="record.rFollowid != null">
+        r_followid = #{record.rFollowid,jdbcType=INTEGER},
       </if>
-      <if test="record.aEmail != null">
-        a_email = #{record.aEmail,jdbcType=VARCHAR},
+      <if test="record.rReplydate != null">
+        r_replydate = #{record.rReplydate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_administrator
-    set a_id = #{record.aId,jdbcType=INTEGER},
-      a_adminname = #{record.aAdminname,jdbcType=VARCHAR},
-      a_password = #{record.aPassword,jdbcType=VARCHAR},
-      a_headpic = #{record.aHeadpic,jdbcType=VARCHAR},
-      a_email = #{record.aEmail,jdbcType=VARCHAR}
+    update t_reply
+    set r_replyid = #{record.rReplyid,jdbcType=INTEGER},
+      r_content = #{record.rContent,jdbcType=VARCHAR},
+      r_replyerid = #{record.rReplyerid,jdbcType=INTEGER},
+      r_followid = #{record.rFollowid,jdbcType=INTEGER},
+      r_replydate = #{record.rReplydate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.administrator">
-    update t_administrator
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Reply">
+    update t_reply
     <set>
-      <if test="aAdminname != null">
-        a_adminname = #{aAdminname,jdbcType=VARCHAR},
+      <if test="rContent != null">
+        r_content = #{rContent,jdbcType=VARCHAR},
       </if>
-      <if test="aPassword != null">
-        a_password = #{aPassword,jdbcType=VARCHAR},
+      <if test="rReplyerid != null">
+        r_replyerid = #{rReplyerid,jdbcType=INTEGER},
       </if>
-      <if test="aHeadpic != null">
-        a_headpic = #{aHeadpic,jdbcType=VARCHAR},
+      <if test="rFollowid != null">
+        r_followid = #{rFollowid,jdbcType=INTEGER},
       </if>
-      <if test="aEmail != null">
-        a_email = #{aEmail,jdbcType=VARCHAR},
+      <if test="rReplydate != null">
+        r_replydate = #{rReplydate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where a_id = #{aId,jdbcType=INTEGER}
+    where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.administrator">
-    update t_administrator
-    set a_adminname = #{aAdminname,jdbcType=VARCHAR},
-      a_password = #{aPassword,jdbcType=VARCHAR},
-      a_headpic = #{aHeadpic,jdbcType=VARCHAR},
-      a_email = #{aEmail,jdbcType=VARCHAR}
-    where a_id = #{aId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Reply">
+    update t_reply
+    set r_content = #{rContent,jdbcType=VARCHAR},
+      r_replyerid = #{rReplyerid,jdbcType=INTEGER},
+      r_followid = #{rFollowid,jdbcType=INTEGER},
+      r_replydate = #{rReplydate,jdbcType=TIMESTAMP}
+    where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </update>
 </mapper>

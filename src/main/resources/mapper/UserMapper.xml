@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.userMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.user">
+<mapper namespace="com.ncu.bbs.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.User">
     <id column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="u_userid" jdbcType="VARCHAR" property="uUserid" />
     <result column="u_password" jdbcType="VARCHAR" property="uPassword" />
@@ -79,7 +79,7 @@
     u_id, u_userid, u_password, u_nickname, u_sex, u_name, u_email, u_intro, u_headpic, 
     u_age, u_workplace, u_workproperty, u_issectioner, u_points
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.userExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -103,13 +103,13 @@
     delete from t_user
     where u_id = #{uId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.userExample">
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.UserExample">
     delete from t_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.user">
+  <insert id="insert" parameterType="com.ncu.bbs.bean.User">
     insert into t_user (u_id, u_userid, u_password, 
       u_nickname, u_sex, u_name, 
       u_email, u_intro, u_headpic, 
@@ -121,7 +121,7 @@
       #{uAge,jdbcType=VARCHAR}, #{uWorkplace,jdbcType=VARCHAR}, #{uWorkproperty,jdbcType=VARCHAR}, 
       #{uIssectioner,jdbcType=INTEGER}, #{uPoints,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.user">
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.User">
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uId != null">
@@ -212,7 +212,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.userExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.UserExample" resultType="java.lang.Long">
     select count(*) from t_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -288,7 +288,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.user">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.User">
     update t_user
     <set>
       <if test="uUserid != null">
@@ -333,7 +333,7 @@
     </set>
     where u_id = #{uId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.user">
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.User">
     update t_user
     set u_userid = #{uUserid,jdbcType=VARCHAR},
       u_password = #{uPassword,jdbcType=VARCHAR},
