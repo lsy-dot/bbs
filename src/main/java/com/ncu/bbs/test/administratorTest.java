@@ -1,9 +1,11 @@
 package com.ncu.bbs.test;
 
 import com.ncu.bbs.bean.Administrator;
+import com.ncu.bbs.bean.Section;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.AdministratorMapper;
+import com.ncu.bbs.dao.SectionMapper;
 import com.ncu.bbs.dao.UserMapper;
 import com.ncu.bbs.services.impl.AdministratorServiceImpl;
 import org.junit.Test;
@@ -26,6 +28,10 @@ public class administratorTest {
 
     @Autowired
     UserMapper userMapper;
+
+    /**
+     * 插入一个管理员
+     */
     @Test
     public void insertAdministrator(){
         Administrator administrator=new Administrator();
@@ -35,6 +41,10 @@ public class administratorTest {
         administrator.setaPassword("123456");
         administratorService.insertAdministrator(administrator);
 }
+
+    /**
+     * 查询所有的管理员，删除第一个管理员
+     */
     @Test
     public void  selectAllAdministrator(){
         List<Administrator> list=administratorService.selectAllAdministrator();
@@ -42,6 +52,9 @@ public class administratorTest {
         System.out.println(list.get(1));
     }
 
+    /**
+     * 自动生成增加一些用户
+     */
     @Test
     public void addUsers(){
         for(int i=0;i<20;i++){
@@ -51,6 +64,9 @@ public class administratorTest {
         }
     }
 
+    /**
+     * 删除所有用户
+     */
     @Test
     public void deleteAllUser(){
         UserExample example=new UserExample();
@@ -58,6 +74,10 @@ public class administratorTest {
         criteria.andUIdIsNotNull();
         userMapper.deleteByExample(example);
     }
+
+    /**
+     * 更新所有用户的性别
+     */
     @Test
     public void updateUsersGender(){
         UserExample example=new UserExample();

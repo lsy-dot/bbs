@@ -14,7 +14,6 @@
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
     %>
-
     <!--
         web路径：
         1.不以/开始的相对路径，找资源，以当前资源的路径为基准，经常容易出问题
@@ -37,7 +36,7 @@
             success:function (result) {
                 var s=result.extend.allAdmin;
                 $.each(s,function (index,item) {
-                    alert(item.aPassword);
+                    //alert(item.aPassword);
                 });
             }
         });

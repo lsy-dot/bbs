@@ -1,5 +1,7 @@
 package com.ncu.bbs.bean;
 
+import java.util.List;
+
 public class User {
     private Integer uId;
 
@@ -139,6 +141,23 @@ public class User {
 
     public void setuPoints(Integer uPoints) {
         this.uPoints = uPoints;
+    }
+
+    public User() {
+        uId=null;
+        uUserid=null;
+        uPassword=null;
+        uAge=null;
+        uEmail=null;
+        uNickname=null;
+        uIntro=null;
+        uHeadpic=null;
+        uIssectioner=null;
+        uPoints=null;
+        uWorkplace=null;
+        uWorkproperty=null;
+        uSex=null;
+        uName=null;
     }
 
     public User(Integer uId, String uUserid, String uPassword, String uNickname, String uSex, String uName, String uEmail, String uIntro, String uHeadpic, String uAge, String uWorkplace, String uWorkproperty, Integer uIssectioner, Integer uPoints) {

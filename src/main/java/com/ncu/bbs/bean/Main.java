@@ -1,6 +1,7 @@
 package com.ncu.bbs.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     private Integer mMainid;
@@ -18,6 +19,10 @@ public class Main {
     private Date mMaindate;
 
     private Integer mPoint;
+
+    private User user;//新增加一个该帖子的发布者的信息字段
+
+    private List<Follow> follows;//新增一个所有跟帖者的信息字段
 
     public Integer getmMainid() {
         return mMainid;
@@ -81,5 +86,22 @@ public class Main {
 
     public void setmPoint(Integer mPoint) {
         this.mPoint = mPoint;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Follow> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(List<Follow> follows) {
+        this.follows = follows;
     }
 }
