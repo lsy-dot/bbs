@@ -65,12 +65,12 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表和生成的实体类名-->
-        <table tableName="t_administrator" domainObjectName="administrator"/>
-        <table tableName="t_follow" domainObjectName="follow"/>
-        <table tableName="t_main" domainObjectName="main"/>
-        <table tableName="t_reply" domainObjectName="reply"/>
-        <table tableName="t_section" domainObjectName="section"/>
-        <table tableName="t_user" domainObjectName="user"/>
+        <table tableName="t_administrator" domainObjectName="Administrator"/>
+        <table tableName="t_follow" domainObjectName="Follow"/>
+        <table tableName="t_main" domainObjectName="Main"/>
+        <table tableName="t_reply" domainObjectName="Reply"/>
+        <table tableName="t_section" domainObjectName="Section"/>
+        <table tableName="t_user" domainObjectName="User"/>
         <!-- 有些表的字段需要指定java类型
         <table schema="" tableName="">
         <columnOverride column="" javaType="" />
