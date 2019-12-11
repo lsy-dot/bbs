@@ -11,7 +11,7 @@ public class Msg {
     private int code;
     //提示信息
     private String msg;
-    //用户要=返回给浏览器的数据
+    //用户要返回给浏览器的数据
     private Map<String,Object> extend=new HashMap<String,Object>();
 
     public static Msg success(){

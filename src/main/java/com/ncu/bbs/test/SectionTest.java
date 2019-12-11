@@ -18,8 +18,8 @@ public class SectionTest {
     public void addSomeSection(){
         for(int i=0;i<5;i++){
             Section section=new Section();
-            section.setsSectionname("版块"+i);
-            section.setsBanzhuid(181);
+            section.setsSectionname("版块"+i+1);
+            section.setsBanzhuid(i+1);
             section.setsDescription("版块介绍如下。。。");
             mapper.insertSelective(section);
         }

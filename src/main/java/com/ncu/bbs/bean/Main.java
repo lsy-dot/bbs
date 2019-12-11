@@ -6,6 +6,8 @@ import java.util.List;
 public class Main {
     private Integer mMainid;
 
+    private String mTitle;
+
     private String mContent;
 
     private Integer mMainerid;
@@ -19,17 +21,23 @@ public class Main {
     private Date mMaindate;
 
     private Integer mPoint;
-
     private User user;//新增加一个该帖子的发布者的信息字段
 
     private List<Follow> follows;//新增一个所有跟帖者的信息字段
-
     public Integer getmMainid() {
         return mMainid;
     }
 
     public void setmMainid(Integer mMainid) {
         this.mMainid = mMainid;
+    }
+
+    public String getmTitle() {
+        return mTitle;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
     }
 
     public String getmContent() {
@@ -91,7 +99,6 @@ public class Main {
     public User getUser() {
         return user;
     }
-
 
     public void setUser(User user) {
         this.user = user;

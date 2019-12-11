@@ -21,7 +21,7 @@
         2.以/开始的相对路径，找资源，以服务器的路径为标准，需要加上项目名称
     -->
     <!--引入jquery-->
-    <script src="${APP_PATH}/statics/js/jquery.js"></script>
+    <script src="${APP_PATH}/statics/js/jquery-1.10.2.js"></script>
     <!--引入样式-->
     <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>

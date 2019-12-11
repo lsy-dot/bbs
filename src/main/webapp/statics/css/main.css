@@ -1,12 +1,19 @@
 ul{
     list-style-type:none;
 }
+li{
+    line-height: 20px;
+}
 a{
     text-decoration: none;
 }
-.sections ul{
+h1{
+    text-align:center;
+}
+#sections ul{
     padding:0 20px;
-    background-color:#33ffee;
+    /*background-color:#33ffee;*/
+
 }
 .top-navigate{
     width:100%;
@@ -26,9 +33,33 @@ a{
     width:90%;
     /*background-color:red;*/
 }
-.sections{
-    margin-left:20px;
-    width:500px;
-    height:500px;
-    display: inline-block;
+.wrapper{
+    height:40%;
+    width:100%;
+    margin:20px auto;
+    /*background-color:#33ffee;*/
+}
+.title.two-line{
+    height:20%;
+}
+.tab{
+    width:20%;
+    float:left;
+}
+.title{
+    margin:20px 0;
+}
+.nvai{
+    margin:20px 0;
+}
+.content{
+    width:800px;
+    height:300px;
+    border:1px solid black;
+    margin:20px 0;
+    resize: none;
+    overflow: auto;
+}
+.showContent{
+    background-color:lightblue;
 }

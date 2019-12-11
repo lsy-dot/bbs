@@ -35,14 +35,18 @@ public class MainTest {
     @Test
     public void addSomeMain(){
         //userID:181----
-        for(int i=0;i<10;i++){
+        for(int i=0;i<30;i++){
             String content= "本帖内容为："+UUID.randomUUID().toString().substring(0,10);
-            int sectionId=1;
-            int mainerId=181+i;
+            String title="本帖标题是:"+UUID.randomUUID().toString().substring(0,10);
+            int sectionId=(i%4+1);
+            int mainerId=(i%20)+1;
             Main main=new Main();
+            main.setmTitle(title);
             main.setmContent(content);
-            main.setmIsontop(0);
-            main.setmIsperfect(0);
+            int a=(int)(Math.random()*2);
+            int b=(int)(Math.random()*2);
+            main.setmIsontop(a);
+            main.setmIsperfect(b);
             main.setmMainerid(mainerId);
             main.setmPoint(0);
             main.setmMaindate(new Date());

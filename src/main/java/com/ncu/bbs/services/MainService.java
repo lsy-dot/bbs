@@ -10,4 +10,13 @@ import java.util.List;
 @ContextConfiguration("classpath:applicationContext.xml")
 public interface MainService {
     public List<Main> getMainBySectionId(Integer sectionId);
+
+    public List<Main> getMainBySectionIdAndNum(Integer sectionId, int num);
+
+    public List<Main> getTopMain(Integer sectionId);
+    public List<Main> getNotTopMainBySectionId(Integer sectionId);
+
+    List<Main> getPerfectBySectionId(Integer sectionId);
+
+    void addMainPost(Main main);
 }

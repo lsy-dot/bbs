@@ -1,5 +1,7 @@
 package com.ncu.bbs.bean;
 
+import java.util.List;
+
 public class Section {
     private Integer sId;
 
@@ -8,6 +10,9 @@ public class Section {
     private String sDescription;
 
     private Integer sBanzhuid;
+
+    //显示在首页的几个挑选的帖子
+    private List<Main> someMain;
 
     public Integer getsId() {
         return sId;
@@ -39,5 +44,13 @@ public class Section {
 
     public void setsBanzhuid(Integer sBanzhuid) {
         this.sBanzhuid = sBanzhuid;
+    }
+
+    public List<Main> getSomeMain() {
+        return someMain;
+    }
+
+    public void setSomeMain(List<Main> someMain) {
+        this.someMain = someMain;
     }
 }
