@@ -1,7 +1,9 @@
 package com.ncu.bbs.test;
 
 import com.ncu.bbs.bean.Main;
+import com.ncu.bbs.bean.MainExample;
 import com.ncu.bbs.bean.User;
+import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.MainMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +47,7 @@ public class MainTest {
             main.setmContent(content);
             int a=(int)(Math.random()*2);
             int b=(int)(Math.random()*2);
-            main.setmIsontop(a);
+            main.setmIsontop(0);
             main.setmIsperfect(b);
             main.setmMainerid(mainerId);
             main.setmPoint(0);
@@ -53,5 +55,17 @@ public class MainTest {
             main.setmSectionid(sectionId);
             mainMapper.insertSelective(main);
         }
+    }
+    /**
+     * 更新一些帖子,所有都是未置顶
+     */
+    @Test
+    public void updateMains(){
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMIsontopEqualTo(1);
+        Main main=new Main();
+        main.setmIsontop(0);
+        mainMapper.updateByExampleSelective(main,mainExample);
     }
 }

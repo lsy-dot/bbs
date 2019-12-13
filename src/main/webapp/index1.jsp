@@ -84,7 +84,7 @@
                     var num=0;
                     $.each(item.someMain,function (index1,item1) {//该板块将显示在主页的的最多四个精华帖
                         //alert(item1.mContent);
-                        var mainA=$("<a href='#'></a>").append(item1.mTitle);
+                        var mainA=$("<a href='${APP_PATH}/main/theMain?mainId="+item1.mMainid+"' target='_blank'></a>").append(item1.mTitle);
                         var liMain=$("<li></li>").append(mainA);
                         ul.append(liMain);
                         num++;

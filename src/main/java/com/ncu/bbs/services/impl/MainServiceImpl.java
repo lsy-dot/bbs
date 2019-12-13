@@ -29,6 +29,7 @@ public class MainServiceImpl implements MainService {
         MainExample mainExample=new MainExample();
         MainExample.Criteria criteria=mainExample.createCriteria();
         criteria.andMSectionidEqualTo(sectionId);
+        mainExample.setOrderByClause("m_maindate desc");//按照发布时间排序
         mainlist=mainMapper.selectByExampleWithMainer(mainExample);//带有发布者信息的查询
         return mainlist;
     }
@@ -80,10 +81,104 @@ public class MainServiceImpl implements MainService {
         MainExample mainExample=new MainExample();
         MainExample.Criteria criteria=mainExample.createCriteria();
         criteria.andMSectionidEqualTo(sectionId);
-        criteria.andMIsontopEqualTo(0);//查找置顶帖
+        criteria.andMIsontopEqualTo(0);//查找非置顶帖
         mainExample.setOrderByClause("m_maindate desc");//按照时间进行排序
         mainlist=mainMapper.selectByExampleWithMainer(mainExample);//带有发布者信息的查询
         return mainlist;
+    }
+
+    /**
+     * 根据版块id来查找所有不是精华帖的帖子
+     * @param sectionId
+     * @return
+     */
+    public List<Main> getNotPerfectMainBySectionId(Integer sectionId) {
+        List<Main> mainlist=new ArrayList<Main>();
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMSectionidEqualTo(sectionId);
+        criteria.andMIsperfectEqualTo(0);//查找非精华帖
+        mainExample.setOrderByClause("m_maindate desc");//按照时间进行排序
+        mainlist=mainMapper.selectByExampleWithMainer(mainExample);//带有发布者信息的查询
+        return mainlist;
+    }
+
+    /**
+     * 根据主贴id批量增加精华帖
+     * @param del_ids
+     */
+    public void addPerfectBatch(List<Integer> del_ids) {
+        for (int mainId:del_ids) {
+            MainExample mainExample=new MainExample();
+            MainExample.Criteria criteria =mainExample.createCriteria();
+            criteria.andMMainidEqualTo(mainId);
+            Main main=new Main();
+            main.setmIsperfect(1);
+            mainMapper.updateByExampleSelective(main,mainExample);
+        }
+    }
+
+    /**
+     * 根据主贴id来加精
+     * @param id
+     */
+    public void addPerfect(Integer id) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria =mainExample.createCriteria();
+        criteria.andMMainidEqualTo(id);
+        Main main=new Main();
+        main.setmIsperfect(1);
+        mainMapper.updateByExampleSelective(main,mainExample);
+    }
+
+    /**
+     * 根据主贴id查找版块id
+     * @param mainId
+     * @return
+     */
+    public int getSectionIdByMainId(Integer mainId) {
+        Main main=mainMapper.selectByPrimaryKey(mainId);
+        return main.getmSectionid();
+    }
+
+    /**
+     * 根据主贴id来取消置顶帖子
+     * @param mainId
+     */
+    public void cancelTopByMainId(Integer mainId) {
+        Main main=new Main();
+        main.setmMainid(mainId);
+        main.setmIsontop(0);
+        mainMapper.updateByPrimaryKeySelective(main);
+    }
+
+    /**
+     * 根据主帖编号取消加精多个帖子
+     * @param del_ids
+     */
+    public void cancelPerfectBatch(List<Integer> del_ids) {
+        for (Integer del_id : del_ids) {
+            cancelPerfect(del_id);
+        }
+    }
+    /**
+     * 根据主帖编号取消加精单个帖子
+     * @param
+     */
+    public void cancelPerfect(Integer id) {
+        Main main=new Main();
+        main.setmMainid(id);
+        main.setmIsperfect(0);//非精华帖
+        mainMapper.updateByPrimaryKeySelective(main);
+    }
+
+    /**
+     * 根据主贴id来查找帖子包含发布该帖子的信息
+     * @param mainId
+     * @return
+     */
+    public Main getMainByMainId(Integer mainId) {
+        return mainMapper.selectByPrimaryKeyWithMainer(mainId);
     }
 
     /**
@@ -108,4 +203,34 @@ public class MainServiceImpl implements MainService {
     public void addMainPost(Main main) {
         mainMapper.insertSelective(main);
     }
+
+    /**
+     * 批量增加置顶帖
+     * @param del_ids
+     */
+    public void addTopBatch(List<Integer> del_ids) {
+        for (int mainId:del_ids) {
+            MainExample mainExample=new MainExample();
+            MainExample.Criteria criteria =mainExample.createCriteria();
+            criteria.andMMainidEqualTo(mainId);
+            Main main=new Main();
+            main.setmIsontop(1);
+            mainMapper.updateByExampleSelective(main,mainExample);
+        }
+    }
+
+    /**
+     *置顶单个帖子
+     * @param id
+     */
+    public void addTop(Integer id) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria =mainExample.createCriteria();
+        criteria.andMMainidEqualTo(id);
+        Main main=new Main();
+        main.setmIsontop(1);
+        mainMapper.updateByExampleSelective(main,mainExample);
+    }
+
+
 }

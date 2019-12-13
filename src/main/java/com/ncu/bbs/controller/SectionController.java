@@ -63,6 +63,12 @@ public class SectionController {
         return Msg.success().add("sectionslist",list);
     }
 
+    /**
+     * 根据版块id找到精华帖
+     * @param sectionId
+     * @param model
+     * @return
+     */
     @RequestMapping("/perfects")
     public String getPerfectMains(@RequestParam("sectionId")Integer sectionId, Model model){
         List<Main> perfectlist=new ArrayList<Main>();

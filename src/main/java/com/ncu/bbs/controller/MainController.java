@@ -1,15 +1,23 @@
 package com.ncu.bbs.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ncu.bbs.bean.Main;
 import com.ncu.bbs.bean.Msg;
+import com.ncu.bbs.bean.Section;
 import com.ncu.bbs.dao.MainMapper;
 import com.ncu.bbs.services.MainService;
+import com.ncu.bbs.services.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/main")
@@ -19,7 +27,18 @@ public class MainController {
     MainService mainService;
     @Autowired
     MainMapper mainMapper;
+    @Autowired
+    SectionService sectionService;
 
+    /**
+     * 将发布的帖子记录存储
+     * @param mMainerid
+     * @param mSectionid
+     * @param mTitle
+     * @param mContent
+     * @param mPoint
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/publish")
     public Msg publishMain(Integer mMainerid, Integer mSectionid, String mTitle, String mContent,Integer mPoint){
@@ -36,5 +55,255 @@ public class MainController {
         mainService.addMainPost(main);
         //return "forward:/section/thesection?sectionId="+mSectionid;
        return Msg.success().add("content",mContent);
+    }
+    /**
+     * 返回到指定的jsp页面，并且返回所有的该板块帖子信息
+     */
+    @RequestMapping("/findAll")
+    public String showAllMainPosts(@RequestParam("sectionId")Integer sectionId, @RequestParam("page")String page, Model model){
+        List<Main> list=new ArrayList<Main>();
+        list=mainService.getMainBySectionId(sectionId);
+        model.addAttribute("mainlist",list);
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+        return page;
+    }
+
+    /**
+     * 根据版块id查找所有非置顶帖的帖子
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/findNotTop")
+    @ResponseBody
+    public Msg findAllNotMainPosts(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        //必须紧跟着后面查询！！！
+        List<Main> list=mainService.getNotTopMainBySectionId(sectionId);//查找所有的非置顶帖
+
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page);
+
+    }
+    /**
+     * 根据版块id查找所有非置顶帖的帖子
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/notTop")
+    public String showAllNotMainPosts(@RequestParam("sectionId")Integer sectionId, Model model){
+        List<Main> list=new ArrayList<Main>();
+        list=mainService.getNotTopMainBySectionId(sectionId);
+        model.addAttribute("mainlist",list);
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+        return "selectTop";
+    }
+    /**
+     * 根据版块id查找所有非精华帖的帖子
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/findNotPerfect")
+    @ResponseBody
+    public Msg findAllNotPerfectPosts(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        //必须紧跟着后面查询！！！
+        List<Main> list=mainService.getNotPerfectMainBySectionId(sectionId);//查找所有的非置顶帖
+
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+
+        return Msg.success().add("pageInfo",page);
+    }
+    /**
+     * 根据版块id查找所有非精华帖的帖子
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/notPerfect")
+    public String showAllNotPerfectPosts(@RequestParam("sectionId")Integer sectionId, Model model){
+        List<Main> list=new ArrayList<Main>();
+        //list=mainService.getNotTopMainBySectionId(sectionId);
+        list=mainService.getNotPerfectMainBySectionId(sectionId);
+        model.addAttribute("mainlist",list);
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+        return "selectPerfect";
+    }
+
+    /**
+     * 根据帖子ids来置顶帖
+     * @param tops
+     * @return
+     */
+    @RequestMapping("/addTop")
+    @ResponseBody
+    public Msg addSomeTopMains(@RequestParam("tops")String tops,@RequestParam("sectionId")Integer sectionId){
+        int numofTop=0;
+        List<Main>list=new ArrayList<Main>();
+        list=mainService.getTopMain(sectionId);
+        System.out.println(list.size());
+        if(list.size()>=4){
+            //一个版块最多不超过4个置顶帖子
+            return Msg.fail().add("error","该版块置顶帖数量已经达到最大允许值，不允许新增置顶贴！");
+        }
+        if(tops.contains("-")){
+            String[] str_ids=tops.split("-");
+            //组装ids的数组
+            List<Integer> del_ids=new ArrayList<Integer>();
+            for(String string:str_ids){
+                del_ids.add(Integer.parseInt(string));
+            }
+            if(del_ids.size()+list.size()>4){
+                return Msg.fail().add("error","所选择的置顶帖数量太大，请减少需要置顶的主帖！");
+            }
+            mainService.addTopBatch(del_ids);
+
+        }else{
+            //置顶单个帖子
+            Integer id=Integer.parseInt(tops);
+            mainService.addTop(id);
+        }
+        return Msg.success();
+    }
+
+    /**
+     * 根据帖子ids来加精
+     * @param perfects
+     * @return
+     */
+    @RequestMapping("/addPerfect")
+    @ResponseBody
+    public Msg addSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId){
+
+        if(perfects.contains("-")){
+            String[] str_ids=perfects.split("-");
+            //组装ids的数组
+            List<Integer> del_ids=new ArrayList<Integer>();
+            for(String string:str_ids){
+                del_ids.add(Integer.parseInt(string));
+            }
+            mainService.addPerfectBatch(del_ids);
+        }else{
+            //加精单个帖子
+            Integer id=Integer.parseInt(perfects);
+            mainService.addPerfect(id);
+        }
+        //return "selectPerfect";
+        //return "forward:/section/thesection?sectionId="+sectionId;
+        return Msg.success();
+    }
+
+    /**
+     * 根据页号和版面号进行查询所有的帖子包括置顶帖（返回）
+     * @param pn
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findMainsInSection")
+    public Msg findAllMainsInTheSection(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        //必须紧跟着后面查询！！！
+        List<Main> list=mainService.getNotTopMainBySectionId(sectionId);//查找所有的非置顶帖
+
+        List<Main> toplist=new ArrayList<Main>();
+        toplist=mainService.getTopMain(sectionId);
+
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page).add("toplist",toplist);
+    }
+    /**
+     * 根据页号和版面号进行查询所有的精华帖
+     * @param pn
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findPerfectsInSection")
+    public Msg findAllPerfectsInTheSection(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        //必须紧跟着后面查询！！！
+        List<Main> list=mainService.getPerfectBySectionId(sectionId);//查找所有的非置顶帖
+
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        model.addAttribute("section",section);
+
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page);
+    }
+
+    /**
+     * 根据主帖id取消置顶
+     * @param mainId
+     * @return
+     */
+    @RequestMapping("/cancelTop")
+    @ResponseBody
+    public Msg cancelTop(@RequestParam("mainId")Integer mainId){
+        //int sectionId=mainService.getSectionIdByMainId(mainId);
+        mainService.cancelTopByMainId(mainId);
+        return Msg.success();
+    }
+    /**
+     * 根据帖子ids来加精
+     * @param perfects
+     * @return
+     */
+    @RequestMapping("/cancelPerfects")
+    @ResponseBody
+    public Msg cancelSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId){
+
+        if(perfects.contains("-")){
+            String[] str_ids=perfects.split("-");
+            //组装ids的数组
+            List<Integer> del_ids=new ArrayList<Integer>();
+            for(String string:str_ids){
+                del_ids.add(Integer.parseInt(string));
+            }
+            mainService.cancelPerfectBatch(del_ids);
+        }else{
+            //加精单个帖子
+            Integer id=Integer.parseInt(perfects);
+            mainService.cancelPerfect(id);
+        }
+        //return "selectPerfect";
+        //return "forward:/section/thesection?sectionId="+sectionId;
+        return Msg.success();
+    }
+
+    /**
+     * 根据帖子id查找特定的一个帖子
+     * @param mainId
+     * @return
+     */
+    @RequestMapping("/theMain")
+    public String showMainPost(@RequestParam("mainId") Integer mainId,Model model){
+        Main main=mainService.getMainByMainId(mainId);
+        model.addAttribute("mainPost",main);
+        return "post";
     }
 }
