@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ncu.bbs.dao.replyMapper">
-  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.reply">
+<mapper namespace="com.ncu.bbs.dao.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.ncu.bbs.bean.Reply">
     <id column="r_replyid" jdbcType="INTEGER" property="rReplyid" />
     <result column="r_content" jdbcType="VARCHAR" property="rContent" />
     <result column="r_replyerid" jdbcType="INTEGER" property="rReplyerid" />
@@ -69,7 +69,7 @@
   <sql id="Base_Column_List">
     r_replyid, r_content, r_replyerid, r_followid, r_replydate
   </sql>
-  <select id="selectByExample" parameterType="com.ncu.bbs.bean.replyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ncu.bbs.bean.ReplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -93,19 +93,19 @@
     delete from t_reply
     where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.replyExample">
+  <delete id="deleteByExample" parameterType="com.ncu.bbs.bean.ReplyExample">
     delete from t_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.ncu.bbs.bean.reply">
+  <insert id="insert" parameterType="com.ncu.bbs.bean.Reply">
     insert into t_reply (r_replyid, r_content, r_replyerid, 
       r_followid, r_replydate)
     values (#{rReplyid,jdbcType=INTEGER}, #{rContent,jdbcType=VARCHAR}, #{rReplyerid,jdbcType=INTEGER}, 
       #{rFollowid,jdbcType=INTEGER}, #{rReplydate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.reply">
+  <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Reply">
     insert into t_reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="rReplyid != null">
@@ -142,7 +142,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.ncu.bbs.bean.replyExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ncu.bbs.bean.ReplyExample" resultType="java.lang.Long">
     select count(*) from t_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -182,7 +182,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.reply">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ncu.bbs.bean.Reply">
     update t_reply
     <set>
       <if test="rContent != null">
@@ -200,7 +200,7 @@
     </set>
     where r_replyid = #{rReplyid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.reply">
+  <update id="updateByPrimaryKey" parameterType="com.ncu.bbs.bean.Reply">
     update t_reply
     set r_content = #{rContent,jdbcType=VARCHAR},
       r_replyerid = #{rReplyerid,jdbcType=INTEGER},

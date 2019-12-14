@@ -27,20 +27,21 @@
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </head>
 <script>
-    $(function(){
-        to_page(1);//首次加载页面时显示第一页
-    });
-    function to_page(pn){
-        $.ajax({
-            url:"${APP_PATH}/adm/findAll",
-            type:"post",
-            success:function (result) {
-                 $("#info").append(result.get(1));
-            }
-        });
-    }
+    <%--$(function(){--%>
+    <%--    to_page(1);//首次加载页面时显示第一页--%>
+    <%--});--%>
+    <%--function to_page(pn){--%>
+    <%--    $.ajax({--%>
+    <%--        url:"${APP_PATH}/adm/findAll",--%>
+    <%--        type:"post",--%>
+    <%--        success:function (result) {--%>
+    <%--             $("#info").append(result.get(1));--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--}--%>
 </script>
 <body>
-<div id="info"></div>
+
+<h1>主页面</h1>
 </body>
 </html>

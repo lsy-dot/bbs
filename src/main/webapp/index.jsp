@@ -20,31 +20,27 @@
         1.不以/开始的相对路径，找资源，以当前资源的路径为基准，经常容易出问题
         2.以/开始的相对路径，找资源，以服务器的路径为标准，需要加上项目名称
     -->
-    <!--引入jquery-->
-    <script src="${APP_PATH}/statics/js/jquery.js"></script>
-    <!--引入样式-->
-    <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
-    <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${APP_PATH}/statics/bootstrapValidator/vendor/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="${APP_PATH}/statics/bootstrapValidator/dist/css/bootstrapValidator.css"/>
+
+    <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/vendor/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/dist/js/bootstrapValidator.js"></script>
 </head>
 <script>
-    $(function(){
-        to_page(1);//首次加载页面时显示第一页
-    });
-    function to_page(pn){
-        $.ajax({
-            url:"${APP_PATH}/adm/findAll",
-            type:"post",
-            success:function (result) {
-                var s=result.extend.allAdmin;
-                $.each(s,function (index,item) {
-                    alert(item.aPassword);
-                });
-            }
-        });
+    function initial(){
+    $.ajax({
+        url:"${APP_PATH}/jumpToLogin/login",
+        type:"post",
+        async:false,
+        success:function (result) {
+            window.location.href="${APP_PATH}/jumpToLogin/login";
+        }
+    })
     }
-</script>
-<body>
-<div id="info"></div>
-<button type="button" class="btn btn-primary">（首选项）Primary</button>
+</script >
+<body onload="initial()">
+<%--<div id="info"></div>--%>
+<%--<button type="button" class="btn btn-primary">（首选项）Primary</button>--%>
 </body>
 </html>
