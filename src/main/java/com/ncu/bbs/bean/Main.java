@@ -19,6 +19,8 @@ public class Main {
 
     private Integer mPoint;
 
+    private String mTitle;
+
     public Integer getmMainid() {
         return mMainid;
     }
@@ -81,5 +83,13 @@ public class Main {
 
     public void setmPoint(Integer mPoint) {
         this.mPoint = mPoint;
+    }
+
+    public String getmTitle() {
+        return mTitle;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
     }
 }

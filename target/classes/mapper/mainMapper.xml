@@ -10,6 +10,7 @@
     <result column="m_isperfect" jdbcType="INTEGER" property="mIsperfect" />
     <result column="m_maindate" jdbcType="TIMESTAMP" property="mMaindate" />
     <result column="m_point" jdbcType="INTEGER" property="mPoint" />
+    <result column="m_title" jdbcType="VARCHAR" property="mTitle" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List">
     m_mainid, m_content, m_mainerid, m_sectionid, m_isontop, m_isperfect, m_maindate, 
-    m_point
+    m_point, m_title
   </sql>
   <select id="selectByExample" parameterType="com.ncu.bbs.bean.MainExample" resultMap="BaseResultMap">
     select
@@ -106,10 +107,12 @@
   <insert id="insert" parameterType="com.ncu.bbs.bean.Main">
     insert into t_main (m_mainid, m_content, m_mainerid, 
       m_sectionid, m_isontop, m_isperfect, 
-      m_maindate, m_point)
+      m_maindate, m_point, m_title
+      )
     values (#{mMainid,jdbcType=INTEGER}, #{mContent,jdbcType=VARCHAR}, #{mMainerid,jdbcType=INTEGER}, 
       #{mSectionid,jdbcType=INTEGER}, #{mIsontop,jdbcType=INTEGER}, #{mIsperfect,jdbcType=INTEGER}, 
-      #{mMaindate,jdbcType=TIMESTAMP}, #{mPoint,jdbcType=INTEGER})
+      #{mMaindate,jdbcType=TIMESTAMP}, #{mPoint,jdbcType=INTEGER}, #{mTitle,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ncu.bbs.bean.Main">
     insert into t_main
@@ -138,6 +141,9 @@
       <if test="mPoint != null">
         m_point,
       </if>
+      <if test="mTitle != null">
+        m_title,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="mMainid != null">
@@ -163,6 +169,9 @@
       </if>
       <if test="mPoint != null">
         #{mPoint,jdbcType=INTEGER},
+      </if>
+      <if test="mTitle != null">
+        #{mTitle,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +208,9 @@
       <if test="record.mPoint != null">
         m_point = #{record.mPoint,jdbcType=INTEGER},
       </if>
+      <if test="record.mTitle != null">
+        m_title = #{record.mTitle,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +225,8 @@
       m_isontop = #{record.mIsontop,jdbcType=INTEGER},
       m_isperfect = #{record.mIsperfect,jdbcType=INTEGER},
       m_maindate = #{record.mMaindate,jdbcType=TIMESTAMP},
-      m_point = #{record.mPoint,jdbcType=INTEGER}
+      m_point = #{record.mPoint,jdbcType=INTEGER},
+      m_title = #{record.mTitle,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +255,9 @@
       <if test="mPoint != null">
         m_point = #{mPoint,jdbcType=INTEGER},
       </if>
+      <if test="mTitle != null">
+        m_title = #{mTitle,jdbcType=VARCHAR},
+      </if>
     </set>
     where m_mainid = #{mMainid,jdbcType=INTEGER}
   </update>
@@ -253,7 +269,8 @@
       m_isontop = #{mIsontop,jdbcType=INTEGER},
       m_isperfect = #{mIsperfect,jdbcType=INTEGER},
       m_maindate = #{mMaindate,jdbcType=TIMESTAMP},
-      m_point = #{mPoint,jdbcType=INTEGER}
+      m_point = #{mPoint,jdbcType=INTEGER},
+      m_title = #{mTitle,jdbcType=VARCHAR}
     where m_mainid = #{mMainid,jdbcType=INTEGER}
   </update>
 </mapper>
