@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
@@ -19,10 +20,12 @@ public class jumpToLoginController {
 ////        mav.setViewName("login");
 //        return "login";
 //    }
-    public  String login() throws UnsupportedEncodingException {
+    public  String login(HttpServletResponse response,HttpServletRequest request)
+            throws UnsupportedEncodingException {
 //        request.setCharacterEncoding("utf-8");
 //        ModelAndView mav = new ModelAndView();
 //        mav.setViewName("login");
-        return "login";
+        request.getSession().setAttribute("mainid","1");
+        return "follow";
     }
 }

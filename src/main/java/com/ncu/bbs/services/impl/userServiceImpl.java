@@ -40,4 +40,17 @@ public class userServiceImpl implements userService {
             user=null;
         return user;
     }
+
+    public User getUserById(int id) {
+        User user=new User();
+        UserExample userExample = new UserExample();
+        userExample.or();
+        userExample.or().andUIdEqualTo(id);
+        List<User> result=userMapper.selectByExample(userExample);
+        if (result.size()>0)
+            user=result.get(0);
+        else
+            user=null;
+        return user;
+    }
 }

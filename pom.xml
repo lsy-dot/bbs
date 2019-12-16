@@ -234,6 +234,7 @@
              <version>4.12</version>
              <scope>compile</scope>
          </dependency>
+
      </dependencies>
     <build>
     <finalName>SSM_3</finalName>

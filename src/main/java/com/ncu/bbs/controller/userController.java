@@ -2,6 +2,7 @@ package com.ncu.bbs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ncu.bbs.bean.Main;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.services.userService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,9 @@ public class userController {
             if (code.equalsIgnoreCase(sessionCode)) {
                 User user= userService.login(userName, passWord);
                 if (user!=null) {
-                    session.setAttribute("user", user);
+                   session.setAttribute("username",userName);
+                   session.setAttribute("userid",user.getuId());
+                   session.setAttribute("user",user);
                     mav.setViewName("index");//跳转到主页面
                     return mav;
                 }else {
@@ -93,6 +96,20 @@ public class userController {
         } else {
             hashMap.put("valid",false);
         }
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonStr = mapper.writeValueAsString(hashMap);
+        return jsonStr;
+    }
+    @RequestMapping(value = "/getUserById",  produces="text/html;charset=UTF-8")
+    @ResponseBody
+    public String getUserById(HttpServletRequest request, HttpSession session)throws
+            UnsupportedEncodingException, JsonProcessingException {
+        request.setCharacterEncoding("utf-8");
+        String suserid=request.getParameter("userid");
+        int userid=Integer.parseInt(suserid);
+        User user=userService.getUserById(userid);
+        HashMap<String, User> hashMap = new HashMap();
+        hashMap.put("user",user);
         ObjectMapper mapper = new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(hashMap);
         return jsonStr;
