@@ -37,6 +37,9 @@
             ${mainPost.mTitle};
         </div>
     </div>
+<%--    <div>--%>
+<%--        <img src="${APP_PATH}/statics/images/中文.jpg">--%>
+<%--    </div>--%>
     <div>
         正文：
         <div>

@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: 浩瀚
@@ -25,6 +26,7 @@
     <link href="${APP_PATH}/statics/css/main.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script src="${APP_PATH}/statics/js/ckeditor/ckeditor.js"></script>
+    <script src="${APP_PATH}/statics/js/common.js"></script>
 </head>
 <body>
     <div class="containers">
@@ -33,32 +35,49 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <div><h5>BBS论坛</h5></div>
+                            <form class="navbar-form navbar-left">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!--左部的个人信息栏-->
             <div class="left-info">
-                <div class="container" style="width:100%">
-                    <div class="row">
-                        <h4>欢迎使用此bbs论坛</h4>
+                <div class="logo">
+                    <div class="col-md-12">
+<%--                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>--%>
+                        <a href="#"><p>交友论坛</p></a>
                     </div>
-                    <div class="row">
-                        <!--登录界面-->
-                        <div class="col-md-12">
-                            <button class="btn btn-primary" id="emp_add_modal_btn">登录</button>
-                            <button class="btn btn-danger" id="emp_delete_all">注册</button>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="info">
-                                <ul class="nav nav-pills nav-stacked">
-                                    <li role="presentation"><a href="#">个人主页</a></li>
-                                    <li role="presentation"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
-                                    <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
-                                    <li role="presentation"><a href="${APP_PATH}/index1.jsp">返回主页</a></li>
-                                </ul>
+                </div>
+                <div class="info">
+                    <div class="haslogin" style="display: none">
+                        <!--显示登陆时候的显示-->
+                    </div>
+                    <div class="notlogin">
+                        <form>
+                            <div class="wrapperLogin">
+                                <input type="email" class="form-control" placeholder="账号" style="width:140px">
                             </div>
+                            <div class="wrapperLogin">
+                                <input type="password" class="form-control" placeholder="密码" style="width:140px">
+                            </div>
+                            <div class="wrapperLogin">
+                                <button class="btn btn-success">登录</button>
+                                <button class="btn btn-warning">注册</button>
+                            </div>
+                        </form>
+                        <div class="info">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li role="presentation"><a href="#">个人主页</a></li>
+                                <li role="presentation"><a href="#edit-publish">发帖</a></li>
+                                <li role="presentation"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
+                                <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
+                                <li role="presentation"><a href="${APP_PATH}/index1.jsp">返回主页</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -69,14 +88,25 @@
                     <!--导航区-->
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="introduce">
+                                <div class="titleShow"><h1>${section.sSectionname}</h1></div>
+                                <div class="introduceShow">
+                                    <p>${section.sDescription}</p>
+                                </div>
+                                <div class="countInfo">
+                                    <p>总帖数：<span>${section.mainNums}</span> 总回复数：<span>${section.followNums}</span></p>
+                                </div>
+                            </div>
                             <div class="nav">
-                                <div class="titleShow"><h1>${section.sSectionname}版面的所有主贴</h1></div>
                                 <!--显示选择看帖子还是精华帖-->
                                 <div class="selects">
                                     <div class="row">
                                         <ul class="nav nav-tabs">
                                             <li role="presentation" class="active"><a href="${APP_PATH}/section/thesection?sectionId=${section.sId}">帖子</a></li>
                                             <li role="presentation"><a href="${APP_PATH}/section/perfects?sectionId=${section.sId}">精华帖</a></li>
+                                            <li role="presentation"><a href="${APP_PATH}/section/needs?sectionId=${section.sId}">需求帖</a></li>
+                                            <li role="presentation"><a href="${APP_PATH}/section/hots?sectionId=${section.sId}">热门帖</a></li>
+                                            <li role="presentation"><a href="${APP_PATH}/section/news?sectionId=${section.sId}">最新帖</a></li>
                                             <li role="presentation"><a href="#">其他</a></li>
                                         </ul>
                                     </div>
@@ -84,10 +114,9 @@
                             </div>
                         </div>
                     </div>
-
                     <!--内容区-->
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <!--展示帖子或者精华帖-->
                             <div class="allMains">
                                 <div class="row">
@@ -97,39 +126,19 @@
                                                 <tr>
                                                     <th>序号</th>
                                                     <th>标题</th>
-<%--                                                    <th>内容</th>--%>
                                                     <th>发帖人</th>
                                                     <th>发帖时间</th>
+                                                    <th>回复数</th>
+                                                    <th>最后发表</th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
-<%--                                                <c:forEach items="${mainlist}" var="mainPost">--%>
-<%--                                                    <tr>--%>
-<%--                                                        <c:if test="${mainPost.mIsontop==1}">--%>
-<%--                                                            <td>置顶</td>--%>
-<%--                                                        </c:if>--%>
-<%--                                                        <c:if test="${mainPost.mIsontop==0}">--%>
-<%--                                                            <td>${mainPost.mMainid}</td>--%>
-<%--                                                        </c:if>--%>
-<%--                                                        <td>${mainPost.mTitle}</td>--%>
-<%--&lt;%&ndash;                                                        <td>${mainPost.mContent}</td>&ndash;%&gt;--%>
-<%--                                                        <td>${mainPost.user.uNickname}</td>--%>
-<%--                                                        <td>${mainPost.mMaindate}</td>--%>
-<%--                                                    </tr>--%>
-<%--                                                </c:forEach>--%>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--展示发帖按钮-->
-<%--                        <div class="col-md-2">--%>
-<%--                            <div>--%>
-<%--                                <a href="#edit-publish">发帖</a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
                     </div>
 
                     <!--显示分页信息-->
@@ -151,42 +160,35 @@
                         <div class="edit-publish" >
                             <div class="container">
                                 <div class="row">
-                                    <p>发帖编辑区</p>
-                                </div>
-                                <div class="row">
-                                    <div class="title">
-                                        <input type="text" name="title" id="P-title" style="width:800px;height:50px" placeholder="请填写标题"/>
+                                    <div class="col-md-12">
+                                        <p>请写下想要分享的内容吧！</p>
                                     </div>
                                 </div>
                                 <div class="row">
-<%--                                    <div class="navi">--%>
-<%--                                        <div class="row">--%>
-<%--                                            <!--提交图片-->--%>
-<%--                                            <input type="file" name="pic" id="pic" value="" accept="image/*" style="display:none">--%>
-<%--                                            <div class="col-sm-4"><a href="#" class="import">图片</a></div>--%>
-<%--                                            <div class="col-sm-4">表情</div>--%>
-<%--                                            <div class="col-sm-4">视频</div>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-                                    <textarea name="content" id="content" placeholder="请输入信息"/>
-                                    </textarea>
-<%--                                    <div class="content" contenteditable="true" id="content">--%>
-
-<%--                                    </div>--%>
+                                    <div class="input-group title">
+                                        <input type="text" name="title" id="P-title" class="form-control" style="width:1150px;height:50px" placeholder="请填写标题"/>
+<%--                                        <span>注：标题长度不超过50个字</span>--%>
+                                        <span class="help-block">提示</span>
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    请选择是否发布积分奖励：否<input type="radio" name="points" value="0" id="nopoint" checked> 是<input type="radio" name="points" id="haspoint">
-                                    <p style="display:inline" class="notshowpoint"><span>请输入需要奖励的积分数
-                                    </span><input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')"></p>
+                                    <textarea name="content" id="content"/>
+
+                                    </textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="pointSelect">
+                                        请选择是否发布积分奖励：否<input type="radio" name="points" value="0" id="nopoint" checked> 是<input type="radio" name="points" id="haspoint">
+                                        <p style="display:inline" class="notshowpoint"><span>请输入需要奖励的积分数
+                                        </span><input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')"></p>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="sub">
-                                        <button class="btn btn-primary" id="publish_btn">发帖</button>
+                                        <button class="btn btn-primary" id="publish_btn"><span class="glyphicon glyphicon-share-alt"></span>发帖</button>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -197,7 +199,7 @@
     $(function(){
         CKEDITOR.replace( 'content',{
             height:100,
-            width:900
+            width:1150
         });
         $(".notshowpoint").hide();
         to_page(1);//首次加载页面时显示第一页
@@ -223,6 +225,8 @@
             }
         });
     }
+
+    //获取输入框内容
     function getContentData(){
         var content=CKEDITOR.instances.content.getData();//获取texarea的内容
         return content;
@@ -240,8 +244,24 @@
             var mainIdTd=$("<td></td>").append("<span class=\"label label-danger\">置顶</span>").addClass("topmain")//增加一个class，标识为置顶帖;
             var cancelTopUl=$("<li></li>").append("<a href='#'>取消置顶</a>").addClass("notshow");
             var mainTitleTd=$("<td></td>").append(item.mTitle);
-            var userNickname=$("<td></td>").append(item.user.uNickname);
-            var mainDate=$("<td></td>").append(item.mMaindate);
+
+            var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
+            var mainnerNickname=$("<div></div>").append(item.user.uNickname);
+            var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
+
+            var date=formatDate(item.mMaindate);
+            var hourandminute=formatDateHourAndMinute(item.mMaindate);
+            var mainDate=$("<td></td>").append(date+" "+hourandminute);
+            var follows=$("<td></td>").append(getJsonLength(item.follows));
+
+            var latestdate=formatDate(item.latestTime);
+            var latesthourandminute=formatDateHourAndMinute(item.latestTime);
+
+            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
+            //最新发表
+            var latest=$("<td></td>").append(latestuser).append(latesttime);
+
             //指向特定帖子的链接
             var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
@@ -250,6 +270,8 @@
                 .append(mainTitleTd)
                 .append(userNickname)
                 .append(mainDate)
+                .append(follows)
+                .append(latest)
                 .attr("mainId",item.mMainid)//增加一个帖子编号属性
                 .appendTo("#mains_table tbody");
             //新增一个下拉菜单
@@ -262,8 +284,24 @@
             var link=$("<a href='#' class='link'></a>");
             var mainIdTd=$("<td></td>").append(item.mMainid).addClass("normalmain");//增加一个class，标识为非置顶帖;
             var mainTitleTd=$("<td></td>").append(item.mTitle);
-            var userNickname=$("<td></td>").append(item.user.uNickname);
-            var mainDate=$("<td></td>").append(item.mMaindate);
+
+            var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=50px height=50px>");
+            var mainnerNickname=$("<div></div>").append(item.user.uNickname);
+            var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
+
+            var date=formatDate(item.mMaindate);
+            var hourandminute=formatDateHourAndMinute(item.mMaindate);
+            var mainDate=$("<td></td>").append(date+" "+hourandminute);
+
+            var follows=$("<td></td>").append(getJsonLength(item.follows));
+
+            var latestdate=formatDate(item.latestTime);
+            var latesthourandminute=formatDateHourAndMinute(item.latestTime);
+            //最新发表的相关信息
+            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
+            //最新发表
+            var latest=$("<td></td>").append(latestuser).append(latesttime);
 
             var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
@@ -273,7 +311,8 @@
                 .append(mainTitleTd)
                 .append(userNickname)
                 .append(mainDate)
-
+                .append(follows)
+                .append(latest)
                 .attr("mainId",item.mMainid)//增加一个帖子编号属性
                 .appendTo("#mains_table tbody");
         });
@@ -338,42 +377,7 @@
         var navEle=$("<nav></nav>").append(ul);
         navEle.appendTo("#page_nav_area");
     }
-    /*
-        点击发送图片，触发表单的点击事件
-     */
-    $('.import').click(function(){
-        $("#pic").trigger('click');
-    });
-    // 当表单文件有变化时执行提交动作
-    $('[name="pic"]').change(function(){
-        if($(this).val()){
-            $('.import').addClass('disabled');//图片链接禁用
-            //$(this).parent().submit();
-            var formData = new FormData();
-            formData.append("picture", $("#pic")[0].files[0]);
-            //alert("file");
-            $.ajax({
-                url:"${APP_PATH}/upload/picture",
-                type:"POST",
-                data:formData,
-                contentType:false,
-                processData:false,//这个很有必要，不然不行
-                dataType:"json",
-                mimeType:"multipart/form-data",
-                success:function (result) {
-                    if(result.code===100){
-                        var contents=$("#content").html();
-                        // var paths="/bbs/statics/images/"+result.extend.filename;
-                        var paths="${APP_PATH}/statics/images/"+result.extend.filename;
-                        contents+="<div><img src=\""+paths+"\" width=200 height=200><div>";
-                        $(".content").html(contents);
-                    }else{
-                        alert("failed");
-                    }
-                }
-            });
-        }
-    });
+
     /*
         提交主贴的内容
      */
@@ -452,12 +456,50 @@
        //alert(point);
     });
 
+
     //点击某个帖子
     <%--$(document).on("click ",".link",function () {--%>
     <%--    //alert($(this).attr('href'));--%>
     <%--    var mainId=$(this).attr('href');--%>
     <%--    window.open("${APP_PATH}/main/theMain?mainId="+mainId,"_self");--%>
     <%--})--%>
+
+    <%--/*--%>
+    <%--    点击发送图片，触发表单的点击事件--%>
+    <%-- */--%>
+    <%--$('.import').click(function(){--%>
+    <%--    $("#pic").trigger('click');--%>
+    <%--});--%>
+    <%--// 当表单文件有变化时执行提交动作--%>
+    <%--$('[name="pic"]').change(function(){--%>
+    <%--    if($(this).val()){--%>
+    <%--        $('.import').addClass('disabled');//图片链接禁用--%>
+    <%--        //$(this).parent().submit();--%>
+    <%--        var formData = new FormData();--%>
+    <%--        formData.append("picture", $("#pic")[0].files[0]);--%>
+    <%--        //alert("file");--%>
+    <%--        $.ajax({--%>
+    <%--            url:"${APP_PATH}/upload/picture",--%>
+    <%--            type:"POST",--%>
+    <%--            data:formData,--%>
+    <%--            contentType:false,--%>
+    <%--            processData:false,//这个很有必要，不然不行--%>
+    <%--            dataType:"json",--%>
+    <%--            mimeType:"multipart/form-data",--%>
+    <%--            success:function (result) {--%>
+    <%--                if(result.code===100){--%>
+    <%--                    var contents=$("#content").html();--%>
+    <%--                    // var paths="/bbs/statics/images/"+result.extend.filename;--%>
+    <%--                    var paths="${APP_PATH}/statics/images/"+result.extend.filename;--%>
+    <%--                    contents+="<div><img src=\""+paths+"\" width=200 height=200><div>";--%>
+    <%--                    $(".content").html(contents);--%>
+    <%--                }else{--%>
+    <%--                    alert("failed");--%>
+    <%--                }--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    }--%>
+    <%--});--%>
 </script>
 </body>
 </html>

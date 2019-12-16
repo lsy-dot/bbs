@@ -4,6 +4,7 @@ import com.ncu.bbs.bean.Main;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("MainService")
@@ -39,4 +40,10 @@ public interface MainService {
     void cancelPerfect(Integer id);
 
     Main getMainByMainId(Integer mainId);
+
+    List<Main> getNeedPostBySectionId(Integer sectionId);
+
+    List<Main> getHotPostBySectionId(Integer sectionId);
+
+    List<Main> getLatestPostBySectionId(Integer sectionId, Date deadline);
 }

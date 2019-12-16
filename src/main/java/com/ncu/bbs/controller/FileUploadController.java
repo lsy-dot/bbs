@@ -1,6 +1,7 @@
 package com.ncu.bbs.controller;
 
 import com.ncu.bbs.bean.Msg;
+import com.ncu.bbs.util.ImageUploadUtil;
 import com.sun.deploy.net.HttpResponse;
 import org.apache.struts.chain.contexts.ServletActionContext;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,9 +127,10 @@ public class FileUploadController {
      */
     @RequestMapping(value = "/root/uploadSource")
     public void uploadSource(HttpServletRequest request, HttpServletResponse response){
+
         String DirectoryName = "upload";
         try {
-            cn.csdb.datacloud.core.util.ImageUploadUtil.ckeditor(request, response, DirectoryName);
+            ImageUploadUtil.ckeditor(request, response, DirectoryName);
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {

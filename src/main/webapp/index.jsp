@@ -43,7 +43,6 @@
     }
 </script>
 <body>
-<div id="info"></div>
-<button type="button" class="btn btn-primary">（首选项）Primary</button>
+
 </body>
 </html>

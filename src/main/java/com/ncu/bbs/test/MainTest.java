@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @ContextConfiguration("classpath:applicationContext.xml")
@@ -67,5 +68,19 @@ public class MainTest {
         Main main=new Main();
         main.setmIsontop(0);
         mainMapper.updateByExampleSelective(main,mainExample);
+    }
+
+    /**
+     * 测试跟帖的数量
+     */
+    @Test
+    public void testMainMapperWithFollowNums(){
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+
+        List<Main> list=mainMapper.selectByExampleWithFollowNums(mainExample);
+        for(int i=0;i<list.size();i++){
+            System.out.println(list.get(i).getmMainid());
+        }
     }
 }

@@ -27,8 +27,24 @@
       <id column="u_id" jdbcType="INTEGER" property="uId"></id>
       <id column="u_userid" jdbcType="VARCHAR" property="uUserid"></id>
       <id column="u_nickname" jdbcType="VARCHAR" property="uNickname"></id>
+      <id column="u_headpic" jdbcType="VARCHAR" property="uHeadpic"></id>
     </association>
   </resultMap>
+
+  <!--带有跟帖者数量的resultmap-->
+  <resultMap id="WithFollowNumsResultMap" type="com.ncu.bbs.bean.Main">
+    <id column="m_mainid" jdbcType="INTEGER" property="mMainid" />
+    <result column="m_title" jdbcType="VARCHAR" property="mTitle" />
+    <result column="m_content" jdbcType="VARCHAR" property="mContent" />
+    <result column="m_mainerid" jdbcType="INTEGER" property="mMainerid" />
+    <result column="m_sectionid" jdbcType="INTEGER" property="mSectionid" />
+    <result column="m_isontop" jdbcType="INTEGER" property="mIsontop" />
+    <result column="m_isperfect" jdbcType="INTEGER" property="mIsperfect" />
+    <result column="m_maindate" jdbcType="TIMESTAMP" property="mMaindate" />
+    <result column="m_point" jdbcType="INTEGER" property="mPoint" />
+<!--    <result property="follownums" />&lt;!&ndash;跟帖者的数量&ndash;&gt;-->
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -94,7 +110,7 @@
   <!--带有发帖者的信息的列-->
   <sql id="WithMainer_Column_List">
    m_mainid,m_title,m_content,m_mainerid,m_sectionid,m_isontop,m_isperfect,m_maindate,m_point,
-   u_id,u_userid,u_nickname
+   u_id,u_userid,u_nickname,u_headpic
   </sql>
 
   <select id="selectByExample" parameterType="com.ncu.bbs.bean.MainExample" resultMap="BaseResultMap">
@@ -138,6 +154,29 @@
     from t_main left join t_user on t_main.m_mainerid=t_user.u_id
     where m_mainid = #{mMainid,jdbcType=INTEGER}
   </select>
+
+  <!--带有跟帖者数量的查询-->
+  <select id="selectByExampleWithFollowNums" parameterType="com.ncu.bbs.bean.MainExample" resultMap="WithFollowNumsResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    m_mainid,m_title,m_content,m_mainerid,m_sectionid,m_isontop,m_isperfect,m_maindate,m_point,count(m_mainid) as follownums
+    from t_follow left join t_main on t_main.m_mainid=t_follow.f_mainid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by m_mainid
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="orderByClause == null">
+      order by follownums desc
+    </if>
+  </select>
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_main
     where m_mainid = #{mMainid,jdbcType=INTEGER}

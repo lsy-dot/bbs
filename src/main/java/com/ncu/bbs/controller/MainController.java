@@ -2,12 +2,12 @@ package com.ncu.bbs.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ncu.bbs.bean.Main;
-import com.ncu.bbs.bean.Msg;
-import com.ncu.bbs.bean.Section;
+import com.ncu.bbs.bean.*;
 import com.ncu.bbs.dao.MainMapper;
+import com.ncu.bbs.services.FollowService;
 import com.ncu.bbs.services.MainService;
 import com.ncu.bbs.services.SectionService;
+import com.ncu.bbs.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,38 @@ public class MainController {
     MainMapper mainMapper;
     @Autowired
     SectionService sectionService;
+    @Autowired
+    FollowService followService;
+    @Autowired
+    UserService userService;
+    //返回某一个版块的所有主贴数量
+    private int findAllMainNumsInSection(Integer sectionId){
+        return mainService.getMainBySectionId(sectionId).size();
+    }
+    //返回某一个版块的所有主贴数量
+    private int findAllFollowNumsInSection(Integer sectionId){
+        List<Main>list= mainService.getMainBySectionId(sectionId);
+        int follow=0;
+        for(int i=0;i<list.size();i++){
+            follow+=followService.getFollowPostByMainId(list.get(i).getmMainid()).size();
+        }
+        return follow;
+    }
 
+    /**
+     * 获取版块的信息
+     * @param sectionId
+     * @return
+     */
+    private Section getSessionBySessionId(Integer sectionId){
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        int mainsInSection=findAllMainNumsInSection(sectionId);
+        int followsInSection=findAllFollowNumsInSection(sectionId);
+        section.setMainNums(mainsInSection);
+        section.setFollowNums(followsInSection);
+        //System.out.println(section.getMainNums());
+        return section;
+    }
     /**
      * 将发布的帖子记录存储
      * @param mMainerid
@@ -64,8 +95,7 @@ public class MainController {
         List<Main> list=new ArrayList<Main>();
         list=mainService.getMainBySectionId(sectionId);
         model.addAttribute("mainlist",list);
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+        model.addAttribute("section",getSessionBySessionId(sectionId));
         return page;
     }
 
@@ -82,9 +112,31 @@ public class MainController {
         PageHelper.startPage(pn,3);
         //必须紧跟着后面查询！！！
         List<Main> list=mainService.getNotTopMainBySectionId(sectionId);//查找所有的非置顶帖
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
 
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
 
         //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
         PageInfo page=new PageInfo(list,3);
@@ -102,8 +154,7 @@ public class MainController {
         List<Main> list=new ArrayList<Main>();
         list=mainService.getNotTopMainBySectionId(sectionId);
         model.addAttribute("mainlist",list);
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+        model.addAttribute("section",getSessionBySessionId(sectionId));
         return "selectTop";
     }
     /**
@@ -119,9 +170,31 @@ public class MainController {
         PageHelper.startPage(pn,3);
         //必须紧跟着后面查询！！！
         List<Main> list=mainService.getNotPerfectMainBySectionId(sectionId);//查找所有的非置顶帖
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
 
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
 
         //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
         PageInfo page=new PageInfo(list,3);
@@ -140,8 +213,7 @@ public class MainController {
         //list=mainService.getNotTopMainBySectionId(sectionId);
         list=mainService.getNotPerfectMainBySectionId(sectionId);
         model.addAttribute("mainlist",list);
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+        model.addAttribute("section",getSessionBySessionId(sectionId));
         return "selectPerfect";
     }
 
@@ -223,11 +295,56 @@ public class MainController {
         //必须紧跟着后面查询！！！
         List<Main> list=mainService.getNotTopMainBySectionId(sectionId);//查找所有的非置顶帖
 
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+
         List<Main> toplist=new ArrayList<Main>();
         toplist=mainService.getTopMain(sectionId);
 
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+        for(int i=0;i<toplist.size();i++){
+            Main main=toplist.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            toplist.set(i,main);
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
 
         //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
         PageInfo page=new PageInfo(list,3);
@@ -248,8 +365,32 @@ public class MainController {
         //必须紧跟着后面查询！！！
         List<Main> list=mainService.getPerfectBySectionId(sectionId);//查找所有的非置顶帖
 
-        Section section=sectionService.findSectionBySectionId(sectionId);
-        model.addAttribute("section",section);
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+
+        model.addAttribute("section",getSessionBySessionId(sectionId));
 
         //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
         PageInfo page=new PageInfo(list,3);
@@ -305,5 +446,152 @@ public class MainController {
         Main main=mainService.getMainByMainId(mainId);
         model.addAttribute("mainPost",main);
         return "post";
+    }
+
+    /**
+     * 根据版块id和页号查询某一页的所有需求帖
+     * @param pn
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findNeedsInSection")
+    public Msg showNeedPostIntheSection(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        List<Main>list=new ArrayList<>();
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        list=mainService.getNeedPostBySectionId(sectionId);
+
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
+        //System.out.println(list);
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page);
+    }
+    /**
+     * 根据版块id和页号查询某一页的所有热门帖
+     * @param pn
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findHotsInSection")
+    public Msg showHotPostIntheSection(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        List<Main>list=new ArrayList<>();
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        list=mainService.getHotPostBySectionId(sectionId);
+
+        //System.out.println(list.size());
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+
+            //查找主帖的所有跟帖
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            User user=userService.getUserByUserId(main.getmMainerid());
+            main.setUser(user);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
+        //System.out.println(list);
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+
+        return Msg.success().add("pageInfo",page);
+    }
+    /**
+     * 根据版块id和页号查询某一版块的最新帖
+     * @param pn
+     * @param sectionId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findLatestsInSection")
+    public Msg showLatestPostIntheSection(@RequestParam(value = "pn",defaultValue = "1")Integer pn, @RequestParam("sectionId")Integer sectionId,Model model){
+        List<Main>list=new ArrayList<>();
+        Date date=new Date();
+        long nowdate=date.getTime();
+
+        //两天内的最新帖
+        Date deadline=new Date(nowdate-2*24*60*60*1000);
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        list=mainService.getLatestPostBySectionId(sectionId,deadline);
+
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
+        model.addAttribute("section",getSessionBySessionId(sectionId));
+        //System.out.println(list);
+        //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page);
     }
 }

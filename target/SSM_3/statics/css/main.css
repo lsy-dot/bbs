@@ -33,7 +33,8 @@ h1{
     float:left;
     position:fixed;
     top:0;
-    background-color: #293134;
+    z-index:151;
+    background-color: #e9f1f4;
     /*background-color:blue;*/
 }
 .right-main{
@@ -88,4 +89,75 @@ h1{
 }
 #mains_table td{
     position:relative;
+}
+.logo{
+    height:60px;
+    text-align:center;
+    line-height:60px;
+    z-index:99;
+    background-color:#eeeeee;
+}
+.logo p{
+    font-size:30px;
+    text-align:center;
+}
+.notlogin{
+    text-align:center;
+    margin-top:50px;
+}
+.wrapperLogin{
+    padding:5px;
+}
+.wrapper{
+    border: 1px solid #eeeeee;
+    padding:20px;/*内边距*/
+    margin:10px;
+    height:300px;
+    width:450px;
+    background-color:#eeeeef;
+}
+.wrapper div{
+    text-align:center;
+}
+.wrapper div p{
+    font-size:30px;
+}
+.wrapper ul{
+    padding:50px 30px;
+    line-height: 40px;
+}
+.wrapper ul li{
+    font-size:20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sectionIntroduce{
+    background-color:#d7ddf0;
+}
+.sections{
+    background-color: #ffffff;
+}
+.sectionTitle{
+    border-bottom:1px solid #eeeeee;
+}
+.allMains{
+    background-color:#eeeee9;
+}
+.title span{
+    font-size:20px;
+    margin-top:20px;
+}
+.pointSelect{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.nav{
+    margin-left:7px;
+}
+.countInfo p{
+    font-size:20px;
+}
+.countInfo span{
+    color:#ee3333;
 }

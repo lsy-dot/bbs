@@ -21,47 +21,60 @@
     <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link href="${APP_PATH}/statics/css/main.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="${APP_PATH}/statics/js/common.js"></script>
 </head>
 <body>
+
     <!--上方的导航栏-->
     <div class="top-navigate">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div><h5>BBS论坛</h5></div>
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
     <!--左部的个人信息栏-->
     <div class="left-info">
-        <div class="container">
-            <div class="row">
-                <h4>欢迎使用此bbs论坛</h4>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary" id="emp_add_modal_btn">登录</button>
-                <button class="btn btn-danger" id="emp_delete_all">注册</button>
+        <div class="logo">
+            <div class="col-md-12">
+                <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>
             </div>
         </div>
+        <div class="info">
+            <div class="haslogin" style="display: none">
+                <!--显示登陆时候的显示-->
+            </div>
+            <div class="notlogin">
+                <form>
+                    <div class="wrapperLogin">
+                        <input type="email" class="form-control" placeholder="账号" style="width:140px">
+                    </div>
+                    <div class="wrapperLogin">
+                        <input type="password" class="form-control" placeholder="密码" style="width:140px">
+                    </div>
+                    <div class="wrapperLogin">
+                        <button class="btn btn-success">登录</button>
+                        <button class="btn btn-warning">注册</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
-<%--    <img src='/bbs/statics/images/pic1.jpg' width=300 htight=300>--%>
+
     <!--右部的主页内容栏-->
     <div class="right-main">
         <div class="container">
             <div class="row" id="sections">
-<%--                    <div class="wrapper">--%>
-<%--                        <div class="title two-line">--%>
-<%--                            <p><a href="${APP_PATH}/section/thesection?sectionId=1" id="section1">板块一</a></p>--%>
-<%--                        </div>--%>
-<%--                        <ul>--%>
-<%--                            <li><a href="#">帖子一</a></li>--%>
-<%--                            <li><a href="#">帖子一</a></li>--%>
-<%--                            <li><a href="#">帖子一</a></li>--%>
-<%--                            <li><a href="#">帖子一</a></li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
-                </div>
+
             </div>
         </div>
     </div>
@@ -78,8 +91,9 @@
                     var sectionA=$("<a></a>").append(item.sSectionname);
                     sectionA.attr("href","${APP_PATH}/section/thesection?sectionId="+(index+1));
                     var pS=$("<p></p>").append(sectionA);
-                    var divTitle=$("<div></div>").addClass("title two-line").append(pS);
+                    var divTitle=$("<div></div>").addClass("sectionTitle").append(pS);
                     var divWrapper=$("<div></div>").addClass("wrapper").append(divTitle);
+                    var introduce=$("<div></div>").addClass("sectionIntroduce").append("<p>"+item.sDescription+"</p>")
                     var ul=$("<ul></ul>");
                     var num=0;
                     $.each(item.someMain,function (index1,item1) {//该板块将显示在主页的的最多四个精华帖
@@ -89,13 +103,9 @@
                         ul.append(liMain);
                         num++;
                     });
+                    divWrapper.append(introduce);
                     divWrapper.append(ul);
-                    // $("<section></section>")//section
-                    //     .addClass("sections")
-                    //     .append(divWrapper)
-                    //     .appendTo(".allsections");
-
-                    $("<div class='col-md-6 clearfix'></div>")//section
+                    $("<div class='col-md-6 clearfix sections'></div>")//section
                         .append(divWrapper)
                         .appendTo("#sections");
                 });

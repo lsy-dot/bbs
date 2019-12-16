@@ -2,7 +2,6 @@ package com.ncu.bbs.services.impl;
 
 import com.ncu.bbs.bean.Main;
 import com.ncu.bbs.bean.MainExample;
-import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.MainMapper;
 import com.ncu.bbs.services.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("MainService")
@@ -179,6 +179,50 @@ public class MainServiceImpl implements MainService {
      */
     public Main getMainByMainId(Integer mainId) {
         return mainMapper.selectByPrimaryKeyWithMainer(mainId);
+    }
+
+    /**
+     * 根据版块id查找该版块的所有需求帖
+     * @param sectionId
+     */
+    @Override
+    public List<Main> getNeedPostBySectionId(Integer sectionId) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMPointGreaterThan(0);
+        criteria.andMSectionidEqualTo(sectionId);
+        //按照回复数来进行排序
+        mainExample.setOrderByClause("m_point desc");//按照时间进行排序
+        return mainMapper.selectByExampleWithMainer(mainExample);
+    }
+
+    /**
+     * 根据版块id查找所有的热门帖
+     * @param sectionId
+     * @return
+     */
+    @Override
+    public List<Main> getHotPostBySectionId(Integer sectionId) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMSectionidEqualTo(sectionId);
+        return mainMapper.selectByExampleWithFollowNums(mainExample);
+    }
+
+    /**
+     * 根据版块id查找所有最新帖
+     * @param sectionId
+     * @param deadline
+     * @return
+     */
+    @Override
+    public List<Main> getLatestPostBySectionId(Integer sectionId, Date deadline) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMSectionidEqualTo(sectionId);
+        criteria.andMMaindateGreaterThan(deadline);
+        mainExample.setOrderByClause("m_maindate desc");
+        return mainMapper.selectByExampleWithMainer(mainExample);
     }
 
     /**

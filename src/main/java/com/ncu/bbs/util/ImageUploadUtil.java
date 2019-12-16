@@ -1,4 +1,4 @@
-package cn.csdb.datacloud.core.util;
+package com.ncu.bbs.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,8 +72,9 @@ public class ImageUploadUtil{
                         }
                         // 获得上传路径的绝对路径地址(/upload)-->
                         String realPath = request.getSession().getServletContext().getRealPath("/statics/images/" + DirectoryName);
+                        realPath="E:\\IDEA\\IdeaProjects\\bbs\\upload\\images";
                         //输出上传的路径
-                        //System.out.println(realPath);
+                        System.out.println(realPath);
                         // 如果路径不存在，则创建该路径
                         File realPathDirectory = new File(realPath);
                         if (realPathDirectory == null || !realPathDirectory.exists()) {
@@ -84,7 +85,7 @@ public class ImageUploadUtil{
                         // 定义上传路径 .../upload/111112323.jpg
                         File uploadFile = new File(realPathDirectory + "\\" + fileName);
                         //输出上传图片的路径
-                        //System.out.println(uploadFile);
+                        System.out.println(fileName);
                         file.transferTo(uploadFile);//真正上传
                     }
                 }

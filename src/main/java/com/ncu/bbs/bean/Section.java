@@ -14,6 +14,9 @@ public class Section {
     //显示在首页的几个挑选的帖子
     private List<Main> someMain;
 
+    private Integer mainNums;//该版块的所有帖子数
+    private Integer followNums;//该版块的所有跟帖回复数
+
     public Integer getsId() {
         return sId;
     }
@@ -52,5 +55,21 @@ public class Section {
 
     public void setSomeMain(List<Main> someMain) {
         this.someMain = someMain;
+    }
+
+    public Integer getMainNums() {
+        return mainNums;
+    }
+
+    public void setMainNums(Integer mainNums) {
+        this.mainNums = mainNums;
+    }
+
+    public Integer getFollowNums() {
+        return followNums;
+    }
+
+    public void setFollowNums(Integer followNums) {
+        this.followNums = followNums;
     }
 }

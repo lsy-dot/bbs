@@ -8,5 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
     config.image_previewText=' ';
-    config.filebrowserImageUploadUrl= "/bbs/upload/root/uploadSource"
+    config.filebrowserImageUploadUrl= "/bbs/upload/root/uploadSource";
+    config.extraPlugins='confighelper';
+    config.placeholder = ' ';
 };

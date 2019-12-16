@@ -21,12 +21,21 @@ public class Main {
     private Date mMaindate;
 
     private Integer mPoint;
+
     private User user;//新增加一个该帖子的发布者的信息字段
 
     private List<Follow> follows;//新增一个所有跟帖者的信息字段
+
+    private User latestPublish;//新增加该帖子对应的最新发表者的信息是谁
+
+    private long latestTime;//最后发表信息的时间
+
+    private Integer follownums;//跟帖者的数量
+
     public Integer getmMainid() {
         return mMainid;
     }
+
 
     public void setmMainid(Integer mMainid) {
         this.mMainid = mMainid;
@@ -110,5 +119,29 @@ public class Main {
 
     public void setFollows(List<Follow> follows) {
         this.follows = follows;
+    }
+
+    public User getLatestPublish() {
+        return latestPublish;
+    }
+
+    public void setLatestPublish(User latestPublish) {
+        this.latestPublish = latestPublish;
+    }
+
+    public long getLatestTime() {
+        return latestTime;
+    }
+
+    public void setLatestTime(long latestTime) {
+        this.latestTime = latestTime;
+    }
+
+    public Integer getFollownums() {
+        return follownums;
+    }
+
+    public void setFollownums(Integer follownums) {
+        this.follownums = follownums;
     }
 }

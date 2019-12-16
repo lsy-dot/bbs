@@ -23,34 +23,54 @@
     <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link href="${APP_PATH}/statics/css/main.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="${APP_PATH}/statics/js/common.js"></script>
 </head>
 <body>
-<!--上方的导航栏-->
-<div class="top-navigate">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div><h5>BBS论坛</h5></div>
+<div class="containers">
+    <!--上方的导航栏-->
+    <div class="top-navigate">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!--左部的个人信息栏-->
-<div class="left-info">
-    <div class="container" style="width:100%">
-        <div class="row">
-            <h4>欢迎使用此bbs论坛</h4>
-        </div>
-        <div class="row">
-            <!--登录界面-->
+    <!--左部的个人信息栏-->
+    <div class="left-info">
+        <div class="logo">
             <div class="col-md-12">
-                <button class="btn btn-primary" id="emp_add_modal_btn">登录</button>
-                <button class="btn btn-danger" id="emp_delete_all">注册</button>
+                <%--                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>--%>
+                <a href="#"><p>交友论坛</p></a>
             </div>
-            <div class="col-md-12">
+        </div>
+        <div class="info">
+            <div class="haslogin" style="display: none">
+                <!--显示登陆时候的显示-->
+            </div>
+            <div class="notlogin">
+                <form>
+                    <div class="wrapperLogin">
+                        <input type="email" class="form-control" placeholder="账号" style="width:140px">
+                    </div>
+                    <div class="wrapperLogin">
+                        <input type="password" class="form-control" placeholder="密码" style="width:140px">
+                    </div>
+                    <div class="wrapperLogin">
+                        <button class="btn btn-success">登录</button>
+                        <button class="btn btn-warning">注册</button>
+                    </div>
+                </form>
                 <div class="info">
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation"><a href="#">个人主页</a></li>
+                        <li role="presentation"><a href="#edit-publish">发帖</a></li>
                         <li role="presentation" class="active"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
                         <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
                         <li role="presentation"><a href="${APP_PATH}/index1.jsp">返回主页</a></li>
@@ -59,37 +79,35 @@
             </div>
         </div>
     </div>
-</div>
-<!--右部的主页内容栏-->
-<div class="right-main">
-    <div class="container">
-        <!--导航区-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="nav">
-                    <div class="titleShow"><h1>请选择${section.sSectionname}版面需要加精的主贴</h1></div>
-                    <!--显示选择看帖子还是精华帖-->
-                    <div class="selects">
-                        <div class="row">
-                            <ul class="nav nav-tabs">
-                                <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
-                                <li role="presentation" class="active"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
-                                <li role="presentation"><a href="#">其他</a></li>
-                            </ul>
+    <!--右部的主页内容栏-->
+    <div class="right-main">
+        <div class="container">
+            <!--导航区-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="nav">
+                        <div class="titleShow"><h1>请选择${section.sSectionname}版面需要加精的主贴</h1></div>
+                        <!--显示选择看帖子还是精华帖-->
+                        <div class="selects">
+                            <div class="row">
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
+                                    <li role="presentation" class="active"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--内容区-->
-        <div class="row">
-            <div class="col-md-12">
-                <!--展示帖子或者精华帖-->
-                <div class="allMains">
-                    <div class="row">
-                        <div class="col-md-12"><!--存放所有的帖子-->
-                            <table class="table table-hover" id="mains_table">
-                                <thead>
+            <!--内容区-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!--展示帖子或者精华帖-->
+                    <div class="allMains">
+                        <div class="row">
+                            <div class="col-md-12"><!--存放所有的帖子-->
+                                <table class="table table-hover" id="mains_table">
+                                    <thead>
                                     <tr>
                                         <th>
                                             <input type="checkbox" id="check_all">
@@ -98,48 +116,41 @@
                                         <th>标题</th>
                                         <th>发帖人</th>
                                         <th>发帖时间</th>
+                                        <th>回复数</th>
+                                        <th>最后发表</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-<%--                                    <c:forEach items="${mainlist}" var="mainPost">--%>
-<%--                                        <tr>--%>
-<%--                                            <td>--%>
-<%--                                                <input type='checkbox' class='check_item'/>--%>
-<%--                                            </td>--%>
-<%--                                            <td>${mainPost.mMainid}</td>--%>
-<%--                                            <td>${mainPost.mTitle}</td>--%>
-<%--                                            <td>${mainPost.user.uNickname}</td>--%>
-<%--                                            <td>${mainPost.mMaindate}</td>--%>
-<%--                                        </tr>--%>
-<%--                                    </c:forEach>--%>
-                                </tbody>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--按钮-->
-        <div class="row">
-            <div class="col-md-4">
-                <button class="btn btn-primary" id="selectPerfect">加精</button>
+            <!--按钮-->
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn-primary" id="selectPerfect">加精</button>
+                </div>
             </div>
-        </div>
 
-        <!--显示分页信息-->
-        <div class="row">
-            <!--分页文字信息-->
-            <div class="col-md-6" id="page_info_area">
+            <!--显示分页信息-->
+            <div class="row">
+                <!--分页文字信息-->
+                <div class="col-md-6" id="page_info_area">
 
-            </div>
-            <!--分页条-->
-            <div class="col-md-6" id="page_nav_area">
+                </div>
+                <!--分页条-->
+                <div class="col-md-6" id="page_nav_area">
 
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     //1.页面加载完成后，直接发送一个ajax请求，拿到分页信息
     $(function(){
@@ -176,8 +187,26 @@
             var checkBoxTd=$("<td><input type='checkbox' class='check_item'/></td>" );
             var mainIdTd=$("<td></td>").append(item.mMainid);
             var mainTitleTd=$("<td></td>").append(item.mTitle);
-            var userNickname=$("<td></td>").append(item.user.uNickname);
-            var mainDate=$("<td></td>").append(item.mMaindate);
+
+            var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
+            var mainnerNickname=$("<div></div>").append(item.user.uNickname);
+            var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
+
+            var date=formatDate(item.mMaindate);
+            var hourandminute=formatDateHourAndMinute(item.mMaindate);
+
+            var mainDate=$("<td></td>").append(date+" "+hourandminute);
+
+            var follows=$("<td></td>").append(getJsonLength(item.follows));
+
+            var latestdate=formatDate(item.latestTime);
+            var latesthourandminute=formatDateHourAndMinute(item.latestTime);
+
+            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
+            //最新发表
+            var latest=$("<td></td>").append(latestuser).append(latesttime);
+
             var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
             //append方法执行完返回的还是原来的元素
@@ -187,6 +216,8 @@
                 .append(mainTitleTd)
                 .append(userNickname)
                 .append(mainDate)
+                .append(follows)
+                .append(latest)
                 .appendTo("#mains_table tbody");
         });
     }
