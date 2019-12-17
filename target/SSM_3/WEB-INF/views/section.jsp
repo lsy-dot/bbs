@@ -25,7 +25,8 @@
     <link href="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link href="${APP_PATH}/statics/css/main.css" rel="stylesheet">
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="${APP_PATH}/statics/js/ckeditor/ckeditor.js"></script>
+<%--    <script src="${APP_PATH}/statics/js/ckeditor/ckeditor.js"></script>--%>
+    <script src="${APP_PATH}/statics/ckeditor/ckeditor.js"></script>
     <script src="${APP_PATH}/statics/js/common.js"></script>
 </head>
 <body>
