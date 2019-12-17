@@ -12,7 +12,7 @@
     <%
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
-        pageContext.setAttribute("MAIN_ID",2);
+        pageContext.setAttribute("MAIN_ID",1);
 //        pageContext.setAttribute("USERID",session.getAttribute("userid"));
         pageContext.setAttribute("USERID","1");
         pageContext.setAttribute("USERNAME","admin");
@@ -76,7 +76,7 @@
         }
     </style>
 <%--    ckedit--%>
-    <script src="${APP_PATH}/statics/ckeditor/ckeditor.js"></script>
+    <script src="${APP_PATH}/statics/ckeditor4/ckeditor.js"></script>
     <script>
     </script>
 </head>
@@ -413,6 +413,13 @@
               reply_a.attr("data-field",'{"followid":'+item.fFollowid+'}');
               reply_a.attr("id","a_reply_"+item.fFollowid);
               reply_a.appendTo(right_middle_nav);
+
+              var reply_num=get_replynum(item.fFollowid);
+              //alert(reply_num);
+              var reply_num_span=$("<span><span>").text("("+reply_num+")");
+              reply_num_span.attr("id","reply_num_span_"+item.fFollowid);
+              reply_num_span.appendTo(right_middle_nav);
+
               right_middle_nav_aux.append(right_middle_nav);
 
                right.append(content).append(right_middle_nav_aux);
@@ -677,8 +684,9 @@
             data:{replyid:replyid},
             async:false,
             success:function (result) {
-                alert(followid);
+                //alert(followid);
                 refreshreply(followid);
+                reset_reply_num(followid);
             }
         })
     }
@@ -706,6 +714,7 @@
                 async:false,
                 success:function (result) {
                     refreshreply(followid);
+                    reset_reply_num(followid);
                 }
             })
         }
@@ -772,5 +781,29 @@
     // });
     function back_section() {
          alert(mSectionid);
+    }
+    function reset_reply_num(followid) {
+        var reply_num=get_replynum(followid);
+        $("#reply_num_span_"+followid).text("("+reply_num+")");
+    }
+    function get_replynum(followid) {
+        var replynum
+        $.ajax({
+            url:"${APP_PATH}/reply/getreplybyfollowid",
+            type:"post",
+            data:{followid:followid},
+            async:false,
+            success:function (result) {
+                // alert(result);
+                var obj=JSON.parse(result);
+                //alert(obj);
+                //alert(obj);
+                var list=obj["list"];
+                //alert(list.length);
+                replynum=list.length;
+                //alert(result[0]);
+            }
+        });
+        return replynum;
     }
 </script>

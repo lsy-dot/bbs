@@ -29,6 +29,7 @@
 </head>
 <script>
     function initial(){
+        alert("${APP_PATH}/jumpToLogin/login");
     $.ajax({
         url:"${APP_PATH}/jumpToLogin/login",
         type:"post",
