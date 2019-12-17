@@ -45,7 +45,7 @@
 <!--配置过滤器编码-->
     <filter>
         <filter-name>Set Encoding</filter-name>
-        <filter-class>com.ncu.bbs.filter.SetEncodingFilter</filter-class>
+        <filter-class>com.ncu.bbs.wale.filter.SetEncodingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>Set Encoding</filter-name>

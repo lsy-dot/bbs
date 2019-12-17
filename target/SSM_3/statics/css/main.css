@@ -41,9 +41,17 @@ h1{
     /*float:left;*/
     /*height:92%;*/
     /*width:90%;*/
-    padding: 60px 0 0 160px
+    /*background-image:url("../images/section/section3.jpg");*/
+    margin:0 auto;
+    /*padding: 60px 0 0 60px;!*padding: 60px 0 0 160px;*!*/
     /*background-color:red;*/
 }
+.divsection{
+    border:1px solid black;
+    background-color:#eeeeee;
+    border-radius: 20px;
+}
+
 .wrapper{
     height:40%;
     width:100%;
@@ -115,6 +123,7 @@ h1{
     height:300px;
     width:450px;
     background-color:#eeeeef;
+    /*background-image:url("../images/section/section1.jpg");*/
 }
 .wrapper div{
     text-align:center;

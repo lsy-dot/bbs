@@ -28,57 +28,50 @@
 <body>
 <div class="containers">
     <!--上方的导航栏-->
-    <div class="top-navigate">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="navbar-form navbar-left">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--左部的个人信息栏-->
-    <div class="left-info">
-        <div class="logo">
-            <div class="col-md-12">
-                <%--                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>--%>
-                <a href="#"><p>交友论坛</p></a>
-            </div>
-        </div>
-        <div class="info">
-            <div class="haslogin" style="display: none">
-                <!--显示登陆时候的显示-->
-            </div>
-            <div class="notlogin">
-                <form>
-                    <div class="wrapperLogin">
-                        <input type="email" class="form-control" placeholder="账号" style="width:140px">
-                    </div>
-                    <div class="wrapperLogin">
-                        <input type="password" class="form-control" placeholder="密码" style="width:140px">
-                    </div>
-                    <div class="wrapperLogin">
-                        <button class="btn btn-success">登录</button>
-                        <button class="btn btn-warning">注册</button>
-                    </div>
-                </form>
-                <div class="info">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation"><a href="#">个人主页</a></li>
-                        <li role="presentation"><a href="#edit-publish">发帖</a></li>
-                        <li role="presentation" class="active"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
-                        <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
-                        <li role="presentation"><a href="${APP_PATH}/index1.jsp">返回主页</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%@include file="nav-top.jsp"%>
+<%--    <div class="top-navigate">--%>
+<%--        <div class="container">--%>
+<%--            <div class="row">--%>
+<%--                <div class="col-md-12">--%>
+<%--                    <form class="navbar-form navbar-left">--%>
+<%--                        <div class="form-group">--%>
+<%--                            <input type="text" class="form-control" placeholder="Search">--%>
+<%--                        </div>--%>
+<%--                        <button type="submit" class="btn btn-default">Submit</button>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--    <!--左部的个人信息栏-->--%>
+<%--    <div class="left-info">--%>
+<%--        <div class="logo">--%>
+<%--            <div class="col-md-12">--%>
+<%--                &lt;%&ndash;                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>&ndash;%&gt;--%>
+<%--                <a href="#"><p>交友论坛</p></a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="info">--%>
+<%--            <div class="haslogin" style="display: none">--%>
+<%--                <!--显示登陆时候的显示-->--%>
+<%--            </div>--%>
+<%--            <div class="notlogin">--%>
+<%--                <form>--%>
+<%--                    <div class="wrapperLogin">--%>
+<%--                        <input type="email" class="form-control" placeholder="账号" style="width:140px">--%>
+<%--                    </div>--%>
+<%--                    <div class="wrapperLogin">--%>
+<%--                        <input type="password" class="form-control" placeholder="密码" style="width:140px">--%>
+<%--                    </div>--%>
+<%--                    <div class="wrapperLogin">--%>
+<%--                        <button class="btn btn-success">登录</button>--%>
+<%--                        <button class="btn btn-warning">注册</button>--%>
+<%--                    </div>--%>
+<%--                </form>--%>
+<%--                <%@include file="nav-info.jsp"%>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
     <!--右部的主页内容栏-->
     <div class="right-main">
         <div class="container">
@@ -207,7 +200,7 @@
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
 
-            var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
+            var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
             //append方法执行完返回的还是原来的元素
             $("<tr></tr>")

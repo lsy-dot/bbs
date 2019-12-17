@@ -32,89 +32,58 @@
 <body>
     <div class="containers">
             <!--上方的导航栏-->
-            <div class="top-navigate">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="navbar-form navbar-left">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                </div>
-                                <button type="submit" class="btn btn-default">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <%@include file="nav-top.jsp"%>
+
+<%--            <div class="top-navigate">--%>
+<%--                <div class="container">--%>
+<%--                    <div class="row">--%>
+<%--                        <div class="col-md-12">--%>
+<%--                            <form class="navbar-form navbar-left">--%>
+<%--                                <div class="form-group">--%>
+<%--                                    <input type="text" class="form-control" placeholder="Search">--%>
+<%--                                </div>--%>
+<%--                                <button type="submit" class="btn btn-default">Submit</button>--%>
+<%--                            </form>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+
             <!--左部的个人信息栏-->
-            <div class="left-info">
-                <div class="logo">
-                    <div class="col-md-12">
-<%--                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>--%>
-                        <a href="#"><p>交友论坛</p></a>
-                    </div>
-                </div>
-                <div class="info">
-                    <div class="haslogin" style="display: none">
-                        <!--显示登陆时候的显示-->
-                    </div>
-                    <div class="notlogin">
-                        <form>
-                            <div class="wrapperLogin">
-                                <input type="email" class="form-control" placeholder="账号" style="width:140px">
-                            </div>
-                            <div class="wrapperLogin">
-                                <input type="password" class="form-control" placeholder="密码" style="width:140px">
-                            </div>
-                            <div class="wrapperLogin">
-                                <button class="btn btn-success">登录</button>
-                                <button class="btn btn-warning">注册</button>
-                            </div>
-                        </form>
-                        <div class="info">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li role="presentation"><a href="#">个人主页</a></li>
-                                <li role="presentation"><a href="#edit-publish">发帖</a></li>
-                                <li role="presentation"><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
-                                <li role="presentation"><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
-                                <li role="presentation"><a href="${APP_PATH}/index1.jsp">返回主页</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<%--            <div class="left-info">--%>
+<%--                <div class="logo">--%>
+<%--                    <div class="col-md-12">--%>
+<%--&lt;%&ndash;                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>&ndash;%&gt;--%>
+<%--                        <a href="#"><p>BBS论坛</p></a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="info">--%>
+<%--                    <div class="haslogin" style="display: none">--%>
+<%--                        <!--显示登陆时候的显示-->--%>
+<%--                    </div>--%>
+<%--                    <div class="notlogin">--%>
+<%--                        <form action="${APP_PATH}/user/userLogin" method="post">--%>
+<%--                            <div class="wrapperLogin">--%>
+<%--                                <input type="email" class="form-control" placeholder="账号" style="width:140px">--%>
+<%--                            </div>--%>
+<%--                            <div class="wrapperLogin">--%>
+<%--                                <input type="password" class="form-control" placeholder="密码" style="width:140px">--%>
+<%--                            </div>--%>
+<%--                            <div class="wrapperLogin">--%>
+<%--                                <button class="btn btn-success">登录</button>--%>
+<%--                                <button class="btn btn-warning">注册</button>--%>
+<%--                            </div>--%>
+<%--                        </form>--%>
+<%--                        <%@include file="nav-info.jsp"%>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <!--右部的主页内容栏-->
             <div class="right-main">
                 <div class="container">
                     <!--导航区-->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="introduce">
-                                <div class="titleShow"><h1>${section.sSectionname}</h1></div>
-                                <div class="introduceShow">
-                                    <p>${section.sDescription}</p>
-                                </div>
-                                <div class="countInfo">
-                                    <p>总帖数：<span>${section.mainNums}</span> 总回复数：<span>${section.followNums}</span></p>
-                                </div>
-                            </div>
-                            <div class="nav">
-                                <!--显示选择看帖子还是精华帖-->
-                                <div class="selects">
-                                    <div class="row">
-                                        <ul class="nav nav-tabs">
-                                            <li role="presentation" class="active"><a href="${APP_PATH}/section/thesection?sectionId=${section.sId}">帖子</a></li>
-                                            <li role="presentation"><a href="${APP_PATH}/section/perfects?sectionId=${section.sId}">精华帖</a></li>
-                                            <li role="presentation"><a href="${APP_PATH}/section/needs?sectionId=${section.sId}">需求帖</a></li>
-                                            <li role="presentation"><a href="${APP_PATH}/section/hots?sectionId=${section.sId}">热门帖</a></li>
-                                            <li role="presentation"><a href="${APP_PATH}/section/news?sectionId=${section.sId}">最新帖</a></li>
-                                            <li role="presentation"><a href="#">其他</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="nav-kind.jsp"></jsp:include>
                     <!--内容区-->
                     <div class="row">
                         <div class="col-md-12">
@@ -167,21 +136,24 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-group title">
-                                        <input type="text" name="title" id="P-title" class="form-control" style="width:1150px;height:50px" placeholder="请填写标题"/>
+                                        <input type="text" name="title" id="P-title" class="form-control" style="width:1150px;height:50px" placeholder="请填写标题（字数不多于50）"/>
 <%--                                        <span>注：标题长度不超过50个字</span>--%>
-                                        <span class="help-block">提示</span>
+                                        <span class="help-block"></span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <textarea name="content" id="content"/>
+                                    <textarea name="content" id="content" placeholder="请输入想要分享的内容。。。"/>
 
                                     </textarea>
+                                    <span class="help-block"></span>
                                 </div>
                                 <div class="row">
                                     <div class="pointSelect">
                                         请选择是否发布积分奖励：否<input type="radio" name="points" value="0" id="nopoint" checked> 是<input type="radio" name="points" id="haspoint">
-                                        <p style="display:inline" class="notshowpoint"><span>请输入需要奖励的积分数
-                                        </span><input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')"></p>
+                                        <p style="display:inline" class="notshowpoint"><span>请输入需要奖励的积分数</span>
+                                            <input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')">
+                                            <span class="help-block"></span>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -202,6 +174,7 @@
             height:100,
             width:1150
         });
+        $("#mains").addClass("active");
         $(".notshowpoint").hide();
         to_page(1);//首次加载页面时显示第一页
     });
@@ -264,7 +237,7 @@
             var latest=$("<td></td>").append(latestuser).append(latesttime);
 
             //指向特定帖子的链接
-            var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
+            var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
             $("<tr></tr>")
                 .append(mainIdTd)
@@ -304,7 +277,7 @@
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
 
-            var link=$("<a href='${APP_PATH}/main/theMain?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
+            var link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");
             mainTitleTd.append(link);
             //append方法执行完返回的还是原来的元素
             $("<tr></tr>")
@@ -378,7 +351,46 @@
         var navEle=$("<nav></nav>").append(ul);
         navEle.appendTo("#page_nav_area");
     }
-
+    function validateInput(){
+        var title=$("#P-title").val();
+        if(title.length>=50){
+            show_validate_msg("#P-title","error","标题字数不超过50字");
+            return false;
+        }else if(!title){
+            show_validate_msg("#P-title","error","标题不能为空");
+            return false;
+        }
+        var content=getContentData();
+        if(content.length>3000){
+            alert("你的帖子中文内容太长，无法发表，请减少想要发表的内容！");
+            return false;
+        }else if(!content.length){
+            alert("请输入帖子中文内容！");
+            return false;
+        }
+        var point=$("#point").val();
+        if(!$("#point").val())
+            point=0;
+        else point=parseInt(point);
+        if(point>100){
+            show_validate_msg("#point","error","奖励的积分数不得超过100");
+            return false;
+        }
+        return true;
+    }
+    //显示校验结果的提示信息
+    function show_validate_msg(ele,status,msg){
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text("");
+        if("success"==status){
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        }else if("error"==status){
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
     /*
         提交主贴的内容
      */
@@ -388,6 +400,10 @@
         if(!$("#point").val())
             point=0;
         else point=parseInt(point);
+        //数据校验
+        if(!validateInput()){
+            return false;
+        }
         var data={
             "mMainerid":4,//${sessionScope.userId}设置一个默认的发帖人
             "mSectionid":${section.sId},
@@ -411,6 +427,17 @@
                     $("#point").val("");//输入框置空
                     $(".notshowpoint").hide();
                     to_page(1);//跳转到第一页数据处
+                }else{
+                    //执行有错误时候的判断
+                    if(undefined!=result.extend.errorFields.point){
+                        show_validate_msg("#point","error",result.extend.errorFields.point);
+                    }
+                    if(undefined!=result.extend.errorFields.title){
+                        show_validate_msg("#point","error",result.extend.errorFields.title);
+                    }
+                    if(undefined!=result.extend.errorFields.content){
+                        alert(result.extend.errorFields.content);
+                    }
                 }
             }
         });
@@ -421,10 +448,15 @@
     //3.绑定点击.live()
     //jquery新版本没有live(),使用on替代
     $(document).on("mouseover ",".topmain",function () {//mouseover
-        $(this).find('li').show();
+        if(${userid==section.sBanzhuid}){
+            $(this).find('li').show();
+        }
     });
     $(document).on("mouseout ",".topmain",function () {//mouseover
-        $(this).find('li').hide();
+        if(${userid==section.sBanzhuid}){
+            $(this).find('li').hide();
+        }
+
     });
 
     //点击取消置顶
@@ -449,12 +481,28 @@
     });
     $("#nopoint").click(function () {
         $("#point").val("");//输入框置空
+        $("#point").next("span").text("");//提示信息
         $(".notshowpoint").hide();
     });
     //奖励积分输入框的变化
     $("#point").change(function () {
        var point=$(this).val();
-       //alert(point);
+       if(point>100){
+           show_validate_msg("#point","error","奖励的积分数不得超过100");
+       }else{
+           show_validate_msg("#point","success","");
+       }
+    });
+    //奖励积分输入框的变化
+    $("#P-title").change(function () {
+        var title=$("#P-title").val();
+        if(title.length>=50){
+            show_validate_msg("#P-title","error","标题字数不超过50字");
+        }else if(!title){
+            show_validate_msg("#P-title","error","标题不能为空");
+        }else{
+            show_validate_msg("#P-title","success","");
+        }
     });
 
 

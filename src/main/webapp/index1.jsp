@@ -26,56 +26,50 @@
 <body>
 
     <!--上方的导航栏-->
-    <div class="top-navigate">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-left">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" class="btn btn-default">搜索</button>
                     </form>
-                </div>
 
-            </div>
-        </div>
-    </div>
-    <!--左部的个人信息栏-->
-    <div class="left-info">
-        <div class="logo">
-            <div class="col-md-12">
-                <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>
-            </div>
-        </div>
-        <div class="info">
-            <div class="haslogin" style="display: none">
-                <!--显示登陆时候的显示-->
-            </div>
-            <div class="notlogin">
-                <form>
-                    <div class="wrapperLogin">
-                        <input type="email" class="form-control" placeholder="账号" style="width:140px">
-                    </div>
-                    <div class="wrapperLogin">
-                        <input type="password" class="form-control" placeholder="密码" style="width:140px">
-                    </div>
-                    <div class="wrapperLogin">
-                        <button class="btn btn-success">登录</button>
-                        <button class="btn btn-warning">注册</button>
-                    </div>
-                </form>
-            </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${APP_PATH}/index1.jsp">网站首页</a></li>
 
-        </div>
+                        <c:if test="${userid==null}">
+                            <li><a href="${APP_PATH}/jumpToLogin/login">登录</a></li>
+                            <li><a href="#">注册</a></li>
+                        </c:if>
+                        <c:if test="${userid!=null}">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    ${userid}<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">个人信息</a></li>
+                                    <li><a href="#">修改密码</a></li>
+                                    <li><a href="#">修改头像</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="${APP_PATH}/user/userExit">退出登录</a></li>
+                                </ul>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
     </div>
 
     <!--右部的主页内容栏-->
     <div class="right-main">
-        <div class="container">
-            <div class="row" id="sections">
+        <div class="container allsections">
+<%--            <div class="row sections">--%>
 
-            </div>
+<%--            </div>--%>
         </div>
     </div>
 <script>
@@ -86,32 +80,31 @@
             type:"GET",
             success:function(result){
                 var sectionlist=result.extend.sectionslist;
+                var row=$("<div class='row'></div>");
                 $.each(sectionlist,function (index,item) {//所有的版块
                     //alert(item.sSectionname);//测试是否成功
+                    var img=$("<img src=\"${APP_PATH}/statics/images/section/section"+item.sId+".jpg\" class=\"img-circle\" alt=\"版块\" width=\"250\" height=\"250\"/>");
                     var sectionA=$("<a></a>").append(item.sSectionname);
                     sectionA.attr("href","${APP_PATH}/section/thesection?sectionId="+(index+1));
-                    var pS=$("<p></p>").append(sectionA);
-                    var divTitle=$("<div></div>").addClass("sectionTitle").append(pS);
-                    var divWrapper=$("<div></div>").addClass("wrapper").append(divTitle);
-                    var introduce=$("<div></div>").addClass("sectionIntroduce").append("<p>"+item.sDescription+"</p>")
-                    var ul=$("<ul></ul>");
-                    var num=0;
-                    $.each(item.someMain,function (index1,item1) {//该板块将显示在主页的的最多四个精华帖
-                        //alert(item1.mContent);
-                        var mainA=$("<a href='${APP_PATH}/main/theMain?mainId="+item1.mMainid+"' target='_blank'></a>").append(item1.mTitle);
-                        var liMain=$("<li></li>").append(mainA);
-                        ul.append(liMain);
-                        num++;
-                    });
-                    divWrapper.append(introduce);
-                    divWrapper.append(ul);
-                    $("<div class='col-md-6 clearfix sections'></div>")//section
-                        .append(divWrapper)
-                        .appendTo("#sections");
+                    var h3=$("<h3></h3>").append(sectionA);
+                    var detailsection=$("<a></a>").append("详细");
+                    detailsection.attr("href","${APP_PATH}/section/thesection?sectionId="+(index+1));
+                    var p=$("<p></p>").append(item.sDescription);
+                    var detail=$("<p></P>").append(detailsection);
+                    var div=$("<div></div>").append(h3).append(p).append(detail).addClass("divsection");
+                    $("<div class='col-md-3 clearfix'></div>")//section
+                        .append(img)
+                        .append(div)
+                        .appendTo(row);
+                    if(index%4===3){
+                        row.appendTo(".allsections");
+                        row=$("<div class='row'></div>");
+                    }
                 });
+                row.appendTo(".allsections");
             }
         });
-    });
+      });
 </script>
 </body>
 </html>
