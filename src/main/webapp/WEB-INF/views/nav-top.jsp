@@ -16,20 +16,21 @@
         <div class="container-fluid">
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-left" action="${APP_PATH}/section/totalsearch" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" name="searchcontent" class="form-control" placeholder="搜索帖子、用户">
                     </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
+                    <button type="submit" class="btn btn-default" id="totalsearch">搜索</button>
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${APP_PATH}/index1.jsp">网站首页</a></li>
-
-                <c:if test="${userid==section.sBanzhuid}">
-                    <li><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
-                    <li><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
-                </c:if>
+                    <c:if test="${userid!=null}">
+                        <c:if test="${userid==section.sBanzhuid}">
+                            <li><a href="${APP_PATH}/main/notPerfect?sectionId=${section.sId}">加精</a></li>
+                            <li><a href="${APP_PATH}/main/notTop?sectionId=${section.sId}">置顶</a></li>
+                        </c:if>
+                    </c:if>
                     <c:if test="${userid==null}">
                         <li><a href="${APP_PATH}/jumpToLogin/login">登录</a></li>
                         <li><a href="#">注册</a></li>
@@ -37,7 +38,7 @@
                     <c:if test="${userid!=null}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            ${userid}<span class="caret"></span></a>
+                            ${username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">个人信息</a></li>
                             <li><a href="#">修改密码</a></li>
@@ -52,3 +53,6 @@
         </div><!-- /.container-fluid -->
     </nav>
 </div>
+<script>
+
+</script>

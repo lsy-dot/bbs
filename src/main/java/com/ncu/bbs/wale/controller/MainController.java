@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -70,9 +71,14 @@ public class MainController {
      */
     @ResponseBody
     @RequestMapping("/publish")
-    public Msg publishMain(Integer mMainerid, Integer mSectionid, String mTitle, String mContent,Integer mPoint){
+    public Msg publishMain(String mMainerid, Integer mSectionid, String mTitle, String mContent, Integer mPoint, HttpSession session){
         //System.out.println(mMainerid+" "+mSectionid+" "+mTitle+" "+mContent+" "+mPoint);
+
         Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        if(session.getAttribute("userid")==null){
+            map.put("usernotlogin","您还未登录，请登录后进行发帖操作！");
+            return Msg.fail().add("errorFields",map);
+        }
         if(mTitle.length()>50){
             map.put("title","标题字数不得超过50个字");
             return Msg.fail().add("errorFields",map);
@@ -89,7 +95,7 @@ public class MainController {
         main.setmSectionid(mSectionid);
         main.setmMaindate(new Date());
         main.setmPoint(mPoint);
-        main.setmMainerid(mMainerid);
+        main.setmMainerid(Integer.parseInt(mMainerid));
         main.setmIsperfect(0);
         main.setmIsontop(0);
         main.setmContent(mContent);
@@ -602,6 +608,51 @@ public class MainController {
         model.addAttribute("section",getSessionBySessionId(sectionId));
         //System.out.println(list);
         //使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就可以了
+        PageInfo page=new PageInfo(list,3);
+        return Msg.success().add("pageInfo",page);
+    }
+
+    /**
+     * 根据页号和关键词查询相关的帖子
+     * @param pn
+     * @param keyword
+     * @return
+     */
+    @RequestMapping("/searchMains")
+    @ResponseBody
+    public Msg searchMains(@RequestParam(value = "pn",defaultValue = "1")Integer pn,@RequestParam("keyword")String keyword){
+        List<Main>list=new ArrayList<>();
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,3);
+        list=mainService.searchMainsByKeyWord(keyword);
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+
+            //查找主帖的所有跟帖
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            User user=userService.getUserByUserId(main.getmMainerid());
+            main.setUser(user);
+            list.set(i,main);
+            //System.out.println(main.getmMaindate().getTime());
+        }
         PageInfo page=new PageInfo(list,3);
         return Msg.success().add("pageInfo",page);
     }

@@ -33,57 +33,16 @@
     <div class="containers">
             <!--上方的导航栏-->
         <%@include file="nav-top.jsp"%>
-
-<%--            <div class="top-navigate">--%>
-<%--                <div class="container">--%>
-<%--                    <div class="row">--%>
-<%--                        <div class="col-md-12">--%>
-<%--                            <form class="navbar-form navbar-left">--%>
-<%--                                <div class="form-group">--%>
-<%--                                    <input type="text" class="form-control" placeholder="Search">--%>
-<%--                                </div>--%>
-<%--                                <button type="submit" class="btn btn-default">Submit</button>--%>
-<%--                            </form>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-
-
-            <!--左部的个人信息栏-->
-<%--            <div class="left-info">--%>
-<%--                <div class="logo">--%>
-<%--                    <div class="col-md-12">--%>
-<%--&lt;%&ndash;                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>&ndash;%&gt;--%>
-<%--                        <a href="#"><p>BBS论坛</p></a>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="info">--%>
-<%--                    <div class="haslogin" style="display: none">--%>
-<%--                        <!--显示登陆时候的显示-->--%>
-<%--                    </div>--%>
-<%--                    <div class="notlogin">--%>
-<%--                        <form action="${APP_PATH}/user/userLogin" method="post">--%>
-<%--                            <div class="wrapperLogin">--%>
-<%--                                <input type="email" class="form-control" placeholder="账号" style="width:140px">--%>
-<%--                            </div>--%>
-<%--                            <div class="wrapperLogin">--%>
-<%--                                <input type="password" class="form-control" placeholder="密码" style="width:140px">--%>
-<%--                            </div>--%>
-<%--                            <div class="wrapperLogin">--%>
-<%--                                <button class="btn btn-success">登录</button>--%>
-<%--                                <button class="btn btn-warning">注册</button>--%>
-<%--                            </div>--%>
-<%--                        </form>--%>
-<%--                        <%@include file="nav-info.jsp"%>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
             <!--右部的主页内容栏-->
             <div class="right-main">
                 <div class="container">
                     <!--导航区-->
                     <jsp:include page="nav-kind.jsp"></jsp:include>
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-5">
+                            <button class="btn btn-danger>"><a href="#edit">点击发帖</a></button>
+                        </div>
+                    </div>
                     <!--内容区-->
                     <div class="row">
                         <div class="col-md-12">
@@ -122,7 +81,7 @@
 
                         </div>
                     </div>
-
+                    <a id="edit"></a>
                     <!--编辑区-->
                     <div class="row">
                         <!--此区域进行发帖操作-->
@@ -395,6 +354,12 @@
         提交主贴的内容
      */
     $("#publish_btn").click(function () {
+
+        //首先判断是否登录
+        if("${userid}".length==0){
+            alert("您当前未登录，不能发布帖子！");
+            return false;
+        }
         var content=getContentData();
         var point=$("#point").val();
         if(!$("#point").val())
@@ -405,7 +370,7 @@
             return false;
         }
         var data={
-            "mMainerid":4,//${sessionScope.userId}设置一个默认的发帖人
+            "mMainerid":"${userid}",//${sessionScope.userId}设置一个默认的发帖人
             "mSectionid":${section.sId},
             "mTitle":$("#P-title").val(),
             // "mContent":$("#content").html(),
@@ -437,6 +402,9 @@
                     }
                     if(undefined!=result.extend.errorFields.content){
                         alert(result.extend.errorFields.content);
+                    }
+                    if(undefined!=result.extend.errorFields.usernotlogin){
+                        alert(result.extend.errorFields.usernotlogin);
                     }
                 }
             }

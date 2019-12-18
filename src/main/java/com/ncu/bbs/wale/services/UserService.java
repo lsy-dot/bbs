@@ -4,6 +4,8 @@ import com.ncu.bbs.bean.User;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.List;
+
 /**
  * @Author WaleGarrett
  * @Date 2019/12/16 11:58
@@ -12,4 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration("classpath:applicationContext.xml")
 public interface UserService {
     User getUserByUserId(Integer latestuserid);
+
+    List<User> searchUsersByKeyWord(String keyword);
 }

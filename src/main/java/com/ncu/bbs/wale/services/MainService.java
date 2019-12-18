@@ -46,4 +46,8 @@ public interface MainService {
     List<Main> getHotPostBySectionId(Integer sectionId);
 
     List<Main> getLatestPostBySectionId(Integer sectionId, Date deadline);
+
+    List<Main> searchMainsByKeyWord(String keyWord);
+
+    List<Main> getMainByMainerId(int userid);
 }

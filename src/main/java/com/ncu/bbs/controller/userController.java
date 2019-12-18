@@ -109,7 +109,9 @@ public class userController {
      */
     @RequestMapping("/userExit")
     public String UserExit(HttpSession session){
+        session.removeAttribute("username");
         session.removeAttribute("userid");
+        session.removeAttribute("user");
         return "forward:/index1.jsp";
     }
 }

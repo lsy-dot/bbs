@@ -226,6 +226,32 @@ public class MainServiceImpl implements MainService {
     }
 
     /**
+     * 根据关键字查找相关的所有帖子
+     * @param keyWord
+     * @return
+     */
+    @Override
+    public List<Main> searchMainsByKeyWord(String keyWord) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMTitleLike("%"+keyWord+"%");
+        return mainMapper.selectByExampleWithMainer(mainExample);
+    }
+
+    /**
+     * 根据发帖者的id查找该发帖者发布的所有主贴
+     * @param userid
+     * @return
+     */
+    @Override
+    public List<Main> getMainByMainerId(int userid) {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMMaineridEqualTo(userid);
+        return mainMapper.selectByExample(mainExample);
+    }
+
+    /**
      * 根据版块id来查找该版块的所有精华帖
      * @param sectionId
      * @return

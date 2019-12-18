@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +128,13 @@ public class SectionController {
     public String getNewMains(@RequestParam("sectionId")Integer sectionId, Model model){
         model.addAttribute("section",getSessionBySessionId(sectionId));
         return "new";
+    }
+    /**
+     *
+     */
+    @RequestMapping("/totalsearch")
+    public String searchMain(Model model, HttpServletRequest request){
+        model.addAttribute("searchcontent",request.getParameter("searchcontent"));
+        return "search";
     }
 }

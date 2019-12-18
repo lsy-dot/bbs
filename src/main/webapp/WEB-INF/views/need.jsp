@@ -29,50 +29,7 @@
 <div class="containers">
     <!--上方的导航栏-->
     <%@include file="nav-top.jsp"%>
-<%--    <div class="top-navigate">--%>
-<%--        <div class="container">--%>
-<%--            <div class="row">--%>
-<%--                <div class="col-md-12">--%>
-<%--                    <form class="navbar-form navbar-left">--%>
-<%--                        <div class="form-group">--%>
-<%--                            <input type="text" class="form-control" placeholder="Search">--%>
-<%--                        </div>--%>
-<%--                        <button type="submit" class="btn btn-default">Submit</button>--%>
-<%--                    </form>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <!--左部的个人信息栏-->--%>
-<%--    <div class="left-info">--%>
-<%--        <div class="logo">--%>
-<%--            <div class="col-md-12">--%>
-<%--                &lt;%&ndash;                        <a href="#"><img src="${APP_PATH}/statics/images/default.jpeg" width="50" height="50"></a>&ndash;%&gt;--%>
-<%--                <a href="#"><p>交友论坛</p></a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="info">--%>
-<%--            <div class="haslogin" style="display: none">--%>
-<%--                <!--显示登陆时候的显示-->--%>
-<%--            </div>--%>
-<%--            <div class="notlogin">--%>
-<%--                <form>--%>
-<%--                    <div class="wrapperLogin">--%>
-<%--                        <input type="email" class="form-control" placeholder="账号" style="width:140px">--%>
-<%--                    </div>--%>
-<%--                    <div class="wrapperLogin">--%>
-<%--                        <input type="password" class="form-control" placeholder="密码" style="width:140px">--%>
-<%--                    </div>--%>
-<%--                    <div class="wrapperLogin">--%>
-<%--                        <button class="btn btn-success">登录</button>--%>
-<%--                        <button class="btn btn-warning">注册</button>--%>
-<%--                    </div>--%>
-<%--                </form>--%>
-<%--                <%@include file="nav-info.jsp"%>--%>
 
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
     <!--右部的主页内容栏-->
     <div class="right-main">
         <div class="container">
@@ -89,10 +46,11 @@
                                 <table class="table table-hover" id="mains_table">
                                     <thead>
                                     <tr>
-                                        <th>序号</th>
+                                        <th>帖子id</th>
                                         <th>标题</th>
                                         <th>发帖人</th>
                                         <th>发帖时间</th>
+                                        <th>发布的积分奖励</th>
                                         <th>回复数</th>
                                         <th>最后发表</th>
                                     </tr>
@@ -166,6 +124,8 @@
 
             var mainDate=$("<td></td>").append(date+" "+hourandminute);
 
+            var points=$("<td></td>").append(item.mPoint);//积分数
+
             var follows=$("<td></td>").append(getJsonLength(item.follows));
 
             var latestdate=formatDate(item.latestTime);
@@ -183,6 +143,7 @@
                 .append(mainTitleTd)
                 .append(userNickname)
                 .append(mainDate)
+                .append(points)
                 .append(follows)
                 .append(latest)
                 .appendTo("#mains_table tbody");

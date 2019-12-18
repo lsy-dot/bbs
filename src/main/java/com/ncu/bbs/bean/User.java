@@ -29,6 +29,8 @@ public class User {
 
     private Integer uPoints;
 
+    private Integer mainPostNums;//发帖的总数
+
     public Integer getuId() {
         return uId;
     }
@@ -139,5 +141,13 @@ public class User {
 
     public void setuPoints(Integer uPoints) {
         this.uPoints = uPoints;
+    }
+
+    public Integer getMainPostNums() {
+        return mainPostNums;
+    }
+
+    public void setMainPostNums(Integer mainPostNums) {
+        this.mainPostNums = mainPostNums;
     }
 }
