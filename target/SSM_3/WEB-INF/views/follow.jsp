@@ -12,8 +12,8 @@
     <%
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
-        pageContext.setAttribute("MAIN_ID",1);
-//        pageContext.setAttribute("USERID",session.getAttribute("userid"));
+        pageContext.setAttribute("MAIN_ID",session.getAttribute("mainid"));
+        //pageContext.setAttribute("USERID",session.getAttribute("userid"));
         pageContext.setAttribute("USERID","1");
         pageContext.setAttribute("USERNAME","admin");
     %>
@@ -75,8 +75,8 @@
             right: -50%;
         }
     </style>
-<%--    ckedit--%>
-    <script src="${APP_PATH}/statics/ckeditor4/ckeditor.js"></script>
+    <%--    ckedit--%>
+    <script src="${APP_PATH}/statics/ckeditor/ckeditor.js"></script>
     <script>
     </script>
 </head>
@@ -85,93 +85,78 @@
 
 </div>
 <div id="page_right">
-<table id="main" class="table table-hover table-bordered">
-    <tbody>
-       <tr>
-           <td colspan="2">
-               <nav><div id="return_section"></div></nav>
-               <header id="title"></header>
-           </td>
-       </tr>
-       <tr class="warning">
-           <td class="left">
-               <div id="mainner_headpic"></div>
-               <div id="mainner_name"></div>
-               <div id="email"></div>
-           </td>
-           <td class="right">
-               <div class="right-follow" id="main_content"></div>
-               <div class="right-middle-nav-aux">
-                   <div class="right-middle-nav">
-                       <a id="delete_main" onclick="delete_main()">删除</a>
-                       <span>1楼</span>
-                       <span id="main_date"></span>
-                       <a onclick="jto_reply()">回复</a>
-                   </div>
-               </div>
-           </td>
-       </tr>
-    </tbody>
-</table>
-<table  id="follow" class="table table-hover table-bordered">
-    <tbody>
-    <tr id="follower1">
-        <td class="left">
-            <div >
-                <img src="http://tb.himg.baidu.com/sys/portrait/item/tb.1.488cbd10.deM4YdwNZ4_-P2xHfnY4kA" class="img-rounded">
-            </div>
-            <div>
-                <span>名字</span>
-            </div>
-        </td>
-        <td class="right">
-            <div class="right-follow">
-                <img src="http://tb.himg.baidu.com/sys/portrait/item/tb.1.488cbd10.deM4YdwNZ4_-P2xHfnY4kA" class="img-rounded">
-                111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
-            </div>
-            <div class="right-middle-nav-aux">
-                <div class="right-middle-nav">
-                    <a>删除</a>
-                    <span>1楼</span>
-                    <span>2019-11-24 16:40</span>
-                    <a onclick="add_reply(this)" data-username="xxx">回复</a>
+    <table id="main" class="table table-hover table-bordered">
+        <tbody>
+        <tr>
+            <td colspan="2">
+                <nav><div id="return_section"></div></nav>
+                <header id="title"></header>
+            </td>
+        </tr>
+        <tr class="warning">
+            <td class="left">
+                <div id="mainner_headpic"></div>
+                <div id="mainner_name"></div>
+                <div id="email"></div>
+            </td>
+            <td class="right">
+                <div class="right-follow" id="main_content"></div>
+                <div class="right-middle-nav-aux">
+                    <div class="right-middle-nav">
+                        <a id="delete_main" onclick="delete_main()">删除</a>
+                        <span>1楼</span>
+                        <span id="main_date"></span>
+                        <a href="#edit">回复</a>
+                    </div>
                 </div>
-            </div>
-            <div id="right-reply" class="right-reply">
-                <table class="table table-hover table-bordered">
-                    <tr>
-                        <td class="left">
-                            <div >
-                                <img src="http://tb.himg.baidu.com/sys/portrait/item/tb.1.488cbd10.deM4YdwNZ4_-P2xHfnY4kA" class="img-rounded">
-                            </div>
-                            <div>
-                                <span>名字</span>
-                            </div>
-                        </td>
-                        <td class="right">
-                            <div class="right-follow">
-                                <img src="http://tb.himg.baidu.com/sys/portrait/item/tb.1.488cbd10.deM4YdwNZ4_-P2xHfnY4kA" class="img-rounded">
-                                111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
-                            </div>
-                            <div class="right-middle-nav-aux">
-                                <div class="right-middle-nav">
-                                    <a>删除</a>
-                                    <span>1楼</span>
-                                    <span>2019-11-24 16:40</span>
-                                    <a onclick="add_reply(this)" data-username="xxx">回复</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="right-postReply">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table  id="follow" class="table table-hover table-bordered">
+        <tbody>
+        <tr id="follower1">
+            <td class="left">
+                <div >
+                </div>
+                <div>
+                </div>
+            </td>
+            <td class="right">
+                <div class="right-follow">
+                </div>
+                <div class="right-middle-nav-aux">
+                    <div class="right-middle-nav">
+                    </div>
+                </div>
+                <div id="right-reply" class="right-reply">
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <td class="left">
+                                <div >
 
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                                </div>
+                                <div>
+                                </div>
+                            </td>
+                            <td class="right">
+                                <div class="right-follow">
+                                </div>
+                                <div class="right-middle-nav-aux">
+                                    <div class="right-middle-nav">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="right-postReply">
+
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 
@@ -190,6 +175,7 @@
 </div>
 <%--ckedit--%>
 <div id="ckeditor">
+    <a id="edit"></a>
     <textarea class="form-control" id="description"
               name="description" style="color: #8a8a8a;"></textarea>
     <div class="follow-button">
@@ -276,10 +262,10 @@
         var title=result.mTitle;
         if (result.mPoint!=0)
             title+="(积分:"+result.mPoint+")";
-        var title_span=$("<h3></h3>").text(title);
+        var title_span=$("<h3></h3>").html(title);
         //返回板块
         var return_section_span=
-            $("<a onclick='back_section()'><span class=\"glyphicon glyphicon-arrow-left \" aria-hidden=\"true\"></span> 返回版面</a>");
+            $("<a href='${APP_PATH}/section/thesection?sectionId="+mSectionid+"'><span class=\"glyphicon glyphicon-arrow-left \" aria-hidden=\"true\"></span> 返回版面</a>");
         return_section_span.attr("sectionid",result.mSectionid);
         var mannerid=result.mMainerid;
         var User=getUserByid(mannerid);
@@ -290,7 +276,7 @@
         var content=result.mContent;
         var smain_date=result.mMaindate;
         var main_date=x(smain_date);//秒数转换成时间格式
-        var content=$("<div class='right-follow-content'></div>").text(content);
+        var content=$("<div class='right-follow-content'></div>").html(content);
         var headpic_img=$("<img class=\"img-rounded\">").attr("src",headpic);
         var name_span=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(name);
         var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(email);
@@ -339,7 +325,7 @@
             success:function (result) {
                 // alert(result);
                 var obj=JSON.parse(result);
-                 //alert(obj);
+                //alert(obj);
                 build_page_info(obj);
                 build_page_nav(obj);
                 for (var key in obj)//只有一个跟帖数组，所以只循环一次，得到的是pageInfo对象
@@ -372,61 +358,61 @@
         $("#follow").empty();
         var follow=result.list;
         $.each(follow,function (index,item) {
-              var oneFollow=$("<tr></tr>");
+            var oneFollow=$("<tr></tr>");
             /*
             * 左边的头像何用户名*/
-              var User=getUserByid(item.fFollowerid);
-             // alert(item.fContent);
-              var head_pic=$("<img  class=\"img-rounded\" alt=\"0\">").attr("src",User.uHeadpic);
-              var name=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(User.uName);
-              var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(User.uEmail);
-              var head_pic_div=$("<div></div>").append(head_pic);
-              var name_div=$("<div></div>").append(name);
-              var email_div=$("<div></div>").append(email_span);
-              var left_div=$("<div></div>").append(head_pic_div).append(name_div).append(email_div);
-              var left=$("<td class=\"left\"></td>");
-              left.append(left_div);
+            var User=getUserByid(item.fFollowerid);
+            // alert(item.fContent);
+            var head_pic=$("<img  class=\"img-rounded\" alt=\"0\">").attr("src",User.uHeadpic);
+            var name=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(User.uName);
+            var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(User.uEmail);
+            var head_pic_div=$("<div></div>").append(head_pic);
+            var name_div=$("<div></div>").append(name);
+            var email_div=$("<div></div>").append(email_span);
+            var left_div=$("<div></div>").append(head_pic_div).append(name_div).append(email_div);
+            var left=$("<td class=\"left\"></td>");
+            left.append(left_div);
 
-              var right=$("<td class=\"right\"></td>");
-              right.attr("id","follow"+item.fFollowid);
+            var right=$("<td class=\"right\"></td>");
+            right.attr("id","follow"+item.fFollowid);
             //********设置这条跟帖(这一行)的id为跟帖id，这样的话点击回复就可以在这个td下面加回复消息何回复框
-              /*右边上面的内容*/
-              var content=$("<div class=\"right-follow\"></div>").html(item.fContent);
-              /*右边中间的删除-楼数-时间-回复栏*/
-              var userid=${USERID};
-              var right_middle_nav=$("<div class=\"right-middle-nav\">");
-              var right_middle_nav_aux=$("<div class=\"right-middle-nav-aux\">");
+            /*右边上面的内容*/
+            var content=$("<div class=\"right-follow\"></div>").html(item.fContent);
+            /*右边中间的删除-楼数-时间-回复栏*/
+            var userid=${USERID};
+            var right_middle_nav=$("<div class=\"right-middle-nav\">");
+            var right_middle_nav_aux=$("<div class=\"right-middle-nav-aux\">");
             //如果当前用户是跟贴的人，那么赋予他删除的权力。
-              if (userid===item.fFollowerid) {
-                  var delete_a = $("<a onclick='deleteFollow(this)'>删除&nbsp</a>");
-                  delete_a.attr("data-field",'{"followid":'+item.fFollowid+'}');//点击删除,拿到跟帖的id，删除此跟帖
-                  delete_a.appendTo(right_middle_nav);
-              }
-              var farfloor=(currentPage-1)*5+index+2;
-              var floor=$("<span></span>").text(farfloor+"楼");
-              floor.appendTo(right_middle_nav)
+            if (userid===item.fFollowerid) {
+                var delete_a = $("<a onclick='deleteFollow(this)'>删除&nbsp</a>");
+                delete_a.attr("data-field",'{"followid":'+item.fFollowid+'}');//点击删除,拿到跟帖的id，删除此跟帖
+                delete_a.appendTo(right_middle_nav);
+            }
+            var farfloor=(currentPage-1)*5+index+2;
+            var floor=$("<span></span>").text(farfloor+"楼");
+            floor.appendTo(right_middle_nav)
 
-              var follow_date=$("<span>&nbsp</span>").text(x(item.fFollowdate));
-              follow_date.appendTo(right_middle_nav);
+            var follow_date=$("<span>&nbsp</span>").text(x(item.fFollowdate));
+            follow_date.appendTo(right_middle_nav);
 
-              var reply_a=$("<a onclick=\"getReply(this)\">&nbsp回复</a>");
-              reply_a.attr("data-field",'{"followid":'+item.fFollowid+'}');
-              reply_a.attr("id","a_reply_"+item.fFollowid);
-              reply_a.appendTo(right_middle_nav);
+            var reply_a=$("<a onclick=\"getReply(this)\">&nbsp回复</a>");
+            reply_a.attr("data-field",'{"followid":'+item.fFollowid+'}');
+            reply_a.attr("id","a_reply_"+item.fFollowid);
+            reply_a.appendTo(right_middle_nav);
 
-              var reply_num=get_replynum(item.fFollowid);
-              //alert(reply_num);
-              var reply_num_span=$("<span><span>").text("("+reply_num+")");
-              reply_num_span.attr("id","reply_num_span_"+item.fFollowid);
-              reply_num_span.appendTo(right_middle_nav);
+            var reply_num=get_replynum(item.fFollowid);
+            //alert(reply_num);
+            var reply_num_span=$("<span><span>").text("("+reply_num+")");
+            reply_num_span.attr("id","reply_num_span_"+item.fFollowid);
+            reply_num_span.appendTo(right_middle_nav);
 
-              right_middle_nav_aux.append(right_middle_nav);
+            right_middle_nav_aux.append(right_middle_nav);
 
-               right.append(content).append(right_middle_nav_aux);
+            right.append(content).append(right_middle_nav_aux);
 
-               oneFollow.append(left).append(right);
-               oneFollow.appendTo($("#follow"));
-              //点击回复，拿到跟帖的id，显示回复信息.回复框
+            oneFollow.append(left).append(right);
+            oneFollow.appendTo($("#follow"));
+            //点击回复，拿到跟帖的id，显示回复信息.回复框
             // private Integer fFollowid;
             //
             // private String fContent;
@@ -448,14 +434,14 @@
         var followid=obj["followid"];
         if (confirm("你确定要删除吗?")){
             $.ajax({
-                url:"${APP_PATH}/follow/deletefollowbyid",
-                type:"post",
-                data:{followid:followid},
-                async:false,
-                success:function (result) {
-                    refreshfollow();
+                    url:"${APP_PATH}/follow/deletefollowbyid",
+                    type:"post",
+                    data:{followid:followid},
+                    async:false,
+                    success:function (result) {
+                        refreshfollow();
+                    }
                 }
-             }
             );
         }
     }
@@ -666,7 +652,7 @@
         //alert(data);
         var t=JSON.parse(data);
         var followid=t["followid"];
-       // alert(followid);
+        // alert(followid);
         var follow_reply="reply-follow"+followid;
         $("#"+follow_reply).remove();//收起回复
         $("#right-postReply"+followid).remove();
@@ -697,7 +683,7 @@
         //alert(followid);
         var reply_content=$("#input-button-reply"+followid).val();
         if (reply_content.length>230){
-               showerrormess("你输入的字符超过长度！");
+            showerrormess("你输入的字符超过长度！");
         }
         else{
             var replyerid=${USERID};
@@ -727,31 +713,31 @@
         initialAjax(currentPage);
     }
     function follow(obj) {//点击跟帖，发送ajax跟帖
-           var followerid=${USERID};
-           var followcontent=CKEDITOR.instances.description.getData();
-           var mainid=${MAIN_ID};
-           var followdate=Date.parse(new Date());
-           if (followcontent.length>3000){
-                showerrormess("你输入的内容超过长度！");
-            }
-           else {
-               $.ajax(
-                   {
-                       url:"${APP_PATH}/follow/insertfollow",
-                       type:"post",
-                       data:{followerid:followerid,
-                           followcontent:followcontent,
-                           mainid:mainid,
-                           followdate:followdate},
-                       async:false,
-                       success:function (result) {
-                          initialAjax(lastPage);
-                          showerrormess("跟帖成功！");
-                           CKEDITOR.instances.description.setData("");
-                       }
-                   }
-               )
-           }
+        var followerid=${USERID};
+        var followcontent=CKEDITOR.instances.description.getData();
+        var mainid=${MAIN_ID};
+        var followdate=Date.parse(new Date());
+        if (followcontent.length>3000){
+            showerrormess("你输入的内容超过长度！");
+        }
+        else {
+            $.ajax(
+                {
+                    url:"${APP_PATH}/follow/insertfollow",
+                    type:"post",
+                    data:{followerid:followerid,
+                        followcontent:followcontent,
+                        mainid:mainid,
+                        followdate:followdate},
+                    async:false,
+                    success:function (result) {
+                        initialAjax(lastPage);
+                        showerrormess("跟帖成功！");
+                        CKEDITOR.instances.description.setData("");
+                    }
+                }
+            )
+        }
     }
     function jto_follow() {
 
@@ -780,7 +766,8 @@
     //     alert($(this).attr("sectionid"));
     // });
     function back_section() {
-         alert(mSectionid);
+
+        alert(mSectionid);
     }
     function reset_reply_num(followid) {
         var reply_num=get_replynum(followid);

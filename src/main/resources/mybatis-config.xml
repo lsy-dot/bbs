@@ -9,6 +9,7 @@
     <typeAliases>
         <package name="com.ncu.bbs.bean"/>
     </typeAliases>
+
     <!--配置pageHelper分页插件-->
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor">

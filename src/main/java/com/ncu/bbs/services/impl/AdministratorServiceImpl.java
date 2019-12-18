@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
-@Service("AdministratorService")
+@Service
 @ContextConfiguration("classpath:applicationContext.xml")
 public class AdministratorServiceImpl implements AdministratorService {
     @Autowired
