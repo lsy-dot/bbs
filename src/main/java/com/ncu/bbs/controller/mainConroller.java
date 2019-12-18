@@ -42,4 +42,14 @@ public class mainConroller {
         int mainid = Integer.parseInt(smainid);
         mainService.deleteMainById(mainid);
     }
+    @RequestMapping(value = "/modifymaincontent")
+    @ResponseBody
+    public void modifyMainContentById(HttpServletRequest request, HttpSession session)throws
+            UnsupportedEncodingException, JsonProcessingException {
+        request.setCharacterEncoding("utf-8");
+        String smainid = request.getParameter("mainid");
+        String main_content=request.getParameter("content");
+        int mainid = Integer.parseInt(smainid);
+        mainService.modifyMainContentById(main_content,mainid);
+    }
 }

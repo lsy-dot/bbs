@@ -13,9 +13,16 @@
         //这个的路径是以斜线开始的，不以斜线结束
         pageContext.setAttribute("APP_PATH",request.getContextPath());
         pageContext.setAttribute("MAIN_ID",session.getAttribute("mainid"));
-        //pageContext.setAttribute("USERID",session.getAttribute("userid"));
-        pageContext.setAttribute("USERID","1");
-        pageContext.setAttribute("USERNAME","admin");
+        if (session.getAttribute("userid")==null) {
+            pageContext.setAttribute("USERID", "-1");
+            pageContext.setAttribute("USERNAME","-1");
+        }
+        else {
+            pageContext.setAttribute("USERID",session.getAttribute("userid"));
+            pageContext.setAttribute("USERNAME",session.getAttribute("username"));
+        }
+        //pageContext.setAttribute("USERID","1");
+       // pageContext.setAttribute("USERNAME","admin");
     %>
     <!--
         web路径：
@@ -78,6 +85,45 @@
     <%--    ckedit--%>
     <script src="${APP_PATH}/statics/ckeditor/ckeditor.js"></script>
     <script>
+        function editArticle() {
+            var main_content;
+            $.ajax({
+                url:"${APP_PATH}/main/getmainbyid",
+                type:"post",
+                data:{mainid:${MAIN_ID}},
+                async:false,
+                success:function (result) {
+                    // alert(result);
+                    var obj=JSON.parse(result);
+                    // alert(obj);
+                    var main=obj["main"];
+                    main_content=main.mContent;
+                }
+            });
+            CKEDITOR.instances.description.setData(main_content);
+            //alert(CKEDITOR.instances.description.getData());
+            change_postmess_button_onclick("modify_main()","提交修改");
+        }
+        function change_postmess_button_onclick(func,but_text) {
+            var postmess_button=$("#postmess");
+            postmess_button.attr("onclick",func);
+            postmess_button.text(but_text);
+        }
+        function modify_main() {
+            var modify_main_content=CKEDITOR.instances.description.getData();
+            $.ajax({
+                url:"${APP_PATH}/main/modifymaincontent",
+                type:"post",
+                data:{mainid:${MAIN_ID},content:modify_main_content},
+                async:false,
+                success:function (result) {
+                    initialAjax(1);
+                   showerrormess("修改成功！");
+                    CKEDITOR.instances.description.setData("");
+                   change_postmess_button_onclick("follow(this)","跟帖");
+                }
+            });
+        }
     </script>
 </head>
 <body onload="initialAjax(1)">
@@ -103,10 +149,11 @@
                 <div class="right-follow" id="main_content"></div>
                 <div class="right-middle-nav-aux">
                     <div class="right-middle-nav">
-                        <a id="delete_main" onclick="delete_main()">删除</a>
+                        <a id="delete_main"></a>
                         <span>1楼</span>
                         <span id="main_date"></span>
                         <a href="#edit">回复</a>
+                        <a href="#edit" id="editarticle"></a>
                     </div>
                 </div>
             </td>
@@ -179,7 +226,8 @@
     <textarea class="form-control" id="description"
               name="description" style="color: #8a8a8a;"></textarea>
     <div class="follow-button">
-        <button type="button" style="width: 100px" class="btn btn-success" onclick="follow(this)">跟帖</button>
+        <button type="button" id="postmess"
+                style="width: 100px" class="btn btn-success" onclick="follow(this)">跟帖</button>
     </div>
 </div>
 <%--错误提示的模态框--%>
@@ -253,11 +301,20 @@
         mSectionid=result.mSectionid;
         $("#mainner_headpic").empty();
         $("#mainner_name").empty();
-        $("#eamil").empty();
+        $("#email").empty();
         $("#main_content").empty();
         $("#main_date").empty();
         $("#return_section").empty();
         $("#title").empty();
+        var userid=${USERID};
+        if (userid===result.mMainerid) {
+            var delete_a = $("#delete_main");
+            delete_a.attr("onclick",'delete_main()');//点击删除,拿到跟帖的id，删除此跟帖
+            var edit_a=$("#editarticle");
+            edit_a.text("编辑文章")
+            edit_a.attr("onclick","editArticle()");
+        }
+
         var sectionid=result.mSectionid;
         var title=result.mTitle;
         if (result.mPoint!=0)
@@ -677,32 +734,37 @@
         })
     }
     function reply(obj) {//点击回复按钮，发送ajax回复
-        data=$(obj).attr("data-field");
-        var obj=JSON.parse(data);
-        var followid=obj["followid"];
-        //alert(followid);
-        var reply_content=$("#input-button-reply"+followid).val();
-        if (reply_content.length>230){
-            showerrormess("你输入的字符超过长度！");
-        }
-        else{
-            var replyerid=${USERID};
-            var replydate=Date.parse(new Date());
-            //alert(followid+reply_content+replyerid+replydate);
-            //alert(reply_content);
-            $.ajax({
-                url:"${APP_PATH}/reply/insertreply",
-                type:"post",
-                data:{followid:followid,
-                    replycontent:reply_content,
-                    replyerid:replyerid,
-                    replydate:replydate},
-                async:false,
-                success:function (result) {
-                    refreshreply(followid);
-                    reset_reply_num(followid);
-                }
-            })
+        var userid=${USERID};
+        if (userid===-1)
+            showerrormess("请先登录！")
+        else {
+            data=$(obj).attr("data-field");
+            var obj=JSON.parse(data);
+            var followid=obj["followid"];
+            //alert(followid);
+            var reply_content=$("#input-button-reply"+followid).val();
+            if (reply_content.length>230){
+                showerrormess("你输入的字符超过长度！");
+            }
+            else{
+                var replyerid=${USERID};
+                var replydate=Date.parse(new Date());
+                //alert(followid+reply_content+replyerid+replydate);
+                //alert(reply_content);
+                $.ajax({
+                    url:"${APP_PATH}/reply/insertreply",
+                    type:"post",
+                    data:{followid:followid,
+                        replycontent:reply_content,
+                        replyerid:replyerid,
+                        replydate:replydate},
+                    async:false,
+                    success:function (result) {
+                        refreshreply(followid);
+                        reset_reply_num(followid);
+                    }
+                })
+            }
         }
     }
     function refreshreply(followid) {
@@ -713,30 +775,35 @@
         initialAjax(currentPage);
     }
     function follow(obj) {//点击跟帖，发送ajax跟帖
-        var followerid=${USERID};
-        var followcontent=CKEDITOR.instances.description.getData();
-        var mainid=${MAIN_ID};
-        var followdate=Date.parse(new Date());
-        if (followcontent.length>3000){
-            showerrormess("你输入的内容超过长度！");
-        }
+        var userid=${USERID};
+        if (userid===-1)
+            showerrormess("请先登录！")
         else {
-            $.ajax(
-                {
-                    url:"${APP_PATH}/follow/insertfollow",
-                    type:"post",
-                    data:{followerid:followerid,
-                        followcontent:followcontent,
-                        mainid:mainid,
-                        followdate:followdate},
-                    async:false,
-                    success:function (result) {
-                        initialAjax(lastPage);
-                        showerrormess("跟帖成功！");
-                        CKEDITOR.instances.description.setData("");
+            var followerid=${USERID};
+            var followcontent=CKEDITOR.instances.description.getData();
+            var mainid=${MAIN_ID};
+            var followdate=Date.parse(new Date());
+            if (followcontent.length>3000){
+                showerrormess("你输入的内容超过长度！");
+            }
+            else {
+                $.ajax(
+                    {
+                        url:"${APP_PATH}/follow/insertfollow",
+                        type:"post",
+                        data:{followerid:followerid,
+                            followcontent:followcontent,
+                            mainid:mainid,
+                            followdate:followdate},
+                        async:false,
+                        success:function (result) {
+                            initialAjax(lastPage);
+                            showerrormess("跟帖成功！");
+                            CKEDITOR.instances.description.setData("");
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
     function jto_follow() {
