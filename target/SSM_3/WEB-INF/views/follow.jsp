@@ -124,6 +124,53 @@
                 }
             });
         }
+        function addpoint(followerid,point) {
+            var mainid=${MAIN_ID};
+
+        }
+        function showaddpoint(obj) {
+            var data=$(obj).attr("data-field");
+            //alert(data);
+            var t=JSON.parse(data);
+            followerid=t["followerid"];
+            $(function () { $('#pointModal').on('show.bs.modal', function () {
+                var modal = $(this);
+                //此处即为修改modal的内容
+                modal.find('#pointModal_points').attr('placeholder','(你发布的奖励还剩'+mainpoint+'积分)');
+                modal.find('#pointModal_points').attr('followerid',followerid);
+            }) });
+            $("#pointModal").modal();
+            //alert(followid);
+            //addpoint()
+        }
+        $(document).on("click","#bonus",function () {
+            var modal=$("#pointModal");
+            var bonuspoint=modal.find('#pointModal_points').val();
+            var followerid=modal.find('#pointModal_points').attr('followerid');
+            if (bonuspoint>mainpoint){
+                modal.modal('hide');
+                showerrormess("此帖剩余积分不足！");
+            }
+            else if (bonuspoint<=0)
+            {
+                modal.modal('hide');
+                showerrormess("积分必须是正数！");
+            }
+            else {
+                var mainpointafter =mainpoint-bonuspoint;
+                $.ajax({
+                    url:"${APP_PATH}/user/addPoint",
+                    type:"post",
+                    data:{mainid:${MAIN_ID},followerid:followerid,bonuspoint:bonuspoint,mainpoint:mainpointafter},
+                    async:false,
+                    success:function (result) {
+                        modal.modal('hide');
+                        initialAjax(1);
+                        showerrormess("奖励成功！");
+                    }
+                });
+            }
+        });
     </script>
 </head>
 <body onload="initialAjax(1)">
@@ -251,6 +298,37 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%--积分添加框--%>
+<div class="modal fade" id="pointModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="pointModalLabel">
+                </h4>
+            </div>
+            <div class="modal-body" >
+                <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">积分奖励</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="empName" class="form-control" id="pointModal_points" >
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-success" id="bonus" >奖励
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>
 <script>
@@ -269,6 +347,8 @@
     var currentPage;//当前页
     var lastPage;
     var mSectionid;//板块id
+    var mainerid;//主帖人的id
+    var mainpoint;
     /*
                 获得一个主帖的所有信息，同时把username发送过去拿到userid
                 获得一个数组，存所有的跟帖，和他们的信息
@@ -307,6 +387,8 @@
         $("#return_section").empty();
         $("#title").empty();
         var userid=${USERID};
+        mainerid=result.mMainerid;
+        mainpoint=result.mPoint;
         if (userid===result.mMainerid) {
             var delete_a = $("#delete_main");
             delete_a.attr("onclick",'delete_main()');//点击删除,拿到跟帖的id，删除此跟帖
@@ -422,11 +504,13 @@
             // alert(item.fContent);
             var head_pic=$("<img  class=\"img-rounded\" alt=\"0\">").attr("src",User.uHeadpic);
             var name=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(User.uName);
+            var point=$("<span class='glyphicon glyphicon-star' style='font-size: 10px'></span>").text(User.uPoints);
             var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(User.uEmail);
             var head_pic_div=$("<div></div>").append(head_pic);
             var name_div=$("<div></div>").append(name);
             var email_div=$("<div></div>").append(email_span);
-            var left_div=$("<div></div>").append(head_pic_div).append(name_div).append(email_div);
+            var point_div=$("<div></div>").append(point);
+            var left_div=$("<div></div>").append(head_pic_div).append(name_div).append(email_div).append(point_div);
             var left=$("<td class=\"left\"></td>");
             left.append(left_div);
 
@@ -462,6 +546,12 @@
             var reply_num_span=$("<span><span>").text("("+reply_num+")");
             reply_num_span.attr("id","reply_num_span_"+item.fFollowid);
             reply_num_span.appendTo(right_middle_nav);
+            //如果此人是主帖发帖人，那么可以给积分奖励
+            if (mainerid==${USERID}){
+                var add_point_span=$("<span class='glyphicon glyphicon-thumbs-up' onclick='showaddpoint(this)'></span>");
+                add_point_span.attr("data-field",'{"followerid":'+item.fFollowerid+'}');
+                add_point_span.appendTo(right_middle_nav)
+            }
 
             right_middle_nav_aux.append(right_middle_nav);
 

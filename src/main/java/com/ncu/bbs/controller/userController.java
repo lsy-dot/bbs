@@ -112,4 +112,22 @@ public class userController {
         session.removeAttribute("userid");
         return "forward:/index1.jsp";
     }
+//    data:{mainid:${MAIN_ID},followerid:followerid,bonuspoint:bonuspoint},
+
+    @RequestMapping(value = "/addPoint")
+    @ResponseBody
+    public void addPoint(HttpServletRequest request, HttpSession session)throws
+            UnsupportedEncodingException, JsonProcessingException {
+        String smainid=request.getParameter("mainid");
+        String sfollowerid=request.getParameter("followerid");
+        String sbonuspoint=request.getParameter("bonuspoint");
+        String smainpoint=request.getParameter("mainpoint");
+        System.out.println(smainid+sfollowerid+sbonuspoint+smainpoint);
+        int mainid=Integer.parseInt(smainid);
+        int followerid=Integer.parseInt(sfollowerid);
+        int bonuspoint=Integer.parseInt(sbonuspoint);
+        int mainpoint=Integer.parseInt(smainpoint);
+        userService.addPoint(mainid,followerid,bonuspoint,mainpoint);
+
+    }
 }
