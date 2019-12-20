@@ -22,7 +22,7 @@
     <script src="${APP_PATH}/statics/css/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script>
         function getPass() {
-            var userid="121306";
+            var userid='${userid}';
             $.ajax({
                 url: "${APP_PATH}/getPassword",
                 data:{userid:userid},
@@ -30,7 +30,7 @@
                 success: function (result) {
                     var s = result.extend.paw;
                     $.each(s, function (index, item) {
-                        $("#oldPassword").val(item.uPassword);
+                     $("#oldPassword").val(item.uPassword);
                     });
                 }
             });
@@ -39,27 +39,40 @@
 </head>
 <body onload="getPass()">
 <div style="text-align: center;">
-
-    <div class="form-group">
-        <label for="newPassword" class="col-sm-2 control-label">新密码</label>
-        <div class="col-sm-10">
-            <input type="password" class="form-control" id="newPassword" placeholder="Password">
-        </div>
-    </div>
-                    <div class="form-group">
-                        <label for="makeSure_input" class="col-sm-2 control-label">确认密码</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="makeSure_input" placeholder="Password" onblur="validate_save_form()">
+                        <div class="form-group">
+                            <label for="oldPassword" class="col-sm-2 control-label">原密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="oldPassword" placeholder="Password" readonly>
+                            </div>
                         </div>
-                    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="self_save_btn">保存</button>
-    </div>
+                        <div class="form-group">
+                            <label for="oldPassword_Input" class="col-sm-2 control-label">请输入原密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="oldPassword_Input" placeholder="Password" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword" class="col-sm-2 control-label">新密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="newPassword" placeholder="Password">
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <label for="makeSure_input" class="col-sm-2 control-label">确认密码</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="makeSure_input" placeholder="Password" onblur="getPass()">
+                                </div>
+                            </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="self_save_btn">保存</button>
+                                    </div>
 </div>
 <script>
     $("#self_save_btn").click(function () {
         //先进行数据校验
-       if(!validate_save_form()) return false;
+        //判断原密码是否正确
+        if(!validate_oldPassword()) return false;
+        if(!validate_save_form()) return false;
         /**  获取密码修改后信息  **/
         var password=$("#makeSure_input").val();
         var userid='${userid}';
@@ -97,6 +110,18 @@
         }
         else if(password==password1){
             alert("原密码与新密码相同！！")
+            return false;
+        }
+        else return true;
+    }
+
+    //判断原密码是否正确
+    function validate_oldPassword(){
+        var oldPass=$("#oldPassword").val();
+        alert(oldPass)
+        var oldPassInput=$("#oldPassword_Input").val();
+        if(oldPass!=oldPassInput){
+          alert("原密码输入错误！！！");
             return false;
         }
         else return true;
