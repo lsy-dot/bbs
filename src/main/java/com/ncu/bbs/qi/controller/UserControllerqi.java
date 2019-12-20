@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ncu.bbs.bean.Msg;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.qi.services.UserService;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,9 @@ public class UserControllerqi {
         return Msg.success().add("pageInfo",page);
     }
 
-    @RequestMapping(value="/Users/{uId}",method = RequestMethod.DELETE)
-    public Msg deleteEmById(@PathVariable("uId")Integer uId){
+    @RequestMapping("/Users")
+    @ResponseBody
+    public Msg deleteUserById(@RequestParam("uId")Integer uId){
         Userservice.deleteUser(uId);
         return Msg.success();
     }
