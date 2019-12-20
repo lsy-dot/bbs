@@ -52,26 +52,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sSectionname_update_static" class="col-sm-2 control-label">版块名称</label>
+                        <label for="sSectionname_update_input" class="col-sm-2 control-label">版块名称</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" id="sSectionname_update_static"></p>
+                            <input type="text" class="form-control" name="sBanzhuid" id="sSectionname_update_input" placeholder="请输入你要修改后的板块名称">
+<%--                            <p class="form-control-static" id="sSectionname_update_static"></p>--%>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sDescription_update_static" class="col-sm-2 control-label">板块描述</label>
+                        <label for="sDescription_update_input" class="col-sm-2 control-label">板块描述</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" id="sDescription_update_static"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default" id="section_update_btn">修改</button>
+                            <input type="text" class="form-control" name="sBanzhuid" id="sDescription_update_input" placeholder="请输入你要修改后的板块描述">
+<%--                            <p class="form-control-static" id="sDescription_update_static"></p>--%>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="section_update_btn">更新</button>
             </div>
         </div>
     </div>
@@ -182,13 +180,6 @@
         $("table tbody").empty();
         var sections=result.extend.pageInfo.list;
         var userlist=result.extend.Userlist;
-        // var temp;
-        // var num=0;
-        // for (var i=0;i<userlist.length;i++)
-        // {
-        //     var one=userlist[i];
-        //     temp[num++]=one["uUserid"];
-        // }
         num=0;
         $.each(sections,function (index,item) {
             var one=userlist[index];
@@ -207,7 +198,7 @@
 
             //为删除按钮添加一个自定义的属性来表示当前删除的员工id
             delBtn.attr("delete-id",item.sId);
-            var btnTd = $("<td></td>").append(editBtn);//.append(delBtn)
+            var btnTd = $("<td></td>").append(editBtn).append(" ").append(delBtn);
             $("<tr></tr>")
                 .append(sSectionnameTd)
                 .append(sDescriptionTd )
@@ -284,21 +275,28 @@
         //弹出是否确认删除的对话框
         var sSectionname =$(this).parents("tr").find("td:eq(0)").text();
         var sId=$(this).attr("delete-id");
+        var data={
+            "sId":sId,
+        };
         if(confirm("确认删除"+sSectionname+"板块吗？")){
             //确认，发送ajax请求删除
             $.ajax({
                 url:"${APP_PATH}/Sections/"+sId,
-                type:"DELETE",
+                type:"POST",
+                data:data,
                 success:function (result) {
                     if(result.code==100){
                         alert("删除成功");
+                        to_page(currentPage);
+                    }else{
+                        alert("删除失败");
                         to_page(currentPage);
                     }
                 }
             })
         }
     });
-    //点击更换版主
+    //点击编辑板块
     $(document).on("click",".edit_btn",function () {
         //alert("");
         //-------------注意以下的逻辑关系，先后次序不能改变
@@ -317,15 +315,15 @@
     });
 
 
-    //获取员工信息
+    //获取板块信息
     function getSection(sId) {
         $.ajax({
             url:"${APP_PATH}/Section/"+sId,
             type:"GET",
             success:function (result) {
                 var sectionData=result.extend.Section;
-                $("#sSectionname_update_static").text(sectionData.sSectionname);
-                $("#sDescription_update_static").text(sectionData.sDescription);
+                $("#sSectionname_update_input").val(sectionData.sSectionname);
+                $("#sDescription_update_input").val(sectionData.sDescription);
                 //$("#sBanzhuid_update_input").val(sectionData.sBanzhuid);
             }
         });
@@ -333,11 +331,6 @@
     //点击更新，更新板块信息
     $("#section_update_btn").click(function () {
         var sBanzhuid=$("#sBanzhuid_update_input").val();
-        // alert(sBanzhuid);
-
-        // sBanzhuid=$("#sBanzhuid_update_input").attr("banzhuid");
-        // alert(sBanzhuid);
-
         var data={
             "originid":$("#sBanzhuid_update_input").attr("banzhuid"),
             "banzhuUserid":sBanzhuid,
@@ -345,9 +338,6 @@
         };
         //发送ajax请求，保存更新的用户信息
         $.ajax({
-            <%--url:"${APP_PATH}/section/"+$(this).attr("edit-id"),--%>
-            <%--type:"POST",--%>
-            <%--data:"sBanzhuid="+sBanzhuid,--%>
             url:"${APP_PATH}/findBanzhuId",
             type:"POST",
             data:data,
@@ -358,8 +348,9 @@
                     $("#sectionUpdateModal").modal("hide");
                     //2.回到本页面
                     to_page(currentPage);
-                }else if(result.code==200){
-
+                }else{
+                    alert("编辑失败");
+                    to_page(currentPage);
                 }
             }
         });
