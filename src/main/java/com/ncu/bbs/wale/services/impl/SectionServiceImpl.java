@@ -43,13 +43,35 @@ public class SectionServiceImpl implements SectionService {
     }
 
     /**
-     * 根据版块id来查找某一个版块的基本信息
+     * 根据版块id来查找某一个版块的基本信息,包括版块的所有回复和主帖数
      * @param sectionId
      * @return
      */
     public Section findSectionBySectionId(Integer sectionId) {
         Section section=sectionMapper.selectByPrimaryKey(sectionId);
         return section;
+    }
+
+    /**
+     * 根据版主id查找该版主管理的所有版块信息
+     * @param banzhuid
+     * @return
+     */
+    @Override
+    public List<Section> getSectionsByBanZhuId(Integer banzhuid) {
+        SectionExample sectionExample=new SectionExample();
+        SectionExample.Criteria criteria=sectionExample.createCriteria();
+        criteria.andSBanzhuidEqualTo(banzhuid);
+        return sectionMapper.selectByExample(sectionExample);
+    }
+
+    /**
+     * 根据版块实例修改版块信息
+     * @param section
+     */
+    @Override
+    public void updateSectionBySection(Section section) {
+        sectionMapper.updateByPrimaryKeySelective(section);
     }
 
 }

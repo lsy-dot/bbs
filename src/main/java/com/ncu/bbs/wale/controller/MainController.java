@@ -241,14 +241,27 @@ public class MainController {
      */
     @RequestMapping("/addTop")
     @ResponseBody
-    public Msg addSomeTopMains(@RequestParam("tops")String tops,@RequestParam("sectionId")Integer sectionId){
+    public Msg addSomeTopMains(@RequestParam("tops")String tops,@RequestParam("sectionId")Integer sectionId,HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+
+        if(session.getAttribute("userid")==null){
+            map.put("usernotlogin","您还未登录，请登录后进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        int userid=(Integer)session.getAttribute("userid");
+        Section section=sectionService.findSectionBySectionId(sectionId);
+
+        if(userid!=section.getsBanzhuid()){
+            map.put("notbanzhu","您不是该版的版主，无法进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
         int numofTop=0;
         List<Main>list=new ArrayList<Main>();
         list=mainService.getTopMain(sectionId);
         System.out.println(list.size());
         if(list.size()>=4){
             //一个版块最多不超过4个置顶帖子
-            return Msg.fail().add("error","该版块置顶帖数量已经达到最大允许值，不允许新增置顶贴！");
+            return Msg.fail().add("error","该版块置顶帖数量已经达到最大允许值，不允许新增置顶贴！").add("errorFields",map);
         }
         if(tops.contains("-")){
             String[] str_ids=tops.split("-");
@@ -258,7 +271,7 @@ public class MainController {
                 del_ids.add(Integer.parseInt(string));
             }
             if(del_ids.size()+list.size()>4){
-                return Msg.fail().add("error","所选择的置顶帖数量太大，请减少需要置顶的主帖！");
+                return Msg.fail().add("error","所选择的置顶帖数量太大，请减少需要置顶的主帖！").add("errorFields",map);
             }
             mainService.addTopBatch(del_ids);
 
@@ -421,8 +434,21 @@ public class MainController {
      */
     @RequestMapping("/cancelTop")
     @ResponseBody
-    public Msg cancelTop(@RequestParam("mainId")Integer mainId){
-        //int sectionId=mainService.getSectionIdByMainId(mainId);
+    public Msg cancelTop(@RequestParam("mainId")Integer mainId,HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+
+        if(session.getAttribute("userid")==null){
+            map.put("usernotlogin","您还未登录，请登录后进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        int userid=(Integer)session.getAttribute("userid");
+        int sectionId=mainService.getSectionIdByMainId(mainId);
+        Section section=sectionService.findSectionBySectionId(sectionId);
+        if(userid!=section.getsBanzhuid()){
+            map.put("notbanzhu","您不是该版的版主，无法进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+
         mainService.cancelTopByMainId(mainId);
         return Msg.success();
     }
@@ -433,8 +459,20 @@ public class MainController {
      */
     @RequestMapping("/cancelPerfects")
     @ResponseBody
-    public Msg cancelSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId){
+    public Msg cancelSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId,HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
 
+        if(session.getAttribute("userid")==null){
+            map.put("usernotlogin","您还未登录，请登录后进行取消加精操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        int userid=(Integer)session.getAttribute("userid");
+        Section section=sectionService.findSectionBySectionId(sectionId);
+
+        if(userid!=section.getsBanzhuid()){
+            map.put("notbanzhu","您不是该版的版主，无法进行取消加精操作！");
+            return Msg.fail().add("errorFields",map);
+        }
         if(perfects.contains("-")){
             String[] str_ids=perfects.split("-");
             //组装ids的数组
@@ -655,5 +693,109 @@ public class MainController {
         }
         PageInfo page=new PageInfo(list,3);
         return Msg.success().add("pageInfo",page);
+    }
+    /**
+     * 找到系统中所有的帖子
+     * @param pn
+     * @return
+     */
+    @RequestMapping("/findAllPost")
+    @ResponseBody
+    public Msg findAllPosts(@RequestParam(value = "pn",defaultValue = "1")Integer pn){
+        List<Main>list=new ArrayList<>();
+        //引入分页插件,在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn,20);
+        list = mainService.getAllPosts();
+        //查找所有的跟帖回复
+        for(int i=0;i<list.size();i++){
+            Main main=list.get(i);
+            List<Follow>followlist=new ArrayList<>();
+
+            //查找主帖的所有跟帖
+            followlist=followService.getFollowPostByMainId(main.getmMainid());
+            main.setFollows(followlist);
+
+            long longesttime=main.getmMaindate().getTime();
+            //最新发表一开始是主帖发布者
+            Integer latestuserid=main.getmMainerid();
+            for (Follow follow:followlist) {
+                if(follow.getfFollowdate().getTime()>longesttime){
+                    latestuserid=follow.getfFollowerid();
+                    longesttime=follow.getfFollowdate().getTime();
+                }
+            }
+            //查找最新发表信息的人的信息
+            User latestuser=userService.getUserByUserId(latestuserid);
+            main.setLatestPublish(latestuser);
+            main.setLatestTime(longesttime);//设置最新发表时间
+            //System.out.println(latestuser);
+            User user=userService.getUserByUserId(main.getmMainerid());
+            main.setUser(user);
+            //查找此帖所在版块的信息
+            Section section=sectionService.findSectionBySectionId(main.getmSectionid());
+            main.setSection(section);
+
+            list.set(i,main);
+        }
+        PageInfo page=new PageInfo(list,20);
+        return Msg.success().add("pageInfo",page);
+    }
+
+    /**
+     * 获取需要修改的主帖的信息
+     * @param mainId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/changeMainByMainId")
+    public Msg changeMainByMainId(@RequestParam("mainId")Integer mainId){
+        Main main=mainService.getMainByMainId(mainId);
+        return Msg.success().add("main",main);
+    }
+
+    /**
+     * 更新帖子
+     * @param mMainid
+     * @param mTitle
+     * @param mContent
+     * @param mPoint
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/submitChangeMain")
+    public Msg updateMain(Integer mMainid,String mTitle, String mContent, Integer mPoint, HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        Main main=new Main();
+        main.setmMainid(mMainid);
+        main.setmTitle(mTitle);
+        main.setmContent(mContent);
+        main.setmPoint(mPoint);
+        mainService.updateMainByMain(main);
+        return Msg.success();
+    }
+
+    /**
+     * 根据帖子ids来删除帖子
+     * @param perfects
+     * @return
+     */
+    @RequestMapping("/deleteMains")
+    @ResponseBody
+    public Msg deleteMains(@RequestParam("perfects")String perfects){
+        if(perfects.contains("-")){
+            String[] str_ids=perfects.split("-");
+            //组装ids的数组
+            List<Integer> del_ids=new ArrayList<Integer>();
+            for(String string:str_ids){
+                del_ids.add(Integer.parseInt(string));
+            }
+            mainService.deleteMains(del_ids);
+        }else{
+            //加精单个帖子
+            Integer id=Integer.parseInt(perfects);
+            mainService.deleteMain(id);
+        }
+        return Msg.success();
     }
 }

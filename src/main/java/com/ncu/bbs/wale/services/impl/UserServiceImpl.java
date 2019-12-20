@@ -37,4 +37,15 @@ public class UserServiceImpl implements UserService {
         criteria.andUUseridLike("%"+keyword+"%");
         return userMapper.selectByExample(userExample);
     }
+
+    @Override
+    public void changeHeadPic(int uid,String headpic) {
+        UserExample userExample=new UserExample();
+        userExample.or();
+        userExample.or().andUIdEqualTo(uid);
+        User user=new User();
+        user.setuId(uid);
+        user.setuHeadpic("/bbs/statics/images/upload/"+headpic);
+        userMapper.updateByExampleSelective(user,userExample);
+    }
 }

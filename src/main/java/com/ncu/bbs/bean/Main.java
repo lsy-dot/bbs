@@ -32,6 +32,8 @@ public class Main {
 
     private Integer follownums;//跟帖者的数量
 
+    private Section section;//所在版块的信息
+
     public Integer getmMainid() {
         return mMainid;
     }
@@ -143,5 +145,13 @@ public class Main {
 
     public void setFollownums(Integer follownums) {
         this.follownums = follownums;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 }

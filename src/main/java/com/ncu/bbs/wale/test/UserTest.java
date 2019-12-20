@@ -3,6 +3,7 @@ package com.ncu.bbs.wale.test;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.bean.UserExample;
 import com.ncu.bbs.dao.UserMapper;
+import com.ncu.bbs.wale.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserTest {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    UserService userService;
+
     @Test
     public void addSomHeadPic(){
         for(int i=0;i<20;i++){
@@ -30,5 +34,10 @@ public class UserTest {
             criteria.andUHeadpicIsNull();
             userMapper.updateByExampleSelective(user,userExample);
         }
+    }
+
+    @Test
+    public void changeHeadPic(){
+        userService.changeHeadPic(2,"1243");
     }
 }

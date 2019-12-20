@@ -80,8 +80,9 @@ public class ImageUploadUtil{
                         if (realPathDirectory == null || !realPathDirectory.exists()) {
                             realPathDirectory.mkdirs();
                         }
+                        String uuid= UUID.randomUUID().toString().replace("-","");
                         // 重命名上传后的文件名 111112323.jpg
-                        fileName =myFileName;
+                        fileName =uuid+myFileName;
                         // 定义上传路径 .../upload/111112323.jpg
                         File uploadFile = new File(realPathDirectory + "\\" + fileName);
                         //输出上传图片的路径

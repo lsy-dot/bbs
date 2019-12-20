@@ -50,4 +50,12 @@ public interface MainService {
     List<Main> searchMainsByKeyWord(String keyWord);
 
     List<Main> getMainByMainerId(int userid);
+
+    List<Main> getAllPosts();
+
+    void updateMainByMain(Main main);
+
+    void deleteMains(List<Integer> del_ids);
+
+    void deleteMain(Integer id);
 }

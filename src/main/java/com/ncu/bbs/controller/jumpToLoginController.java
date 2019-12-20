@@ -18,6 +18,7 @@ public class jumpToLoginController {
 //        request.setCharacterEncoding("utf-8");
 //        ModelAndView mav = new ModelAndView();
 //        mav.setViewName("login");
+        System.out.println("dddddddddddddddddddddddddddddddddddddddddd");
         return "login";
     }
     @RequestMapping("/follow")
@@ -30,5 +31,27 @@ public class jumpToLoginController {
         request.getSession().setAttribute("mainid",mainId);
         System.out.println(1);
         return "follow";
+    }
+
+    @RequestMapping("/toAdmin")
+    public  String toAdmin(HttpServletResponse response,HttpServletRequest request)
+            throws UnsupportedEncodingException {
+//        request.setCharacterEncoding("utf-8");
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("login");
+
+        return "adminlogin";
+    }
+
+    @RequestMapping("/toWhere")
+    public  String toWhere(HttpServletResponse response,HttpServletRequest request)
+            throws UnsupportedEncodingException {
+        String s=request.getParameter("where");
+
+        return s;
+    }
+    @RequestMapping(value = "/register")//跳转到登陆页面
+    public  String register(HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
+        return "forward:/register.jsp";
     }
 }

@@ -36,7 +36,6 @@ public class SectionController {
         List<Main>list= mainService.getMainBySectionId(sectionId);
         int follow=0;
         for(int i=0;i<list.size();i++){
-
             follow+=followService.getFollowPostByMainId(list.get(i).getmMainid()).size();
         }
         return follow;
@@ -130,11 +129,65 @@ public class SectionController {
         return "new";
     }
     /**
-     *
+     *跳转至搜索界面
      */
     @RequestMapping("/totalsearch")
     public String searchMain(Model model, HttpServletRequest request){
         model.addAttribute("searchcontent",request.getParameter("searchcontent"));
         return "search";
+    }
+    /**
+     * 跳转至版主管理版块界面
+     */
+    @RequestMapping("/tochangesection")
+    public String changeSectionInfo(@RequestParam("sectionId")Integer sectionId,Model model){
+        model.addAttribute("section",getSessionBySessionId(sectionId));
+        return "changeSectionInfo";
+    }
+
+    /**
+     * 根据版主id查找版主管理的所有版块包括版块的基本信息和跟帖数量以及回复数量
+     * @param banzhuid
+     * @return
+     */
+    @RequestMapping("/findAllSections")
+    @ResponseBody
+    public Msg showAllSectionsByBanzhuId(@RequestParam("banzhuid")String banzhuid){
+        List<Section>list=sectionService.getSectionsByBanZhuId(Integer.parseInt(banzhuid));
+        for(int i=0;i<list.size();i++){
+            Section section=getSessionBySessionId(list.get(i).getsId());
+            list.set(i,section);
+        }
+        return Msg.success().add("list",list);
+    }
+
+//    /**
+//     * 根据提交的表单信息修改版块信息
+//     * @param
+//     * @return
+//     */
+//    @ResponseBody
+//    @RequestMapping("/updateSection")
+//    public Msg updateSection(Integer sId,Integer sBanzhuid,String sSectionname,String sDescription){
+//        //System.out.println(section.getsId()+" "+section.getsBanzhuid()+" "+section.getsSectionname()+" "+section.getsDescription());
+//        Section section=new Section();
+//        section.setsId(sId);
+//        section.setsSectionname(sSectionname);
+//        section.setsDescription(sDescription);
+//        sectionService.updateSectionBySection(section);
+//        return Msg.success();
+//    }
+    /**
+     * 根据提交的表单信息修改版块信息
+     * @param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateSection")
+    public Msg updateSection(Section section){
+        System.out.println(section.getsId()+" "+section.getsBanzhuid()+" "+section.getsSectionname()+" "+section.getsDescription());
+
+        sectionService.updateSectionBySection(section);
+        return Msg.success();
     }
 }

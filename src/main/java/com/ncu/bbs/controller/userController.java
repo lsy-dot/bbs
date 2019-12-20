@@ -33,8 +33,14 @@ public class userController {
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
         request.setCharacterEncoding("utf-8");
         ModelAndView mav = new ModelAndView();
+
         String userName= request.getParameter("username");
         String passWord= request.getParameter("password");
+        if(session.getAttribute("username")!=null){
+            mav.setViewName("login");//
+            mav.addObject("message", "您已经登录，请退出登录后再进行操作！");
+            return mav;
+        }
         String code = request.getParameter("code");
         String sessionCode = "";
         try {
@@ -53,6 +59,7 @@ public class userController {
                    session.setAttribute("username",userName);
                    session.setAttribute("userid",user.getuId());
                    session.setAttribute("user",user);
+                    session.setAttribute("userheadpic",user.getuHeadpic());//用户头像
                     mav.setViewName("/index1.jsp");//跳转到主页面
                     request.getRequestDispatcher("/index1.jsp").forward(request,response);
                     return mav;
@@ -112,6 +119,24 @@ public class userController {
         session.removeAttribute("username");
         session.removeAttribute("userid");
         session.removeAttribute("user");
+        session.removeAttribute("userheadpic");
         return "forward:/index1.jsp";
     }
+    @RequestMapping(value = "/addPoint")
+    @ResponseBody
+    public void addPoint(HttpServletRequest request, HttpSession session)throws
+            UnsupportedEncodingException, JsonProcessingException {
+        String smainid=request.getParameter("mainid");
+        String sfollowerid=request.getParameter("followerid");
+        String sbonuspoint=request.getParameter("bonuspoint");
+        String smainpoint=request.getParameter("mainpoint");
+        System.out.println(smainid+sfollowerid+sbonuspoint+smainpoint);
+        int mainid=Integer.parseInt(smainid);
+        int followerid=Integer.parseInt(sfollowerid);
+        int bonuspoint=Integer.parseInt(sbonuspoint);
+        int mainpoint=Integer.parseInt(smainpoint);
+        userService.addPoint(mainid,followerid,bonuspoint,mainpoint);
+
+    }
+
 }

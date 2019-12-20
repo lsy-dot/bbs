@@ -30,4 +30,16 @@ public class mainServiceImpl implements mainService {
         mainExample.or().andMMainidEqualTo(mainid);
         mainMapper.deleteByExample(mainExample);
     }
+    @Override
+    public void modifyMainContentById(String content, int mainid) {
+        MainExample mainExample=new MainExample();
+        mainExample.or();
+        mainExample.or().andMMainidEqualTo(mainid);
+        Main main=new Main();
+        main.setmContent(content);
+        main.setmMainid(mainid);
+        mainMapper.updateByExampleSelective(main,mainExample);
+    }
+
+
 }

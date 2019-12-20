@@ -16,4 +16,6 @@ public interface UserService {
     User getUserByUserId(Integer latestuserid);
 
     List<User> searchUsersByKeyWord(String keyword);
+
+    void changeHeadPic(int uid,String headpic) ;
 }

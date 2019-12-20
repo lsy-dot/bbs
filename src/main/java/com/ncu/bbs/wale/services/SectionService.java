@@ -13,4 +13,8 @@ public interface SectionService {
     public List<Section> findAllSections();
 
     Section findSectionBySectionId(Integer sectionId);
+
+    List<Section> getSectionsByBanZhuId(Integer banzhuid);
+
+    void updateSectionBySection(Section section);
 }

@@ -1,7 +1,10 @@
 package com.ncu.bbs.wale.controller;
 
 import com.ncu.bbs.bean.Msg;
+import com.ncu.bbs.wale.services.UserService;
+import com.ncu.bbs.wale.services.impl.UserServiceImpl;
 import com.ncu.bbs.wale.util.ImageUploadUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +23,34 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/upload")
 public class FileUploadController {
+    @Autowired
+    UserService userService;
+    /*
+    springMVC文件上传
+     */
+    @RequestMapping("/fileupload2")
+    public String fileupload2(HttpServletRequest request, MultipartFile upload) throws Exception {
+        System.out.println("文件上传。。。");
+        //使用fileupload组件完成文件上传
+        //上传的位置
+        String path=request.getSession().getServletContext().getRealPath("/uploads/");
+        path="E:\\IDEA\\IdeaProjects\\bbs\\upload\\images";
+        //判断，该路径是否存在
+        File file=new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        //说明上传文件项
+        //获取上传文件的名称
+        String filename= upload.getOriginalFilename();
+        //把文件的名称设置唯一值，uuid
+        String uuid= UUID.randomUUID().toString().replace("-","");
+        filename=uuid+"_"+filename;
+        //完成文件的上传
+        upload.transferTo(new File(path,filename));
+        System.out.println(path);//path在tomcat目录下，因为这里我选择的是：war,需要选择exploer
+        return "login";
+    }
     /*
         图片文件上传
      */
@@ -29,6 +61,7 @@ public class FileUploadController {
         //使用fileupload组件完成文件上传
         //上传的位置
         String path=request.getSession().getServletContext().getRealPath("/statics/images");//
+
 
         //判断，该路径是否存在
         File file=new File(path);//path
@@ -53,66 +86,7 @@ public class FileUploadController {
         }
     }
 
-    /**
-     * 富文本编辑器图片上传
-     * @param
-     * @return
-     */
-    @RequestMapping(value="/uploadImage")
-    public String imageUpload(@RequestParam("upload") MultipartFile file,
-                              @RequestParam("CKEditorFuncNum") String CKEditorFuncNum,
-                              HttpServletResponse response,
-                              HttpServletRequest request) throws IOException {
-        System.out.println("有文件想要上传");
-        PrintWriter out = response.getWriter();
-        String name = null;
-        name = new String(file.getOriginalFilename().getBytes("iso-8859-1"), "UTF-8");
-        String uploadContentType = file.getContentType();
-        //处理文件后缀
-        String expandedName = "";
-        if (uploadContentType.equals("image/pjpeg")
-                || uploadContentType.equals("image/jpeg")) {
-            // IE6上传jpg图片的headimageContentType是image/pjpeg，而IE9以及火狐上传的jpg图片是image/jpeg
-            expandedName = ".jpg";
-        } else if (uploadContentType.equals("image/png")
-                || uploadContentType.equals("image/x-png")) {
-            // IE6上传的png图片的headimageContentType是"image/x-png"
-            expandedName = ".png";
-        } else if (uploadContentType.equals("image/gif")) {
-            expandedName = ".gif";
-        } else if (uploadContentType.equals("image/bmp")) {
-            expandedName = ".bmp";
-        } else {
-            //文件格式不符合，返回错误信息
-            out.println("<script type=\"text/javascript\">");
-            out.println("window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum
-                    + ",''," + "'文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）');");
-            out.println("</script>");
-            return null;
-        }
 
-        //文件命名并保存到服务器
-        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        name = df.format(new Date()) +expandedName;
-        String DirectoryName =request.getContextPath()+"/tempImag";
-        System.out.println(DirectoryName);
-        try {
-            File file1 = new File(request.getServletContext().getRealPath("/tempImag"),name);
-            System.out.println(file1.getPath());
-            file.transferTo(file1);//这里是真正上传
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String fileURL =request.getContextPath() + "/tempImag/"+name;
-
-        // 返回"图像"选项卡和图像在服务器的地址并显示图片
-        out.println("<script type=\"text/javascript\">");
-        out.println("window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" +fileURL+"','')");
-        out.println("</script>");
-        out.close();
-        return null;
-    }
 
     /**
      * 新版本上传图片的方式返回json串
@@ -132,4 +106,35 @@ public class FileUploadController {
         }
     }
 
+
+
+    @RequestMapping("/fileupload3")
+    public String fileupload3(HttpServletRequest request, MultipartFile upload) throws Exception {
+       // System.out.println("文件上传。。。");
+        //使用fileupload组件完成文件上传
+        //上传的位置
+        HttpSession session1=request.getSession();
+        int uid= (int) session1.getAttribute("userid");
+        String path=request.getSession().getServletContext().getRealPath("/uploads/");
+        path="E:\\IDEA\\IdeaProjects\\bbs\\upload\\images";
+        //判断，该路径是否存在
+        File file=new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        //说明上传文件项
+        //获取上传文件的名称
+        String filename= upload.getOriginalFilename();
+        //把文件的名称设置唯一值，uuid
+        String uuid= UUID.randomUUID().toString().replace("-","");
+        filename=uuid+"_"+filename;
+        System.out.println("用户自增："+uid);
+        userService.changeHeadPic(uid,filename);
+        session1.removeAttribute("userheadpic");
+        session1.setAttribute("userheadpic","/bbs/statics/images/upload/"+filename);
+        //完成文件的上传
+        upload.transferTo(new File(path,filename));
+        System.out.println(path);//path在tomcat目录下，因为这里我选择的是：war,需要选择exploer
+        return "pictureChange";
+    }
 }

@@ -252,6 +252,47 @@ public class MainServiceImpl implements MainService {
     }
 
     /**
+     * 返回系统中所有的帖子
+     * @return
+     */
+    @Override
+    public List<Main> getAllPosts() {
+        MainExample mainExample=new MainExample();
+        MainExample.Criteria criteria=mainExample.createCriteria();
+        criteria.andMMainidIsNotNull();
+        return mainMapper.selectByExampleWithMainer(mainExample);
+    }
+
+    /**
+     * 根据给定的主帖更新原来的主帖
+     * @param main
+     */
+    @Override
+    public void updateMainByMain(Main main) {
+        mainMapper.updateByPrimaryKeySelective(main);
+    }
+
+    /**
+     * 根据帖子id批量删除帖子
+     * @param del_ids
+     */
+    @Override
+    public void deleteMains(List<Integer> del_ids) {
+        for (Integer del_id : del_ids) {
+            deleteMain(del_id);
+        }
+    }
+
+    /**
+     * 根据帖子id删除单个帖子
+     * @param id
+     */
+    @Override
+    public void deleteMain(Integer id) {
+        mainMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
      * 根据版块id来查找该版块的所有精华帖
      * @param sectionId
      * @return
