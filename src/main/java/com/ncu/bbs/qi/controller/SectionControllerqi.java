@@ -86,4 +86,7 @@ public class SectionControllerqi {
         Sectionservice.deleteSection(sId);
         return Msg.success();
     }
+    public void addSection(){
+
+    }
 }

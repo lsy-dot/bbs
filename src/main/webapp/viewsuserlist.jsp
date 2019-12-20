@@ -190,14 +190,21 @@
              // alert($(this).parents("tr").find("td:eq(0)").text());
              var uUserid=$(this).parents("tr").find("td:eq(0)").text();
              var uId=$(this).attr("delete-id");
+             var data={
+                 "uId":uId,
+             }
              if(confirm("确认删除"+uUserid+"吗？")){
                  //确认，发送ajax请求删除
                  $.ajax({
-                     url:"${APP_PATH}/Users/"+uId,
-                     type:"DELETE",
+                     url:"${APP_PATH}/Users",
+                     type:"POST",
+                     data:data,
                      success:function (result) {
                          if(result.code==100) {
-                             alert(result.msg);
+                             alert("删除成功");
+                             to_page(currentPage);
+                         }else{
+                             alert("删除失败");
                              to_page(currentPage);
                          }
                      }
