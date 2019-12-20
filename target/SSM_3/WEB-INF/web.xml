@@ -41,6 +41,16 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+<!--配置过滤器编码-->
+    <filter>
+        <filter-name>Set Encoding</filter-name>
+        <filter-class>com.ncu.bbs.wale.filter.SetEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Set Encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 <!--    &lt;!&ndash;    Restful风格，将post转为delete、put&ndash;&gt;-->
 <!--    <filter>-->
 <!--        <filter-name>HiddenHttpMethodFilter</filter-name>-->
@@ -50,7 +60,8 @@
 <!--        <filter-name>HiddenHttpMethodFilter</filter-name>-->
 <!--        <url-pattern>/*</url-pattern>-->
 <!--    </filter-mapping>-->
+
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index1.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -15,6 +15,7 @@ public class followServiceImpl implements followService {
     FollowMapper followMapper;
     public List<Follow> getFollowByMainId(int mainid) {
         FollowExample followExample=new FollowExample();
+        followExample.setOrderByClause("f_followdate asc");
         followExample.or();
         followExample.or().andFMainidEqualTo(mainid);
         List<Follow> list=followMapper.selectByExample(followExample);

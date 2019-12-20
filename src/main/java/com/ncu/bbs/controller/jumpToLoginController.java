@@ -14,18 +14,21 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping(value = "/jumpToLogin")
 public class jumpToLoginController {
     @RequestMapping(value = "/login")//跳转到登陆页面
-//    public  String login(HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
-////        request.setCharacterEncoding("utf-8");
-////        ModelAndView mav = new ModelAndView();
-////        mav.setViewName("login");
-//        return "login";
-//    }
+    public  String login(HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
+//        request.setCharacterEncoding("utf-8");
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("login");
+        return "login";
+    }
+    @RequestMapping("/follow")
     public  String login(HttpServletResponse response,HttpServletRequest request)
             throws UnsupportedEncodingException {
 //        request.setCharacterEncoding("utf-8");
 //        ModelAndView mav = new ModelAndView();
 //        mav.setViewName("login");
-        request.getSession().setAttribute("mainid","1");
+        String mainId=request.getParameter("mainId");
+        request.getSession().setAttribute("mainid",mainId);
+        System.out.println(1);
         return "follow";
     }
 }

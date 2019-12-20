@@ -4,7 +4,6 @@ import com.ncu.bbs.bean.Main;
 import com.ncu.bbs.services.impl.mainServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

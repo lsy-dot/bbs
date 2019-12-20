@@ -19,6 +19,12 @@ public interface MainMapper {
     List<Main> selectByExample(MainExample example);
 
     Main selectByPrimaryKey(Integer mMainid);
+    //带上相关该帖子发布者的信息
+    List<Main> selectByExampleWithMainer(MainExample example);
+    Main selectByPrimaryKeyWithMainer(Integer mMainid);
+
+    //带上相关该帖子发布者的信息
+    List<Main> selectByExampleWithFollowNums(MainExample example);
 
     int updateByExampleSelective(@Param("record") Main record, @Param("example") MainExample example);
 

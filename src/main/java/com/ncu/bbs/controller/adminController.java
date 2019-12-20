@@ -17,7 +17,7 @@ public class adminController {
     AdministratorServiceImpl administratorService;
 
 
-    @RequestMapping(value = "/findAll")
+    @RequestMapping(value = "/findAlls")
     @ResponseBody
     public Msg selectAllAdmin() {
           List<Administrator> list=administratorService.selectAllAdministrator();

@@ -2,7 +2,6 @@ package com.ncu.bbs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ncu.bbs.bean.Main;
 import com.ncu.bbs.bean.Reply;
 import com.ncu.bbs.services.impl.replyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ public class replyController {
         hashMap.put("list",list);
         ObjectMapper mapper = new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(hashMap);
+        System.out.println(jsonStr);
         return jsonStr;
     }
     @RequestMapping(value = "/insertreply")

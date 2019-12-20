@@ -13,8 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ncu.bbs.Util.codeUtil;
-import org.omg.CORBA.PUBLIC_MEMBER;
+import com.ncu.bbs.Util1.codeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

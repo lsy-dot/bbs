@@ -165,6 +165,76 @@ public class MainExample {
             return (Criteria) this;
         }
 
+        public Criteria andMTitleIsNull() {
+            addCriterion("m_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleIsNotNull() {
+            addCriterion("m_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleEqualTo(String value) {
+            addCriterion("m_title =", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleNotEqualTo(String value) {
+            addCriterion("m_title <>", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleGreaterThan(String value) {
+            addCriterion("m_title >", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("m_title >=", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleLessThan(String value) {
+            addCriterion("m_title <", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleLessThanOrEqualTo(String value) {
+            addCriterion("m_title <=", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleLike(String value) {
+            addCriterion("m_title like", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleNotLike(String value) {
+            addCriterion("m_title not like", value, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleIn(List<String> values) {
+            addCriterion("m_title in", values, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleNotIn(List<String> values) {
+            addCriterion("m_title not in", values, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleBetween(String value1, String value2) {
+            addCriterion("m_title between", value1, value2, "mTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMTitleNotBetween(String value1, String value2) {
+            addCriterion("m_title not between", value1, value2, "mTitle");
+            return (Criteria) this;
+        }
+
         public Criteria andMContentIsNull() {
             addCriterion("m_content is null");
             return (Criteria) this;
@@ -592,76 +662,6 @@ public class MainExample {
 
         public Criteria andMPointNotBetween(Integer value1, Integer value2) {
             addCriterion("m_point not between", value1, value2, "mPoint");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleIsNull() {
-            addCriterion("m_title is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleIsNotNull() {
-            addCriterion("m_title is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleEqualTo(String value) {
-            addCriterion("m_title =", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleNotEqualTo(String value) {
-            addCriterion("m_title <>", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleGreaterThan(String value) {
-            addCriterion("m_title >", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleGreaterThanOrEqualTo(String value) {
-            addCriterion("m_title >=", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleLessThan(String value) {
-            addCriterion("m_title <", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleLessThanOrEqualTo(String value) {
-            addCriterion("m_title <=", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleLike(String value) {
-            addCriterion("m_title like", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleNotLike(String value) {
-            addCriterion("m_title not like", value, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleIn(List<String> values) {
-            addCriterion("m_title in", values, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleNotIn(List<String> values) {
-            addCriterion("m_title not in", values, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleBetween(String value1, String value2) {
-            addCriterion("m_title between", value1, value2, "mTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andMTitleNotBetween(String value1, String value2) {
-            addCriterion("m_title not between", value1, value2, "mTitle");
             return (Criteria) this;
         }
     }

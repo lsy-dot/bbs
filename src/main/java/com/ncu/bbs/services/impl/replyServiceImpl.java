@@ -14,6 +14,7 @@ public class replyServiceImpl implements replyService {
     ReplyMapper replyMapper;
     public List<Reply> getReplyByFollowId(int followid) {
         ReplyExample replyExample=new ReplyExample();
+        replyExample.setOrderByClause("r_replydate asc");
         replyExample.or();
         replyExample.or().andRFollowidEqualTo(followid);
         List<Reply> list=replyMapper.selectByExample(replyExample);

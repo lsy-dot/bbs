@@ -18,7 +18,7 @@ import java.util.HashMap;
 @RequestMapping(value = "/main")
 public class mainConroller {
     @Autowired
-    mainServiceImpl  mainService;
+    mainServiceImpl mainService;
     @RequestMapping(value = "/getmainbyid",  produces="text/html;charset=UTF-8")
     @ResponseBody
     public String getMainById(HttpServletRequest request, HttpSession session)throws
@@ -41,5 +41,15 @@ public class mainConroller {
         String smainid = request.getParameter("mainid");
         int mainid = Integer.parseInt(smainid);
         mainService.deleteMainById(mainid);
+    }
+    @RequestMapping(value = "/modifymaincontent")
+    @ResponseBody
+    public void modifyMainContentById(HttpServletRequest request, HttpSession session)throws
+            UnsupportedEncodingException, JsonProcessingException {
+        request.setCharacterEncoding("utf-8");
+        String smainid = request.getParameter("mainid");
+        String main_content=request.getParameter("content");
+        int mainid = Integer.parseInt(smainid);
+        mainService.modifyMainContentById(main_content,mainid);
     }
 }
