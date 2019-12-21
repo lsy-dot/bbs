@@ -160,8 +160,8 @@
          if(uUserid.length==0){
              return false;
          }
-         if(uNickname.length==0){
-             return false;
+        if(uNickname.length==0){
+                 return false;
          }
          if(uEmail.length==0){
              return false;

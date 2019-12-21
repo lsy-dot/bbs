@@ -126,4 +126,15 @@ public class UserControllerqi {
             return Msg.fail();
         }
     }
+
+    @RequestMapping("/checkuId")
+    @ResponseBody
+    public Msg checkUId(@RequestParam("uId")Integer uId){
+          boolean a = Userservice.checkuId(uId);
+          if(a){
+              return Msg.success();
+          }else{
+              return  Msg.fail();
+          }
+    }
 }

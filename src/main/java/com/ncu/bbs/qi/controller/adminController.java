@@ -5,10 +5,8 @@ import com.ncu.bbs.bean.Msg;
 import com.ncu.bbs.qi.services.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,37 +19,54 @@ public class adminController {
     AdministratorService administratorService;
 
 
-    @RequestMapping("/checkaAdminname")
-    @ResponseBody
-    public Msg checkaAdminname(HttpServletRequest request){
-        String aAdminname = request.getParameter("aAdminname");
-        System.out.print(aAdminname);
-        boolean b = administratorService.checkaAdminname(aAdminname);
-        //没有返回true,已经存在返回false
-        if(b){
-            return Msg.success();
-        }else{
-            return Msg.fail();
+//    @RequestMapping("/checkaAdminname")
+//    @ResponseBody
+//    public Msg checkaAdminname(HttpServletRequest request){
+//        String aAdminname = request.getParameter("aAdminname");
+//        System.out.print(aAdminname);
+//        boolean b = administratorService.checkaAdminname(aAdminname);
+//        //没有返回true,已经存在返回false
+//        if(b){
+//            return Msg.success();
+//        }else{
+//            return Msg.fail();
+//        }
+//    }
+//
+//    @RequestMapping("/checkaPassword")
+//    @ResponseBody
+//    public Msg checkaPassword(HttpServletRequest request, HttpSession session){
+//        String aPassword = request.getParameter("aPassword");
+//        String aAdminname=request.getParameter("aAdminname");
+//
+//        System.out.print(aPassword);
+//        boolean b = administratorService.checkaPassword(aAdminname,aPassword);
+//        if(b){
+//            return Msg.success();
+//        }else{
+//            Administrator administrator=new Administrator();
+//            administrator=administratorService.getAdminByAdminname(aAdminname);
+//            session.setAttribute("adminid",administrator.getaId());
+//            session.setAttribute("adminname",administrator.getaAdminname());
+//            session.setAttribute("admin",administrator);
+//            return Msg.fail();
+//        }
+//    }
+
+    //表单提交过来的路径
+    @RequestMapping("/checkLogin")
+    public String checkLogin(@RequestParam("aAdminname") String aAdminname,@RequestParam("aPassword") String aPassword,HttpSession session){
+        //调用service方法
+        Administrator administrator = administratorService.checkLogin(aAdminname,aPassword);
+        //若有user则添加到model里并且跳转到成功页面
+        if(administrator != null)
+        {
+            session.setAttribute("administrator",administrator);
+            return "admin";
         }
-    }
-
-    @RequestMapping("/checkaPassword")
-    @ResponseBody
-    public Msg checkaPassword(HttpServletRequest request, HttpSession session){
-        String aPassword = request.getParameter("aPassword");
-        String aAdminname=request.getParameter("aAdminname");
-
-        System.out.print(aPassword);
-        boolean b = administratorService.checkaPassword(aAdminname,aPassword);
-        if(b){
-            return Msg.success();
-        }else{
-            Administrator administrator=new Administrator();
-            administrator=administratorService.getAdminByAdminname(aAdminname);
-            session.setAttribute("adminid",administrator.getaId());
-            session.setAttribute("adminname",administrator.getaAdminname());
-            session.setAttribute("admin",administrator);
-            return Msg.fail();
+        else
+        {
+        return "login";
         }
     }
 
@@ -61,5 +76,10 @@ public class adminController {
         session.removeAttribute("admin");
         session.removeAttribute("adminname");
         return "login";
+    }
+
+    @RequestMapping("/jumpadmin")
+    public String jumpadmin(HttpServletRequest request) {
+        return "admin";
     }
 }

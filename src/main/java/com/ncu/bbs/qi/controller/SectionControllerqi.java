@@ -79,7 +79,7 @@ public class SectionControllerqi {
         PageHelper.startPage(pn,5);
         //分页查询
         List<Section> Section = Sectionservice.getAll();
-        List<User>Users=new ArrayList<>();
+        List<User> Users=new ArrayList<>();
         for(int i=0;i<Section.size();i++){
             int banzhuId=Section.get(i).getsBanzhuid();
             User thisUser=UserService.selectByPrimaryKey(banzhuId);
@@ -98,14 +98,17 @@ public class SectionControllerqi {
 
     @RequestMapping("/addSection")
     @ResponseBody
-    public Msg addSection(@RequestParam("sSectionname") String sSectionname,
-                           @RequestParam("sDescription") String sDescription
+    public Msg addSection(@RequestParam("sBanzhuid") Integer sBanzhuid,
+                          @RequestParam("sSectionname") String sSectionname,
+                          @RequestParam("sDescription") String sDescription
                            ){
         Section section = new Section();
+        section.setsBanzhuid(sBanzhuid);
         section.setsSectionname(sSectionname);
         section.setsDescription(sDescription);
-        System.out.println(sSectionname + " " + sDescription);
+        System.out.println(sBanzhuid + " " + sSectionname + " " + sDescription);
         Sectionservice.addSection(section);
         return Msg.success();
     }
+
 }

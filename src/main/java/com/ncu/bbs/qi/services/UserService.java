@@ -44,4 +44,6 @@ public interface UserService {
     void updateUser(User user);
 
     User getUser(Integer uId);
+
+    boolean checkuId(Integer uId);
 }

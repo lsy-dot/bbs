@@ -106,6 +106,7 @@
                  <table class="table table-hover" id="users_table">
                      <thead>
                      <tr>
+                         <th>序号</th>
                          <th>账号</th>
                          <th>密码</th>
                          <th>昵称</th>
@@ -162,6 +163,7 @@
              $("table tbody").empty();
              var users=result.extend.pageInfo.list;
              $.each(users,function (index,item) {
+                 var uIdTd = $("<td></td>").append(item.uId);
                  var uUseridTd = $("<td></td>").append(item.uUserid);
                  var uPasswordTd = $("<td></td>").append(item.uPassword);
                  var uNicknameTd = $("<td></td>").append(item.uNickname);
@@ -179,6 +181,7 @@
                  delBtn.attr("delete-id",item.uId);
                  var btnTd = $("<td></td>").append(delBtn).append(" ").append(editBtn);
                  $("<tr></tr>")
+                     .append(uIdTd)
                      .append(uUseridTd)
                      .append(uPasswordTd)
                      .append(uNicknameTd)
@@ -259,9 +262,10 @@
              // alert($(this).parents("tr").find("td:eq(0)").text());
              var uUserid=$(this).parents("tr").find("td:eq(0)").text();
              var uId=$(this).attr("delete-id");
-             var data={
+             var data=
+                 {
                  "uId":uId,
-             };
+                 };
              if(confirm("确认删除"+uUserid+"吗？")){
                  //确认，发送ajax请求删除
                  $.ajax({

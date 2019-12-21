@@ -86,19 +86,6 @@ class UserServiceImp implements UserService{
     }
 
     /**
-     * 检验用户账号是否可用
-     * @param
-     * @return  true代表当前账号可用 false代表不可用
-     */
-    public boolean checkuUserid(String uUserid){
-        UserExample example = new UserExample();
-        UserExample.Criteria criteria = example.createCriteria();
-        criteria.andUUseridEqualTo(uUserid);
-        long count = Usermapper.countByExample(example);
-        return count==0;
-    }
-
-    /**
      * 查询所有用户
      * @return
      */
@@ -160,5 +147,31 @@ class UserServiceImp implements UserService{
     public User getUser(Integer uId) {
         User User = Usermapper.selectByPrimaryKey(uId);
         return User;
+    }
+
+    /**
+     * 检验用户账号是否可用
+     * @param
+     * @return  true代表当前账号可用 false代表不可用
+     */
+    public boolean checkuUserid(String uUserid){
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUUseridEqualTo(uUserid);
+        long count = Usermapper.countByExample(example);
+        return count==0;
+    }
+
+    @Override
+    public boolean checkuId(Integer uId) {
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUIdEqualTo(uId);
+        long count = Usermapper.countByExample(example);
+        if(count==0){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
