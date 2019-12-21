@@ -91,12 +91,18 @@ public class SectionServiceImp implements SectionService {
 
     @Override
     public void updateSection(Section Section) {
-        SectionExample SectionExample=new SectionExample();
-        SectionExample.or();
-        SectionExample.or().andSIdEqualTo(Section.getsId());
-        Section Section1=new Section();
-        Section1.setsBanzhuid(Section.getsBanzhuid());
-        Sectionmapper.selectByExample(SectionExample);
-        Sectionmapper.updateByExampleSelective(Section1,SectionExample);
+//        SectionExample SectionExample=new SectionExample();
+//        SectionExample.or();
+//        SectionExample.or().andSIdEqualTo(Section.getsId());
+//        Section Section1=new Section();
+//        Section1.setsBanzhuid(Section.getsBanzhuid());
+//        Sectionmapper.selectByExample(SectionExample);
+//        Sectionmapper.updateByExampleSelective(Section1,SectionExample);
+        Sectionmapper.updateByPrimaryKeySelective(Section);
+    }
+
+    @Override
+    public void addSection(Section section) {
+        Sectionmapper.insertSelective(section);
     }
 }
