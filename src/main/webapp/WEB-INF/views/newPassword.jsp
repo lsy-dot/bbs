@@ -54,13 +54,13 @@
                         <div class="form-group">
                             <label for="newPassword" class="col-sm-2 control-label">新密码</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="newPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="newPassword" placeholder="Password" >
                             </div>
                         </div>
                             <div class="form-group">
                                 <label for="makeSure_input" class="col-sm-2 control-label">确认密码</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="makeSure_input" placeholder="Password" onblur="getPass()">
+                                    <input type="password" class="form-control" id="makeSure_input" placeholder="Password">
                                 </div>
                             </div>
                                     <div class="modal-footer">
@@ -73,6 +73,7 @@
         //判断原密码是否正确
         if(!validate_oldPassword()) return false;
         if(!validate_save_form()) return false;
+        if(!istooLong()) return false;
         /**  获取密码修改后信息  **/
         var password=$("#makeSure_input").val();
         var userid='${userid}';
@@ -81,7 +82,7 @@
             type:"POST",
             success: function (result) {
                 if (result =="") {
-                    alert("修改密码成功！");
+                    alert("修改密码成功！可以重新登录");
                 }
                  else {
                     alert("修改密码失败！");
@@ -118,7 +119,6 @@
     //判断原密码是否正确
     function validate_oldPassword(){
         var oldPass=$("#oldPassword").val();
-        alert(oldPass)
         var oldPassInput=$("#oldPassword_Input").val();
         if(oldPass!=oldPassInput){
           alert("原密码输入错误！！！");
@@ -126,6 +126,17 @@
         }
         else return true;
     }
+    //判断输入字符是否过长
+  function  istooLong(){
+        var oldInput=$("#oldPassword_Input").val();
+      var newInput=$("#newPassword").val();
+      var newInput2=$("#makeSure_input").val();
+      if(oldInput.length>20||newInput.length>20||newInput2.length>20){
+          alert("输入密码过长！！！")
+      return false;
+      }
+      else return true;
+  }
 </script>
 </body>
 </html>
