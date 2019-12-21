@@ -315,6 +315,28 @@
         </div>
     </div>
 </div>
+
+<%--错误提示的模态框--%>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                </h4>
+            </div>
+            <div class="modal-body" >
+                <h3 id="login_fault_message"></h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>
 <script>
@@ -852,8 +874,9 @@
     }
     function follow(obj) {//点击跟帖，发送ajax跟帖
         var userid=${USERID};
-        if (userid===-1)
+        if (userid===-1) {
             showerrormess("请先登录！")
+        }
         else {
             var followerid=${USERID};
             var followcontent=CKEDITOR.instances.description.getData();
