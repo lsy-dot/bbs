@@ -397,7 +397,7 @@
 
         //首先判断是否登录
         if("${userid}".length==0){
-            alert("您当前未登录，不能发布帖子！");
+            showerrormess("您当前未登录，不能发布帖子！");
             return false;
         }
         var content=getContentData();
