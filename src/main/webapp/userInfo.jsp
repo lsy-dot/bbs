@@ -25,21 +25,47 @@
     <style>
         .mid{
             position: absolute;
-            left: 35%;
-            bottom: 20%;
+            left: 30%;
+            top: 15%;
+        }
+        body{
+
+            background: url('${APP_PATH}/statics/images/userinfo.jpg') no-repeat;
+
+            height:100%;
+
+            width:100%;
+
+            overflow: hidden;
+
+            background-size:cover;
+
         }
     </style>
 </head>
-<body onload="initAjax()">
-<div class="mid">
-    <img id="headpic"  class='img-circle' alt="Member">
-    <h3>Sophia</h3>
-    <div id="info"><span>关于TA</span></div>
-    <div id="email"><span>邮箱</span></div>
-    <div id="age"><span>年龄</span></div>
-    <div id="worklocation"><span>工作地点</span></div>
-    <div id="workproperty"><span>身份</span></div>
-    <div id="point"><span>积分</span></div>
+<body onload="initAjax()" >
+<div class="panel panel-default">
+    <div class="panel-body mid">
+        <div>
+            <span  aria-hidden="true"></span>
+            <a href="index1.jsp">
+                <span class="glyphicon glyphicon-arrow-left" style="color: #00FFFF">返回主页面</span>
+            </a>
+
+        </div>
+        <img  id="headpic" class="img-responsive img-circle img-thumbnail" alt="Me">
+        <p class="text-center text-primary" id="userid" style="color: #00FFFF"></p>
+        <hr>
+            <span class="glyphicon glyphicon-home" title="Address" id="worklocation"></span><br>
+        <hr>
+            <span class="glyphicon glyphicon-envelope" id="email" title="Email"></span><br>
+        <hr>
+            <span class="glyphicon glyphicon-minus" id="info"></span><br>
+        <hr>
+            <span class="glyphicon glyphicon-star"id="point"></span><br>
+        <hr>
+            <span class="glyphicon glyphicon-user" id="workproperty"></span><br>
+    </div>
 </div>
 
 </body>
@@ -58,6 +84,7 @@
                 // mainPostNums":null}}
                 var data=JSON.parse(result);
                 var obj=data["user"];
+                var uUserid=obj["uUserid"];
                 var uHeadpic=obj["uHeadpic"];
                 var uIntro=obj["uIntro"];
                 var uEmail=obj["uEmail"];
@@ -66,12 +93,13 @@
                 var uWorkproperty=obj["uWorkproperty"];
                 var uPoints=obj["uPoints"];
                 $("#headpic").attr("src",uHeadpic);
-                $("#info").append($("<span><span>").text(uIntro));
-                $("#email").append($("<span><span>").text(uEmail));
-                $("#age").append($("<span><span>").text(uAge));
-                $("#worklocation").append($("<span><span>").text(uWorkplace));
-                $("#workproperty").append($("<span><span>").text(uWorkproperty));
-                $("#point").append($("<span><span>").text(uPoints));
+                $("#info").append($("<span><span>").text("    "+uIntro));
+                $("#email").append($("<span><span>").text("    "+uEmail));
+                $("#age").append($("<span><span>").text("    "+uAge));
+                $("#worklocation").append($("<span><span>").text("    "+uWorkplace));
+                $("#workproperty").append($("<span><span>").text("    "+uWorkproperty));
+                $("#point").append($("<span><span>").text("    "+uPoints));
+                $("#userid").text("    "+uUserid);
             }
         })
     }
