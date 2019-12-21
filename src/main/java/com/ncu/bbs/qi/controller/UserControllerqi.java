@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ncu.bbs.bean.Msg;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.qi.services.UserService;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,42 @@ public class UserControllerqi {
 
     @Autowired
     UserService Userservice;
+
+//    @RequestMapping(value = "/updateUser/{uId}")
+////    @ResponseBody
+////    public Msg updateUser(User User){
+////        System.out.println(User.getuId());
+////        System.out.print(User.getuUserid());
+////        Userservice.updateUser(User);
+////        return Msg.success();
+////    }
+
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public Msg updateUser(@RequestParam("uId") Integer uId,
+                          @RequestParam("uPassword") String uPassword,
+                          @RequestParam("uNickname") String uNickname,
+                          @RequestParam("uName") String uName,
+                          @RequestParam("uEmail") String uEmail,
+                          @RequestParam("uWorkplace") String uWorkplace){
+        User user = new User();
+        user.setuId(uId);
+        user.setuPassword(uPassword);
+        user.setuNickname(uNickname);
+        user.setuName(uName);
+        user.setuEmail(uEmail);
+        user.setuWorkplace(uWorkplace);
+        System.out.println(uId + " " + uPassword + " " + uNickname + " " + uName + " " + uEmail + " " + uWorkplace);
+        Userservice.updateUser(user);
+        return Msg.success();
+    }
+
+    @RequestMapping(value="/User/{uId}",method = RequestMethod.GET)
+    @ResponseBody
+    public Msg getUser(@PathVariable("uId")Integer uId){
+        User User = Userservice.getUser(uId);
+        return Msg.success().add("User",User);
+    }
 
     @RequestMapping("/User")
     @ResponseBody
@@ -31,8 +68,9 @@ public class UserControllerqi {
         return Msg.success().add("pageInfo",page);
     }
 
-    @RequestMapping(value="/Users/{uId}",method = RequestMethod.DELETE)
-    public Msg deleteEmById(@PathVariable("uId")Integer uId){
+    @RequestMapping("/Users")
+    @ResponseBody
+    public Msg deleteUserById(@RequestParam("uId")Integer uId){
         Userservice.deleteUser(uId);
         return Msg.success();
     }

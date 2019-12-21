@@ -244,6 +244,7 @@ $("#self_info_btn").click(function () {
 //个人资料修改提交
 $("#self_save_btn").click(function () {
     //先进行数据校验
+    if(!is_tooLong()) return false;
     /**  获取表单修改后信息  **/
     var userid=$("#userid_input").val();
     // var password=$("#makeSure_input").val();
@@ -275,7 +276,23 @@ alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+a
     });
 });
 
-
+//校验输入是否过长
+ function   is_tooLong(){
+     var name=$("#name_input").val();
+     var nickname=$("#nickname_input").val();
+     var sex=$("#gender_input").val();
+     var age=$("#age_input").val();
+     var email=$("#email_input").val();
+     var workproperty=$("#workproperty_input").val();
+     var workplace=$("#workplace_input").val();
+     var intro=$("#self_intro").val();
+     if(name.length>20||nickname>20||sex.length>10||age>5||email.length>30||workplace.length>100||workproperty.length>100
+     ||intro.length>200){
+         alert("输入过长，请您重新填写！！")
+         return false;
+     }
+     else return true;
+ }
 </script>
 </body>
 </html>

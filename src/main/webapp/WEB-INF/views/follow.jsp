@@ -275,7 +275,9 @@
         <div id="ckeditor">
             <a id="edit"></a>
             <textarea class="form-control" id="description"
-                      name="description" style="color: #8a8a8a;"></textarea>
+                      name="description" style="color: #8a8a8a;">
+
+            </textarea>
             <div class="follow-button">
                 <button type="button" id="postmess"
                         style="width: 100px" class="btn btn-success" onclick="follow(this)">跟帖</button>
@@ -340,11 +342,10 @@
 </body>
 </html>
 <script>
-    //ckeditor
+
     let localEditor;
     function ckEditors(id) {
         localEditor = CKEDITOR.replace(id, {toolbar: 'Basic'});
-
     }
     function showhtm() {
         alert(localEditor.document.getBody().getHtml());
@@ -882,9 +883,11 @@
             var followcontent=CKEDITOR.instances.description.getData();
             var mainid=${MAIN_ID};
             var followdate=Date.parse(new Date());
+            alert(mainid);
             if (followcontent.length>3000){
                 showerrormess("你输入的内容超过长度！");
             }
+
             else {
                 $.ajax(
                     {

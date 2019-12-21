@@ -7,6 +7,7 @@ import com.ncu.bbs.bean.Section;
 import com.ncu.bbs.bean.User;
 import com.ncu.bbs.qi.services.SectionService;
 import com.ncu.bbs.qi.services.UserService;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +25,14 @@ public class SectionControllerqi {
     @Autowired
     UserService UserService;
 
-    @RequestMapping(value = "/Section/{sId}")
-    @ResponseBody
-    public Msg saveBanzhuid(Section Section){
-        System.out.println(Section.getsId());
-        System.out.println(Section.getsBanzhuid());
-        Sectionservice.updateSection(Section);
-        return Msg.success();
-    }
+//    @RequestMapping(value = "/Section/{sId}")
+//    @ResponseBody
+//    public Msg saveBanzhuid(Section Section){
+//        System.out.println(Section.getsId());
+//        System.out.println(Section.getsBanzhuid());
+//        Sectionservice.updateSection(Section);
+//        return Msg.success();
+//    }
 
     /**
      * 修改版块所属的版主
@@ -81,9 +82,13 @@ public class SectionControllerqi {
         return Msg.success().add("pageInfo",page).add("Userlist",Users);
     }
 
-    @RequestMapping(value="/Sections/{sId}",method = RequestMethod.DELETE)
-    public Msg deleteEmById(@PathVariable("sId")Integer sId){
+    @RequestMapping("/Sections")
+    @ResponseBody
+    public Msg deleteSectionById(@RequestParam("sId") Integer sId){
         Sectionservice.deleteSection(sId);
         return Msg.success();
+    }
+    public void addSection(){
+
     }
 }
