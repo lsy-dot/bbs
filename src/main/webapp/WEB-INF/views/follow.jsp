@@ -425,10 +425,14 @@
         var smain_date=result.mMaindate;
         var main_date=x(smain_date);//秒数转换成时间格式
         var content=$("<div class='right-follow-content'></div>").html(content);
-        var headpic_img=$("<img class=\"img-circle\" width=50px height=50px>").attr("src",headpic);
+        var headpic_img=$("<img class=\"img-circle\" width=50px height=50px>")
+            .attr("src",headpic);
+        var link=$("<a></a>");
+        link.attr("href","${APP_PATH}/userInfo.jsp?uid="+result.mMainerid);
+        headpic_img.appendTo(link);
         var name_span=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(name);
         var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(email);
-        $("#mainner_headpic").append(headpic_img);
+        $("#mainner_headpic").append(link);
         $("#mainner_name").append(name_span);
         $("#main_content").append(content);
         $("#main_date").text(main_date);
@@ -511,11 +515,16 @@
             * 左边的头像何用户名*/
             var User=getUserByid(item.fFollowerid);
             // alert(item.fContent);
-            var head_pic=$("<img  class=\"img-circle\" alt=\"0\" style=\"width:50px;height:50px\">").attr("src",User.uHeadpic);
-            var name=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>").text(User.uUserid);
+            var head_pic=$("<img  class=\"img-circle\" alt=\"0\" style=\"width:50px;height:50px\">")
+                .attr("src",User.uHeadpic);
+            var link=$("<a></a>");
+            link.attr("href","${APP_PATH}/userInfo.jsp?uid="+item.fFollowerid);
+            head_pic.appendTo(link);
+            var name=$("<span class='glyphicon glyphicon-user' style='font-size: 10px'></span>")
+                .text(User.uUserid);
             var point=$("<span class='glyphicon glyphicon-star' style='font-size: 10px'></span>").text(User.uPoints);
             var email_span=$("<span class='glyphicon glyphicon-envelope' style='font-size: 10px'></span>").text(User.uEmail);
-            var head_pic_div=$("<div></div>").append(head_pic);
+            var head_pic_div=$("<div></div>").append(link);
             var name_div=$("<div></div>").append(name);
             var email_div=$("<div></div>").append(email_span);
             var point_div=$("<div></div>").append(point);
@@ -883,7 +892,7 @@
             var followcontent=CKEDITOR.instances.description.getData();
             var mainid=${MAIN_ID};
             var followdate=Date.parse(new Date());
-            alert(mainid);
+           // alert(mainid);
             if (followcontent.length>3000){
                 showerrormess("你输入的内容超过长度！");
             }
