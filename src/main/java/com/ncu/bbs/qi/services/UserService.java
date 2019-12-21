@@ -40,4 +40,8 @@ public interface UserService {
     Integer getUIdByUserid(String banzhuUserid);
 
     void changeIsBanzhu(Integer originid,String banzhuUserid);
+
+    void updateUser(User user);
+
+    User getUser(Integer uId);
 }

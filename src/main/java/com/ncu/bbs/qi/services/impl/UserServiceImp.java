@@ -150,4 +150,22 @@ class UserServiceImp implements UserService {
             Usermapper.updateByExampleSelective(user,UserExampless);
         }
     }
+
+    @Override
+    public void updateUser(User user) {
+//        UserExample userExample=new UserExample();
+//        userExample.or();
+//        userExample.or().andUIdEqualTo(user.getuId());
+//        User userupdate=new user();
+//        userupdate.setsBanzhuid(section.getsBanzhuid());
+//        sectionmapper.selectByExample(sectionExample);
+//        sectionmapper.updateByExampleSelective(userupdate,sectionExample);
+        Usermapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public User getUser(Integer uId) {
+        User User = Usermapper.selectByPrimaryKey(uId);
+        return User;
+    }
 }

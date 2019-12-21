@@ -19,6 +19,42 @@ public class UserControllerqi {
     @Autowired
     UserService Userservice;
 
+//    @RequestMapping(value = "/updateUser/{uId}")
+////    @ResponseBody
+////    public Msg updateUser(User User){
+////        System.out.println(User.getuId());
+////        System.out.print(User.getuUserid());
+////        Userservice.updateUser(User);
+////        return Msg.success();
+////    }
+
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public Msg updateUser(@RequestParam("uId") Integer uId,
+                          @RequestParam("uPassword") String uPassword,
+                          @RequestParam("uNickname") String uNickname,
+                          @RequestParam("uName") String uName,
+                          @RequestParam("uEmail") String uEmail,
+                          @RequestParam("uWorkplace") String uWorkplace){
+        User user = new User();
+        user.setuId(uId);
+        user.setuPassword(uPassword);
+        user.setuNickname(uNickname);
+        user.setuName(uName);
+        user.setuEmail(uEmail);
+        user.setuWorkplace(uWorkplace);
+        System.out.println(uId + " " + uPassword + " " + uNickname + " " + uName + " " + uEmail + " " + uWorkplace);
+        Userservice.updateUser(user);
+        return Msg.success();
+    }
+
+    @RequestMapping(value="/User/{uId}",method = RequestMethod.GET)
+    @ResponseBody
+    public Msg getUser(@PathVariable("uId")Integer uId){
+        User User = Userservice.getUser(uId);
+        return Msg.success().add("User",User);
+    }
+
     @RequestMapping("/User")
     @ResponseBody
     public Msg getUserWithJson(@RequestParam(value = "pn",defaultValue = "1")Integer pn){
