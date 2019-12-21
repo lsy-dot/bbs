@@ -49,9 +49,9 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="">操作中心</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="adminPost.jsp">查看主贴</a></dd>
-                        <dd class="active"><a href="admin.jsp">用户管理</a></dd>
-                        <dd><a href="viewsectionlist.jsp">板块管理</a></dd>
+                        <dd><a href="${APP_PATH}/adminPost.jsp">查看主贴</a></dd>
+                        <dd class="active"><a href="${APP_PATH}/jumpadmin">用户管理</a></dd>
+                        <dd><a href="${APP_PATH}/viewsectionlist.jsp">板块管理</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -60,7 +60,7 @@
     <div class="layui-body" id="body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <iframe class="layadmin-iframe ifrem_voice" src="viewsuserlist.jsp" width="100%" height="700px" frameborder="0" name="userList" scrolling="no"></iframe>
+            <iframe class="layadmin-iframe ifrem_voice" src="${APP_PATH}/viewsuserlist.jsp" width="100%" height="700px" frameborder="0" name="userList" scrolling="no"></iframe>
         </div>
     </div>
     <div class="layui-footer">

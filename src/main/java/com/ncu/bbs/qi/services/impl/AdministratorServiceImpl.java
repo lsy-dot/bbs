@@ -24,45 +24,64 @@ public class AdministratorServiceImpl implements AdministratorService {
         return list;
     }
 
-    /**
-     * 检验用户账号是否可用
-     * @param
-     * @return  true代表当前账号可用 false代表不可用
-     */
-    public boolean checkaAdminname(String aAdminname){
+    @Override
+    public Administrator checkLogin(String aAdminname, String aPassword) {
         AdministratorExample example = new AdministratorExample();
         AdministratorExample.Criteria criteria = example.createCriteria();
         criteria.andAAdminnameEqualTo(aAdminname);
-        long count = AdministratorMapper.countByExample(example);
-        return count==0;
-    }
-
-    @Override
-    public boolean checkaPassword(String aAdminname,String aPassword) {
-
-        AdministratorExample example = new AdministratorExample();
-        AdministratorExample.Criteria criteria = example.createCriteria();
         criteria.andAPasswordEqualTo(aPassword);
-        criteria.andAAdminnameEqualTo(aAdminname);
         long count = AdministratorMapper.countByExample(example);
-        return count==0;
+        if(count==0)
+        {
+            return null;
+        }else
+        {
+           Administrator administrator = new Administrator();
+           administrator.setaAdminname(aAdminname);
+           administrator.setaPassword(aPassword);
+        return administrator;
+        }
     }
 
-    /**
-     * 根据管理员的账号查找一个管理员
-     * @param aAdminname
-     * @return
-     */
-    @Override
-    public Administrator getAdminByAdminname(String aAdminname) {
-        AdministratorExample administratorExample=new AdministratorExample();
-        AdministratorExample.Criteria criteria=administratorExample.createCriteria();
-        criteria.andAAdminnameEqualTo(aAdminname);
-        List<Administrator>list=AdministratorMapper.selectByExample(administratorExample);
-        if(list.size()>0){
-            return list.get(0);
-        }else return null;
-    }
+//    /**
+//     * 检验用户账号是否可用
+//     * @param
+//     * @return  true代表当前账号可用 false代表不可用
+//     */
+//    public boolean checkaAdminname(String aAdminname){
+//        AdministratorExample example = new AdministratorExample();
+//        AdministratorExample.Criteria criteria = example.createCriteria();
+//        criteria.andAAdminnameEqualTo(aAdminname);
+//        long count = AdministratorMapper.countByExample(example);
+//        return count==0;
+//    }
+//
+//    @Override
+//    public boolean checkaPassword(String aAdminname,String aPassword) {
+//
+//        AdministratorExample example = new AdministratorExample();
+//        AdministratorExample.Criteria criteria = example.createCriteria();
+//        criteria.andAPasswordEqualTo(aPassword);
+//        criteria.andAAdminnameEqualTo(aAdminname);
+//        long count = AdministratorMapper.countByExample(example);
+//        return count==0;
+//    }
+//
+//    /**
+//     * 根据管理员的账号查找一个管理员
+//     * @param aAdminname
+//     * @return
+//     */
+//    @Override
+//    public Administrator getAdminByAdminname(String aAdminname) {
+//        AdministratorExample administratorExample=new AdministratorExample();
+//        AdministratorExample.Criteria criteria=administratorExample.createCriteria();
+//        criteria.andAAdminnameEqualTo(aAdminname);
+//        List<Administrator>list=AdministratorMapper.selectByExample(administratorExample);
+//        if(list.size()>0){
+//            return list.get(0);
+//        }else return null;
+//    }
 
 
 }
