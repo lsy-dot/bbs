@@ -28,13 +28,11 @@
             top: 0%;
             width: 1200px;
             height: 150px;
-            background-color:lightbLue;
         }
         .div2{
             position: absolute;
             left: 1%;
             top: 25%;
- background-color: LightGoldenrodYellow;
         }
         .div3{
             position: absolute;
@@ -55,6 +53,9 @@
             margin:70px auto;
             float:left;
         }
+        button{
+            border:0px;background-color:transparent;
+        }
     </style>
 </head>
 <body>
@@ -63,27 +64,27 @@
     <%@include file="nav-top.jsp"%>
     <!--左部显示-->
     <div class="left-info">
-        <div class="div2">
-            <div class="col-md-3">
+<%--        <div class="div2">--%>
+<%--            <div class="col-md-3">--%>
                 <%-- 个人资料查看--%>
-                <button type="button" id="self_view_btn" class="btn btn-primary">查看个人</button><br><br>
+                <button type="button" id="self_view_btn" class="btn btn-info btn-lg btn-block">查看个人</button>
                 <!-- 个人资料修改-->
-                <button type="button" id="self_info_btn" class="btn btn-primary">个人资料</button><br><br>
+                <button type="button" id="self_info_btn" class="btn btn-info btn-lg btn-block">个人资料</button>
                 <%--文章修改--%>
-<%--                <button type="button" id="article_modify_btn" class="btn btn-primary">文章修改</button><br><br>--%>
+                <button type="button" id="article_modify_btn" class="btn btn-info btn-lg btn-block">文章修改</button>
                 <%--修改密码--%>
-                <button type="button" id="password_modify_btn" class="btn btn-primary">修改密码</button><br><br>
+                <button type="button" id="password_modify_btn" class="btn btn-info btn-lg btn-block">修改密码</button>
                 <%--修改头像--%>
-                <button type="button" id="self_pic_btn" class="btn btn-primary">更换头像</button><br><br>
-            </div>
-        </div>
+                <button type="button" id="self_pic_btn" class="btn btn-info btn-lg btn-block">更换头像</button>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
     <!--右部的主页内容栏-->
     <div class="right-main">
         <%--显示个人信息和帖子--%>
         <div class="div3">
             <%--    iframe--%>
-            <iframe id="frame_id" src="${APP_PATH}/view" frameborder="0" width="1200" height="800">
+            <iframe id="frame_id" src="${APP_PATH}/view" frameborder="0" width="800" height="800" class="div3">
 
             </iframe>
         </div>
