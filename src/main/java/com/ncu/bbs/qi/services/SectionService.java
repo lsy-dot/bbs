@@ -37,4 +37,6 @@ public interface SectionService {
     Section getSection(Integer sId);
 
     void updateSection(Section Section);
+
+    void addSection(Section section);
 }

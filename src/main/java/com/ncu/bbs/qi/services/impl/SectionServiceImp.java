@@ -100,4 +100,9 @@ public class SectionServiceImp implements SectionService {
 //        Sectionmapper.updateByExampleSelective(Section1,SectionExample);
         Sectionmapper.updateByPrimaryKeySelective(Section);
     }
+
+    @Override
+    public void addSection(Section section) {
+        Sectionmapper.insertSelective(section);
+    }
 }

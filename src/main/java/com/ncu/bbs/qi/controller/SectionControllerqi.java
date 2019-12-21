@@ -85,7 +85,7 @@ public class SectionControllerqi {
             User thisUser=UserService.selectByPrimaryKey(banzhuId);
             Users.add(thisUser);
         }
-        PageInfo<Section> page = new PageInfo<>(Section,5);
+        PageInfo<com.ncu.bbs.bean.Section> page = new PageInfo<>(Section,5);
         return Msg.success().add("pageInfo",page).add("Userlist",Users);
     }
 
@@ -95,7 +95,17 @@ public class SectionControllerqi {
         Sectionservice.deleteSection(sId);
         return Msg.success();
     }
-    public void addSection(){
 
+    @RequestMapping("/addSection")
+    @ResponseBody
+    public Msg addSection(@RequestParam("sSectionname") String sSectionname,
+                           @RequestParam("sDescription") String sDescription
+                           ){
+        Section section = new Section();
+        section.setsSectionname(sSectionname);
+        section.setsDescription(sDescription);
+        System.out.println(sSectionname + " " + sDescription);
+        Sectionservice.addSection(section);
+        return Msg.success();
     }
 }
