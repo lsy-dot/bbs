@@ -74,6 +74,40 @@
         </div>
     </div>
 </div>
+<!-- 新增板块模态框 -->
+<div class="modal fade" id="sectionAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myAddModalLabel">新增板块</h4>
+            </div>
+            <div class="modal-body">
+                <!--编辑表单-->
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="sSectionname_add_input" class="col-sm-2 control-label">版块名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sSectionname_add_input" placeholder="请输入你要增加的板块名称">
+                            <%--                            <p class="form-control-static" id="sSectionname_update_static"></p>--%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sDescription_add_input" class="col-sm-2 control-label">板块描述</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sDescription_add_input" placeholder="请输入你要增加的板块描述">
+                            <%--                            <p class="form-control-static" id="sDescription_update_static"></p>--%>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="section_add_btn">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">管理员系统</div>
@@ -115,6 +149,7 @@
             </div>
             <!--按钮-->
             <div class="row">
+                <button type="button" id="add_Section_btn" class="btn btn-success btn-sm glyphicon glyphicon-pencil">新增</button>
             </div>
             <!--显示表格数据-->
             <div class="row">
@@ -331,10 +366,14 @@
     //点击更新，更新板块信息
     $("#section_update_btn").click(function () {
         var sBanzhuid=$("#sBanzhuid_update_input").val();
+        var sSectionname=$("#sSectionname_update_input").val();
+        var sDescription=$("#sDescription_update_input").val();
         var data={
             "originid":$("#sBanzhuid_update_input").attr("banzhuid"),
             "banzhuUserid":sBanzhuid,
-            "Sectionid":$(this).attr("edit-id")
+            "Sectionid":$(this).attr("edit-id"),
+            "sSectionname":sSectionname,
+            "sDescription":sDescription
         };
         //发送ajax请求，保存更新的用户信息
         $.ajax({
@@ -357,6 +396,41 @@
     });
     layui.use('element', function(){
         var element = layui.element;
+    });
+
+    /**
+     * 新增板块
+     */
+    // sSectionname_add_input
+    // sDescription_add_input
+    $("#add_Section_btn").click(function () {
+        $("#sectionAddModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    $("#section_add_btn").click(function (){
+        var addSectioName = $("#sSectionname_add_input").val();
+        var addSectionDes = $("#sDescription_add_input").val();
+        var data={
+            "sSectionname":addSectioName,
+            "sDescription":addSectionDes
+        };
+        $.ajax({
+            url:"${APP_PATH}/addSection",
+            type:"POST",
+            data:data,
+            success:function (result) {
+                if(result.code==100){
+                    alert("新增成功");
+                    //1.关闭对话框
+                    $("#sectionAddModal").modal("hide");
+                    //2.回到本页面
+                }else{
+                    alert("新增失败");
+                }
+            }
+        });
     });
 </script>
 </body>
