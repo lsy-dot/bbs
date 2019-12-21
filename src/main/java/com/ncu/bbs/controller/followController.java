@@ -54,6 +54,7 @@ public class followController {
     public void insertFollow(HttpServletRequest request, HttpSession session)throws
     UnsupportedEncodingException, JsonProcessingException {
         String smainid=request.getParameter("mainid");
+        System.out.println(smainid);
         int mainid=Integer.parseInt(smainid);
         String followcontent=request.getParameter("followcontent");
         String sfollowerid=request.getParameter("followerid");
