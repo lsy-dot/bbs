@@ -331,10 +331,14 @@
     //点击更新，更新板块信息
     $("#section_update_btn").click(function () {
         var sBanzhuid=$("#sBanzhuid_update_input").val();
+        var sSectionname=$("#sSectionname_update_input").val();
+        var sDescription=$("#sDescription_update_input").val();
         var data={
             "originid":$("#sBanzhuid_update_input").attr("banzhuid"),
             "banzhuUserid":sBanzhuid,
-            "Sectionid":$(this).attr("edit-id")
+            "Sectionid":$(this).attr("edit-id"),
+            "sSectionname":sSectionname,
+            "sDescription":sDescription
         };
         //发送ajax请求，保存更新的用户信息
         $.ajax({

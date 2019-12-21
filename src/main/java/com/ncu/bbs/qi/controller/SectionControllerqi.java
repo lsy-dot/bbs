@@ -42,12 +42,19 @@ public class SectionControllerqi {
      */
     @RequestMapping("/findBanzhuId")
     @ResponseBody
-    public Msg changeBanzhuid(@RequestParam("originid")Integer originid,@RequestParam("banzhuUserid")String banzhuUserid,@RequestParam("Sectionid")Integer Sectionid){
+    public Msg changeBanzhuid(@RequestParam("originid")Integer originid,
+                              @RequestParam("banzhuUserid")String banzhuUserid,
+                              @RequestParam("Sectionid")Integer Sectionid,
+                              @RequestParam("sSectionname")String sSectionname,
+                              @RequestParam("sDescription")String sDescription
+                              ){
 
         Integer banzhuid=UserService.getUIdByUserid(banzhuUserid);//banzhuid是自增的id
         Section Sections=new Section();
         Sections.setsBanzhuid(banzhuid);
         Sections.setsId(Sectionid);
+        Sections.setsSectionname(sSectionname);
+        Sections.setsDescription(sDescription);
 
         //测试
         System.out.println(banzhuid+" "+banzhuUserid+" "+Sectionid);

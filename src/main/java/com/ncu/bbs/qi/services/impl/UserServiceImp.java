@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @ContextConfiguration("classpath:applicationContext.xml")
-class UserServiceImp implements UserService {
+class UserServiceImp implements UserService{
 
     @Autowired
     private UserMapper Usermapper;
@@ -153,13 +153,6 @@ class UserServiceImp implements UserService {
 
     @Override
     public void updateUser(User user) {
-//        UserExample userExample=new UserExample();
-//        userExample.or();
-//        userExample.or().andUIdEqualTo(user.getuId());
-//        User userupdate=new user();
-//        userupdate.setsBanzhuid(section.getsBanzhuid());
-//        sectionmapper.selectByExample(sectionExample);
-//        sectionmapper.updateByExampleSelective(userupdate,sectionExample);
         Usermapper.updateByPrimaryKeySelective(user);
     }
 
