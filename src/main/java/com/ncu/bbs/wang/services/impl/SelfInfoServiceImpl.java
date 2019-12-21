@@ -44,13 +44,16 @@ public class SelfInfoServiceImpl implements SelfInfoService {
         example.or();
         example.or().andUUseridEqualTo(Mainerid);
         List<User>list = userMapper.selectByExample(example);
-       System.out.println(list.get(0));
+//       System.out.println(list.get(0));
        MainExample example2 = new MainExample();
         example2.or();
         example2.or().andMMaineridEqualTo(list.get(0).getuId());
         List<Main>list2 = mainMapper.selectByExample(example2);
-        System.out.println(list2.get(0).getmContent());
-        System.out.println("example2 ！！！！");
         return list2;
+    }
+    public void  deleteMainByMainid(String mainid ){
+
+        mainMapper.deleteByPrimaryKey(Integer.parseInt(mainid));
+
     }
 }
