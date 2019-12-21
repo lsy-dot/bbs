@@ -883,7 +883,7 @@
             var followcontent=CKEDITOR.instances.description.getData();
             var mainid=${MAIN_ID};
             var followdate=Date.parse(new Date());
-            alert(mainid);
+           // alert(mainid);
             if (followcontent.length>3000){
                 showerrormess("你输入的内容超过长度！");
             }
