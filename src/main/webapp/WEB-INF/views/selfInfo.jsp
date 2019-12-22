@@ -257,9 +257,9 @@ $("#self_save_btn").click(function () {
     var workproperty=$("#workproperty_input").val();
     var workplace=$("#workplace_input").val();
     var intro=$("#self_intro").val();
-alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+age
-    +"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="
-    +intro,)
+// alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+age
+//     +"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="
+//     +intro,)
  $.ajax({
         url:"${APP_PATH}/selfAjax?userid="+userid+"&name="+name+"&nickname="+nickname
             +"&sex="+sex+"&age="+age+"&email="+email+"&workproperty="+workproperty+"&workplace="+workplace+"&intro="+intro,
@@ -278,21 +278,48 @@ alert("userid="+userid+"&name="+name+"&nickname="+nickname+"&sex="+sex+"&age="+a
 });
 
 //校验输入是否过长
- function   is_tooLong(){
-     var name=$("#name_input").val();
-     var nickname=$("#nickname_input").val();
-     var sex=$("#gender_input").val();
-     var age=$("#age_input").val();
-     var email=$("#email_input").val();
-     var workproperty=$("#workproperty_input").val();
-     var workplace=$("#workplace_input").val();
-     var intro=$("#self_intro").val();
-     if(name.length>20||nickname>20||sex.length>10||age>5||email.length>30||workplace.length>100||workproperty.length>100
-     ||intro.length>200){
-         alert("输入过长，请您重新填写！！")
+ function   is_tooLong() {
+     var name = $("#name_input").val();
+     var nickname = $("#nickname_input").val();
+     var sex = $("#gender_input").val();
+     var age = $("#age_input").val();
+     var email = $("#email_input").val();
+     var workproperty = $("#workproperty_input").val();
+     var workplace = $("#workplace_input").val();
+     var intro = $("#self_intro").val();
+     if (name.length > 20) {
+         alert("用户名输入过长，请您重新填写！！")
          return false;
      }
-     else return true;
+   else  if (nickname.length > 20) {
+         alert("昵称输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (sex.length > 10) {
+         alert("性别输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (age.length > 5) {
+         alert("年龄输入过长，请您重新填写！！")
+         return false;
+     }
+    else if (email.length > 30) {
+         alert("邮箱输入过长，请您重新填写！！")
+         return false;
+     }
+  else   if (workplace.length> 100) {
+         alert("工作地址输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (workproperty.length > 100) {
+         alert("工作性质输入过长，请您重新填写！！")
+         return false;
+     }
+   else  if (intro.length > 200) {
+         alert("个人介绍输入过长，请您重新填写！！")
+         return false;
+     }
+   else return true;
  }
 </script>
 </body>
