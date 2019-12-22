@@ -61,4 +61,17 @@ public class UserServiceImpl implements UserService {
             return user.getuPoints();
         else return 0;
     }
+
+    /**
+     * 根据用户名进行积分删减功能
+     * @param userid
+     * @param finalPoints
+     */
+    @Override
+    public void changePointByUserid(int userid, int finalPoints) {
+        User user=new User();
+        user.setuId(userid);
+        user.setuPoints(finalPoints);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 }

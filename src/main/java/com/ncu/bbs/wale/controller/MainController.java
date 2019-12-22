@@ -100,6 +100,10 @@ public class MainController {
                 if(points<mPoint){
                     map.put("point","您账户中的个人积分不足，无法发布积分奖励，请减少积分奖励数量或者发布普通帖子！");
                     return Msg.fail().add("errorFields",map);
+                }else{
+                    //如果该用户有足够的积分进行积分奖励，则从该用户的积分那里扣除积分
+                    int finalPoints=points-mPoint;
+                    userService.changePointByUserid(Integer.parseInt(mMainerid),finalPoints);
                 }
             }
         }
