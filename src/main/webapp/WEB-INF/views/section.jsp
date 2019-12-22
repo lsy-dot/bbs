@@ -220,8 +220,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=45px height=45px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -231,7 +231,7 @@
             var latestdate=formatDate(item.latestTime);
             var latesthourandminute=formatDateHourAndMinute(item.latestTime);
 
-            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latestuser=$("<div></div>").append(item.latestPublish.uUserid);
             var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
@@ -260,8 +260,8 @@
             var mainnerHeadPic=$("<div></div>").append("<img src='"+item.user.uHeadpic+"'alt='头像' class=\"img-circle\" width=50px height=50px>");
             var mainnerNickname=$("<div></div>").append(item.user.uUserid);
             var userNickname=$("<td></td>").append(mainnerHeadPic).append(mainnerNickname);//主帖的发布者
-            <%--link=$("<a href='${APP_PATH}/jumpToLogin/follow?mainId="+item.mMainid+"' target='_blank' class='link'></a>");--%>
-            <%--userNickname.append(link);--%>
+            link=$("<a href='${APP_PATH}/userInfo.jsp?uid="+item.user.uId+"' target='_blank' class='link'></a>");
+            userNickname.append(link);
 
             var date=formatDate(item.mMaindate);
             var hourandminute=formatDateHourAndMinute(item.mMaindate);
@@ -272,7 +272,7 @@
             var latestdate=formatDate(item.latestTime);
             var latesthourandminute=formatDateHourAndMinute(item.latestTime);
             //最新发表的相关信息
-            var latestuser=$("<div></div>").append(item.latestPublish.uNickname);
+            var latestuser=$("<div></div>").append(item.latestPublish.uUserid);
             var latesttime=$("<div></div>").append(latestdate+" "+latesthourandminute);
             //最新发表
             var latest=$("<td></td>").append(latestuser).append(latesttime);
