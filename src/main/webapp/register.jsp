@@ -63,7 +63,7 @@
                                    data-bv-regexp-message="用户名必须是6-16位数字和字母的组合或者2-5位中文"
 <%--                                   data-bv-stringlength="true" data-bv-stringlength-min="9" --%>
 <%--                                   data-bv-stringlength-max="11" data-bv-stringlength-message="账号长度要在9~11哦"--%>
-                            />
+                           onblur="" />
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">确认密码</label>
                         <div class="col-lg-5">
-                            <input type="password" class="form-control" name="confirmPassword" placeholder="请重新输入您的密码"
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="请重新输入您的密码"
                                    required data-bv-notempty-message="确认密码不能为空哦"
                                    data-bv-identical="true" data-bv-identical-field="uPassword" data-bv-identical-message="确认密码不正确"/>
                         </div>
@@ -149,32 +149,57 @@
              var uNickname=$("#uNickname").val();
              var uEmail=$("#uEmail").val();
              var uPassword=$("#uPassword").val();
+             var password=$("#confirmPassword").val();
              var uSex=$("#uSex").val();
              var uWorkplace=$("#uWorkplace").val();
-         if(uName.length==0){
-                 return false;
-         }
-         if(uAge.length==0){
+             //检验是否为空
+         if (uName.length==0) {
+             alert("真实姓名不可为空！！")
              return false;
          }
-         if(uUserid.length==0){
+         else  if (uNickname.length==0) {
+             alert("昵称不可为空！！")
              return false;
          }
-        if(uNickname.length==0){
-                 return false;
-         }
-         if(uEmail.length==0){
+         else  if (uPassword.length==0) {
+             alert("密码不可为空！！")
              return false;
          }
-         if(uPassword.length==0){
+         else if(password.length==0){
+             alert("确认密码不可为空！！")
              return false;
          }
-         if(uSex.length==0){
+         else  if (uAge.length==0) {
+             alert("年龄不可为空！！")
              return false;
          }
-         if(uWorkplace.length==0){
+         else if (uEmail.length==0) {
+             alert("邮箱不可为空！！")
              return false;
          }
+       //校验是否过长
+          if (uName.length > 20) {
+             alert("真实姓名输入过长，请您重新填写！！")
+             return false;
+         }
+         else  if (uNickname.length > 20) {
+             alert("昵称输入过长，请您重新填写！！")
+             return false;
+         }
+         else  if (uPassword.length > 25) {
+             alert("密码输入过长，请您重新填写！！")
+             return false;
+         }
+         else  if (uAge.length > 5) {
+             alert("年龄输入过长，请您重新填写！！")
+             return false;
+         }
+         else if (uEmail.length > 30) {
+             alert("邮箱输入过长，请您重新填写！！")
+             return false;
+         }
+         //校验密码是否一致
+         if(!validate_password() ) return false;
          let newTab  = window.open("about:blank");
         $.ajax({
             url:"${APP_PATH}/regUser?uName="+uName+"&uAge="+uAge+"&uUserid="+uUserid+"&uNickname="+uNickname+"&uEmail="+uEmail+"&uPassword="+uPassword+"&uSex="+uSex+"&uWorkplace="+uWorkplace,
@@ -214,5 +239,19 @@
      $(document).ready(function(){
          $('#user_regis_form').bootstrapValidator();
      });
+     //校验密码
+     function validate_password() {
+         var password1 = $("#uPassword").val();
+         var password2 = $("#confirmPassword").val();
+         if(password1=="" ||password2==""){
+             alert("密码不可为空！！")
+             return false;
+         }
+         else  if (password1 != password2) {
+             alert("密码不一致！！")
+             return false;
+         }
+         else return true;
+     }
 </script>
 </html>
