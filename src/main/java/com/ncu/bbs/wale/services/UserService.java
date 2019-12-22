@@ -18,4 +18,6 @@ public interface UserService {
     List<User> searchUsersByKeyWord(String keyword);
 
     void changeHeadPic(int uid,String headpic) ;
+
+    int getPointByUId(int userid);
 }

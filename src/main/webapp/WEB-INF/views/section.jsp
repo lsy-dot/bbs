@@ -374,6 +374,9 @@
         if(point>100){
             show_validate_msg("#point","error","奖励的积分数不得超过100");
             return false;
+        }else if(point<=0){
+            show_validate_msg("#point","error","奖励的积分数必须大于0");
+            return false;
         }
         return true;
     }
@@ -515,8 +518,24 @@
        var point=$(this).val();
        if(point>100){
            show_validate_msg("#point","error","奖励的积分数不得超过100");
+       }else if(point<=0){
+           show_validate_msg("#point","error","奖励的积分数必须大于0");
        }else{
-           show_validate_msg("#point","success","");
+           var data={
+               "point":point
+           };
+           //判断发帖人是否有足够的积分进行发帖
+           $.ajax({
+               url:"${APP_PATH}/main/hasEnoughPoint",
+               data:data,
+               success:function (result) {
+                    if(result.code==100){
+                        show_validate_msg("#point","success","");
+                    }else if(result.code==200){
+                        show_validate_msg("#point","error","您账户中的个人积分不足，无法发布积分奖励，请减少积分奖励数量或者发布普通帖子！");
+                    }
+               }
+           });
        }
     });
     //奖励积分输入框的变化
@@ -531,50 +550,6 @@
         }
     });
 
-
-    //点击某个帖子
-    <%--$(document).on("click ",".link",function () {--%>
-    <%--    //alert($(this).attr('href'));--%>
-    <%--    var mainId=$(this).attr('href');--%>
-    <%--    window.open("${APP_PATH}/main/theMain?mainId="+mainId,"_self");--%>
-    <%--})--%>
-
-    <%--/*--%>
-    <%--    点击发送图片，触发表单的点击事件--%>
-    <%-- */--%>
-    <%--$('.import').click(function(){--%>
-    <%--    $("#pic").trigger('click');--%>
-    <%--});--%>
-    <%--// 当表单文件有变化时执行提交动作--%>
-    <%--$('[name="pic"]').change(function(){--%>
-    <%--    if($(this).val()){--%>
-    <%--        $('.import').addClass('disabled');//图片链接禁用--%>
-    <%--        //$(this).parent().submit();--%>
-    <%--        var formData = new FormData();--%>
-    <%--        formData.append("picture", $("#pic")[0].files[0]);--%>
-    <%--        //alert("file");--%>
-    <%--        $.ajax({--%>
-    <%--            url:"${APP_PATH}/upload/picture",--%>
-    <%--            type:"POST",--%>
-    <%--            data:formData,--%>
-    <%--            contentType:false,--%>
-    <%--            processData:false,//这个很有必要，不然不行--%>
-    <%--            dataType:"json",--%>
-    <%--            mimeType:"multipart/form-data",--%>
-    <%--            success:function (result) {--%>
-    <%--                if(result.code===100){--%>
-    <%--                    var contents=$("#content").html();--%>
-    <%--                    // var paths="/bbs/statics/images/"+result.extend.filename;--%>
-    <%--                    var paths="${APP_PATH}/statics/images/"+result.extend.filename;--%>
-    <%--                    contents+="<div><img src=\""+paths+"\" width=200 height=200><div>";--%>
-    <%--                    $(".content").html(contents);--%>
-    <%--                }else{--%>
-    <%--                    alert("failed");--%>
-    <%--                }--%>
-    <%--            }--%>
-    <%--        });--%>
-    <%--    }--%>
-    <%--});--%>
 </script>
 </body>
 </html>

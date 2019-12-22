@@ -90,6 +90,18 @@ public class MainController {
         if(mPoint>100){
             map.put("point","奖励的分数不能超过100");
             return Msg.fail().add("errorFields",map);
+        }else{
+            if(mPoint<=0){
+                map.put("point","奖励的分数必须大于0");
+                return Msg.fail().add("errorFields",map);
+            }
+            if(mPoint<=100&&mPoint>0){
+                int points=userService.getPointByUId(Integer.parseInt(mMainerid));
+                if(points<mPoint){
+                    map.put("point","您账户中的个人积分不足，无法发布积分奖励，请减少积分奖励数量或者发布普通帖子！");
+                    return Msg.fail().add("errorFields",map);
+                }
+            }
         }
         Main main=new Main();
         main.setmSectionid(mSectionid);
@@ -813,5 +825,25 @@ public class MainController {
             mainService.deleteMain(id);
         }
         return Msg.success();
+    }
+
+    /**
+     * 判断该发帖用户是否有足够的积分来发布需求帖，也就是积分奖励
+     * @param session
+     * @param point
+     * @return
+     */
+    @RequestMapping("hasEnoughPoint")
+    @ResponseBody
+    public Msg hasEnoughPoint(@RequestParam("point")Integer point,HttpSession session){
+        if(session.getAttribute("userid")==null){
+            return Msg.success();
+        }else{
+            int userid=(Integer)session.getAttribute("userid");
+            int points=userService.getPointByUId(userid);
+            if(points>=point){
+                return Msg.success();
+            }else return Msg.fail();
+        }
     }
 }
