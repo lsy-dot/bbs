@@ -48,4 +48,30 @@ public class UserServiceImpl implements UserService {
         user.setuHeadpic("/bbs/statics/images/upload/"+headpic);
         userMapper.updateByExampleSelective(user,userExample);
     }
+
+    /**
+     * 根据用户名获取用户的积分
+     * @param userid
+     * @return
+     */
+    @Override
+    public int getPointByUId(int userid) {
+        User user= userMapper.selectByPrimaryKey(userid);
+        if(user!=null)
+            return user.getuPoints();
+        else return 0;
+    }
+
+    /**
+     * 根据用户名进行积分删减功能
+     * @param userid
+     * @param finalPoints
+     */
+    @Override
+    public void changePointByUserid(int userid, int finalPoints) {
+        User user=new User();
+        user.setuId(userid);
+        user.setuPoints(finalPoints);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 }

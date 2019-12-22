@@ -13,4 +13,5 @@ public interface SelfInfoService {
 public void saveAllselfInfo(User user);
 public List<User> selectUserByuserid(String userid);
 public List<Main> selectMainByMainerid(String Mainerid);
+public  void  deleteMainByMainid(String mainid );
 }

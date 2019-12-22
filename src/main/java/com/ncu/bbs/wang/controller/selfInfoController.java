@@ -155,14 +155,15 @@ public Msg selectPasswordByuserid(String userid) {
     @ResponseBody
    public  Msg selectMainByMainerid(String mainerid ){
         System.out.println(mainerid);
-//        PageHelper.startPage(pn,5);
         List<Main> list3=selfInfoService.selectMainByMainerid(mainerid);
-//        PageInfo page = new PageInfo(list3);
-        System.out.println(list3.get(0).getmContent());
-        System.out.println(list3.get(1).getmContent());
-        System.out.println(list3.get(2).getmContent());
-        System.out.println(list3);
         return  Msg.success().add("main",list3);
+    }
+    //用mainid删除帖子信息并传给前端
+    @RequestMapping(value = "/deleteArticle")
+    @ResponseBody
+    public  void deleteMainByMainid(HttpServletRequest request, HttpServletResponse response){
+        String mainid=request.getParameter("mainid");
+        selfInfoService.deleteMainByMainid(mainid);
     }
 //    // 头像上传
 //    @RequestMapping("/fileUpload.action")

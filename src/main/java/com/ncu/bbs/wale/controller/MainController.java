@@ -90,6 +90,22 @@ public class MainController {
         if(mPoint>100){
             map.put("point","奖励的分数不能超过100");
             return Msg.fail().add("errorFields",map);
+        }else{
+            if(mPoint<=0){
+                map.put("point","奖励的分数必须大于0");
+                return Msg.fail().add("errorFields",map);
+            }
+            if(mPoint<=100&&mPoint>0){
+                int points=userService.getPointByUId(Integer.parseInt(mMainerid));
+                if(points<mPoint){
+                    map.put("point","您账户中的个人积分不足，无法发布积分奖励，请减少积分奖励数量或者发布普通帖子！");
+                    return Msg.fail().add("errorFields",map);
+                }else{
+                    //如果该用户有足够的积分进行积分奖励，则从该用户的积分那里扣除积分
+                    int finalPoints=points-mPoint;
+                    userService.changePointByUserid(Integer.parseInt(mMainerid),finalPoints);
+                }
+            }
         }
         Main main=new Main();
         main.setmSectionid(mSectionid);
@@ -758,19 +774,30 @@ public class MainController {
      * @param mMainid
      * @param mTitle
      * @param mContent
-     * @param mPoint
      * @param session
      * @return
      */
     @ResponseBody
     @RequestMapping("/submitChangeMain")
-    public Msg updateMain(Integer mMainid,String mTitle, String mContent, Integer mPoint, HttpSession session){
+    public Msg updateMain(Integer mMainid,String mTitle, String mContent, HttpSession session){
         Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        if(session.getAttribute("adminid")==null){
+            map.put("adminnotlogin","您还未登录，请登录后进行更新帖子操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        if(mTitle.length()>50){
+            map.put("title","标题字数不得超过50个字");
+            return Msg.fail().add("errorFields",map);
+        }
+        if(mContent.length()>3000){
+            map.put("content","你的帖子中文内容太长，无法发表，请减少想要发表的内容！");
+            return Msg.fail().add("errorFields",map);
+        }
         Main main=new Main();
         main.setmMainid(mMainid);
         main.setmTitle(mTitle);
         main.setmContent(mContent);
-        main.setmPoint(mPoint);
+//        main.setmPoint(mPoint);
         mainService.updateMainByMain(main);
         return Msg.success();
     }
@@ -782,7 +809,12 @@ public class MainController {
      */
     @RequestMapping("/deleteMains")
     @ResponseBody
-    public Msg deleteMains(@RequestParam("perfects")String perfects){
+    public Msg deleteMains(@RequestParam("perfects")String perfects, HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        if(session.getAttribute("adminid")==null){
+            map.put("adminnotlogin","您还未登录，请登录后进行删除帖子操作！");
+            return Msg.fail().add("errorFields",map);
+        }
         if(perfects.contains("-")){
             String[] str_ids=perfects.split("-");
             //组装ids的数组
@@ -797,5 +829,25 @@ public class MainController {
             mainService.deleteMain(id);
         }
         return Msg.success();
+    }
+
+    /**
+     * 判断该发帖用户是否有足够的积分来发布需求帖，也就是积分奖励
+     * @param session
+     * @param point
+     * @return
+     */
+    @RequestMapping("hasEnoughPoint")
+    @ResponseBody
+    public Msg hasEnoughPoint(@RequestParam("point")Integer point,HttpSession session){
+        if(session.getAttribute("userid")==null){
+            return Msg.success();
+        }else{
+            int userid=(Integer)session.getAttribute("userid");
+            int points=userService.getPointByUId(userid);
+            if(points>=point){
+                return Msg.success();
+            }else return Msg.fail();
+        }
     }
 }
