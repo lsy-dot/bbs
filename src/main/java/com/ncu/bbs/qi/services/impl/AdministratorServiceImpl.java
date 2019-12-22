@@ -31,6 +31,7 @@ public class AdministratorServiceImpl implements AdministratorService {
         criteria.andAAdminnameEqualTo(aAdminname);
         criteria.andAPasswordEqualTo(aPassword);
         long count = AdministratorMapper.countByExample(example);
+        List<Administrator>list=AdministratorMapper.selectByExample(example);
         if(count==0)
         {
             return null;
@@ -39,7 +40,8 @@ public class AdministratorServiceImpl implements AdministratorService {
            Administrator administrator = new Administrator();
            administrator.setaAdminname(aAdminname);
            administrator.setaPassword(aPassword);
-        return administrator;
+//        return administrator;
+            return list.get(0);
         }
     }
 
