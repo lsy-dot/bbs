@@ -22,7 +22,7 @@
 
 </head>
 <body >
-<form method="post" id="adminloginform">
+<form action="${APP_PATH}/checkLogin" method="post" id="adminloginform">
     <h1>欢迎管理员</h1>
     <hr/>
     <table align="center">
@@ -71,43 +71,22 @@
             alert("请输入密码");
             return false;
         }
-
-        $.ajax({
-            url:"${APP_PATH}/checkaAdminname",
-            data:"aAdminname="+aAdminname,
-            type:"POST",
-            async:false,
-            success:function (result){
-                if(result.code==100){
-                    alert("对不起，您还不是管理员");
-                    return false;
-                }else{
-                    var toadmin=false;
-                    var aPassword=$("#aPassword").val();
-                    var data={
-                        "aAdminname":aAdminname,
-                        "aPassword":aPassword
-                    }
-                    $.ajax({
-                        url:"${APP_PATH}/checkaPassword",
-                        // data:"aPassword="+aPassword,
-                        data:data,
-                        type:"POST",
-                        async:false,
-                        success:function (result){
-                            if(result.code==100){
-                                alert("密码错误");
-                                return false;
-                            }else{
-                                // alert(1);
-                                toadmin=true;
-                               window.open('admin.jsp');
-                            }
-                        }
-                    });
-                }
-            }
-        });
+         var data = {
+             "aAdminname":aAdminname,
+             "aPassword":aPassword,
+         };
+        <%--$.ajax({--%>
+        <%--    url:"${APP_PATH}/checkLogin",--%>
+        <%--    data:data,--%>
+        <%--    type:"POST",--%>
+        <%--    async:false,--%>
+        <%--    success:function (result) {--%>
+        <%--        if (result==null) {--%>
+        <%--            alert("对不起，您还不是管理员");--%>
+        <%--            return false;--%>
+        <%--        }--%>
+        <%--    }--%>
+        <%--});--%>
     });
 </script>
 </html>

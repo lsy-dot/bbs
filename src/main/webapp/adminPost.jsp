@@ -53,7 +53,7 @@
                     <a class="" href="">操作中心</a>
                     <dl class="layui-nav-child">
                         <dd class="active"><a href="adminPost.jsp">查看主贴</a></dd>
-                        <dd><a href="admin.jsp">用户管理</a></dd>
+                        <dd><a href="${APP_PATH}/jumpToLogin/toWhere?where=admin">用户管理</a></dd>
                         <dd><a href="viewsectionlist.jsp">板块管理</a></dd>
                     </dl>
                 </li>

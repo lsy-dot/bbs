@@ -62,6 +62,11 @@ public class adminController {
         if(administrator != null)
         {
             session.setAttribute("administrator",administrator);
+            session.setAttribute("adminid",administrator.getaId());
+            System.out.println(administrator.getaId());
+            System.out.println(administrator);
+            session.setAttribute("adminname",administrator.getaAdminname());
+            session.setAttribute("admin",administrator);
             return "admin";
         }
         else
@@ -75,6 +80,7 @@ public class adminController {
         session.removeAttribute("adminid");
         session.removeAttribute("admin");
         session.removeAttribute("adminname");
+        session.removeAttribute("administrator");
         return "login";
     }
 

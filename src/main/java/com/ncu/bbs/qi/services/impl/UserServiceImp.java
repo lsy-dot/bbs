@@ -171,7 +171,16 @@ class UserServiceImp implements UserService{
         if(count==0){
             return false;
         }else{
+            updatesectioner(uId);
             return true;
         }
+    }
+
+    public void updatesectioner(Integer uId){
+        User user = new User();
+        int a = 1;
+        user.setuIssectioner(a);
+        user.setuId(uId);
+        Usermapper.updateByPrimaryKeySelective(user);
     }
 }
