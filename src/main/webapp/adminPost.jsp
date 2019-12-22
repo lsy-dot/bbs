@@ -135,16 +135,17 @@
                             </textarea>
                             <span class="help-block"></span>
                         </div>
-                        <div class="row">
-                            <div class="pointSelect">
-                                请选择是否发布积分奖励：否<input type="radio" name="points" value="0" id="nopoint" checked> 是
-                                <input type="radio" name="points" id="haspoint">
-                                <p style="display:inline" class="notshowpoint"><span>请修改需要奖励的积分数</span>
-                                    <input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')">
-                                    <span class="help-block"></span>
-                                </p>
-                            </div>
-                        </div>
+                        <!--管理员无法修改是否是需求帖，因为还要判断该用户是否有足够的积分进行发帖操作-->
+<%--                        <div class="row">--%>
+<%--                            <div class="pointSelect">--%>
+<%--                                请选择是否发布积分奖励：否<input type="radio" name="points" value="0" id="nopoint" checked> 是--%>
+<%--                                <input type="radio" name="points" id="haspoint">--%>
+<%--                                <p style="display:inline" class="notshowpoint"><span>请修改需要奖励的积分数</span>--%>
+<%--                                    <input type="text" id="point" oninput="value=value.replace(/[^\d]/g,'')">--%>
+<%--                                    <span class="help-block"></span>--%>
+<%--                                </p>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="row">
                             <div class="sub">
                                 <button class="btn btn-primary" id="publish_btn"><span class="glyphicon glyphicon-share-alt"></span>提交修改</button>
@@ -371,19 +372,19 @@
         $(".notshowpoint").show();
     });
     $("#nopoint").click(function () {
-        $("#point").val("");//输入框置空
-        $("#point").next("span").text("");//提示信息
+        // $("#point").val("");//输入框置空
+        // $("#point").next("span").text("");//提示信息
         $(".notshowpoint").hide();
     });
     //奖励积分输入框的变化
-    $("#point").change(function () {
-        var point=$(this).val();
-        if(point>100){
-            show_validate_msg("#point","error","奖励的积分数不得超过100");
-        }else{
-            show_validate_msg("#point","success","");
-        }
-    });
+    // $("#point").change(function () {
+    //     var point=$(this).val();
+    //     if(point>100){
+    //         show_validate_msg("#point","error","奖励的积分数不得超过100");
+    //     }else{
+    //         show_validate_msg("#point","success","");
+    //     }
+    // });
     //奖励积分输入框的变化
     $("#P-title").change(function () {
         var title=$("#P-title").val();
@@ -412,14 +413,14 @@
             alert("请输入帖子中文内容！");
             return false;
         }
-        var point=$("#point").val();
-        if(!$("#point").val())
-            point=0;
-        else point=parseInt(point);
-        if(point>100){
-            show_validate_msg("#point","error","奖励的积分数不得超过100");
-            return false;
-        }
+        // var point=$("#point").val();
+        // if(!$("#point").val())
+        //     point=0;
+        // else point=parseInt(point);
+        // if(point>100){
+        //     show_validate_msg("#point","error","奖励的积分数不得超过100");
+        //     return false;
+        // }
         return true;
     }
     //显示校验结果的提示信息
@@ -443,12 +444,12 @@
             return false;
         }
         var mainId=$("#publish_btn").attr("mainId");
-        //alert(mainId);
+
         var content=getContentData();
-        var point=$("#point").val();
-        if(!$("#point").val())
-            point=0;
-        else point=parseInt(point);
+        // var point=$("#point").val();
+        // if(!$("#point").val())
+        //     point=0;
+        // else point=parseInt(point);
         //数据校验
         if(!validateInput()){
             return false;
@@ -457,7 +458,7 @@
             "mMainid":mainId,
             "mTitle":$("#P-title").val(),
             "mContent":content,
-            "mPoint":point
+            // "mPoint":point
         };
         //alert(data);
         $.ajax({
@@ -471,19 +472,16 @@
                     $(".edit-publish").hide();//将修改文章的区域默认不可见
                     to_page(currentPage);//跳转到当前页
                 }else{
-                    alert("有错");
+                    //alert("有错");
                     //执行有错误时候的判断
-                    if(undefined!=result.extend.errorFields.point){
-                        show_validate_msg("#point","error",result.extend.errorFields.point);
-                    }
                     if(undefined!=result.extend.errorFields.title){
-                        show_validate_msg("#point","error",result.extend.errorFields.title);
+                        show_validate_msg("#P-title","error",result.extend.errorFields.title);
                     }
                     if(undefined!=result.extend.errorFields.content){
                         alert(result.extend.errorFields.content);
                     }
-                    if(undefined!=result.extend.errorFields.usernotlogin){
-                        alert(result.extend.errorFields.usernotlogin);
+                    if(undefined!=result.extend.errorFields.adminnotlogin){
+                        alert(result.extend.errorFields.adminnotlogin);
                     }
                 }
             }
@@ -522,6 +520,9 @@
                     if(result.code==100){
                         to_page(currentPage);
                     }else{
+                        if(undefined!=result.extend.errorFields.adminnotlogin){
+                            alert(result.extend.errorFields.adminnotlogin);
+                        }
                         alert("删除失败！");
                     }
                 }

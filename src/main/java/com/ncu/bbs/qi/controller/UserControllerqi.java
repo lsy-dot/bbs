@@ -99,7 +99,7 @@ public class UserControllerqi {
         User.setuNickname(uNickname);
         User.setuEmail(uEmail);
         User.setuName(uName);
-        User.setuPoints(0);
+        User.setuPoints(1000);//新用户注册就给1000积分
         User.setuIssectioner(0);
         User.setuWorkplace(uWorkplace);
         User.setuSex(uSex);
