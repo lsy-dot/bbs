@@ -110,5 +110,4 @@ public class SectionControllerqi {
         Sectionservice.addSection(section);
         return Msg.success();
     }
-
 }

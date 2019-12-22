@@ -81,17 +81,24 @@ public class UserControllerqi {
      * @return
      */
 
-    @RequestMapping(value="/regUser",method = RequestMethod.POST)
-    @ResponseBody
-    public Msg saveUser(HttpServletRequest request){
-        String uName = request.getParameter("uName");
-        String uAge = request.getParameter("uAge");
-        String uUserid = request.getParameter("uUserid");
-        String uNickname = request.getParameter("uNickname");
-        String uEmail = request.getParameter("uEmail");
-        String uPassword = request.getParameter("uPassword");
-        String uSex = request.getParameter("uSex");
-        String uWorkplace = request.getParameter("uWorkplace");
+//    @RequestMapping(value="/regUser",method = RequestMethod.POST)
+    @RequestMapping("/regUser")
+    public String saveUser(@RequestParam("uName") String uName,
+                           @RequestParam("uAge") String uAge,
+                           @RequestParam("uUserid") String uUserid,
+                           @RequestParam("uNickname") String uNickname,
+                           @RequestParam("uEmail") String uEmail,
+                           @RequestParam("uPassword") String uPassword,
+                           @RequestParam("uSex") String uSex,
+                           @RequestParam("uWorkplace") String uWorkplace){
+//        String uName = request.getParameter("uName");
+//        String uAge = request.getParameter("uAge");
+//        String uUserid = request.getParameter("uUserid");
+//        String uNickname = request.getParameter("uNickname");
+//        String uEmail = request.getParameter("uEmail");
+//        String uPassword = request.getParameter("uPassword");
+//        String uSex = request.getParameter("uSex");
+//        String uWorkplace = request.getParameter("uWorkplace");
         User User = new User();
         User.setuUserid(uUserid);
         User.setuAge(uAge);
@@ -106,7 +113,7 @@ public class UserControllerqi {
         User.setuHeadpic("/bbs/statics/images/upload/default.jpeg");
         System.out.print(uName);
         Userservice.saveUser(User);
-        return Msg.success();
+        return "login";
     }
 
     /**
