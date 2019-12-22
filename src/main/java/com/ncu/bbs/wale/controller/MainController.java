@@ -758,19 +758,30 @@ public class MainController {
      * @param mMainid
      * @param mTitle
      * @param mContent
-     * @param mPoint
      * @param session
      * @return
      */
     @ResponseBody
     @RequestMapping("/submitChangeMain")
-    public Msg updateMain(Integer mMainid,String mTitle, String mContent, Integer mPoint, HttpSession session){
+    public Msg updateMain(Integer mMainid,String mTitle, String mContent, HttpSession session){
         Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        if(session.getAttribute("adminid")==null){
+            map.put("adminnotlogin","您还未登录，请登录后进行更新帖子操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        if(mTitle.length()>50){
+            map.put("title","标题字数不得超过50个字");
+            return Msg.fail().add("errorFields",map);
+        }
+        if(mContent.length()>3000){
+            map.put("content","你的帖子中文内容太长，无法发表，请减少想要发表的内容！");
+            return Msg.fail().add("errorFields",map);
+        }
         Main main=new Main();
         main.setmMainid(mMainid);
         main.setmTitle(mTitle);
         main.setmContent(mContent);
-        main.setmPoint(mPoint);
+//        main.setmPoint(mPoint);
         mainService.updateMainByMain(main);
         return Msg.success();
     }
@@ -782,7 +793,12 @@ public class MainController {
      */
     @RequestMapping("/deleteMains")
     @ResponseBody
-    public Msg deleteMains(@RequestParam("perfects")String perfects){
+    public Msg deleteMains(@RequestParam("perfects")String perfects, HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+        if(session.getAttribute("adminid")==null){
+            map.put("adminnotlogin","您还未登录，请登录后进行删除帖子操作！");
+            return Msg.fail().add("errorFields",map);
+        }
         if(perfects.contains("-")){
             String[] str_ids=perfects.split("-");
             //组装ids的数组

@@ -439,7 +439,7 @@
                         show_validate_msg("#point","error",result.extend.errorFields.point);
                     }
                     if(undefined!=result.extend.errorFields.title){
-                        show_validate_msg("#point","error",result.extend.errorFields.title);
+                        show_validate_msg("#P-title","error",result.extend.errorFields.title);
                     }
                     if(undefined!=result.extend.errorFields.content){
                         alert(result.extend.errorFields.content);
