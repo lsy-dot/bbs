@@ -53,7 +53,7 @@
             </a>
 
         </div>
-        <img  id="headpic" class="img-responsive img-circle img-thumbnail" alt="Me">
+        <img  id="headpic" class="img-circle" style=" width:50px;height:50px" alt="Me">
         <p class="text-center text-primary" id="userid" style="color: #00FFFF"></p>
         <hr>
             <span class="glyphicon glyphicon-home" title="Address" id="worklocation"></span><br>
