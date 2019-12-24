@@ -23,7 +23,7 @@
     <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/dist/js/bootstrapValidator.js"></script>
     <title>注册</title>
 </head>
-<body>
+<body style="background-image:url('${APP_PATH}/statics/images/register.jpg')">
 <div class="container">
     <div class="row">
         <!-- form: -->

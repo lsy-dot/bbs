@@ -435,7 +435,7 @@
             return false;
         }
         if(addSectionDes.length>200){
-            alert("板块名称不能长于200");
+            alert("板块描述不能长于200");
             return false;
         }
         if(Check(addSId)){

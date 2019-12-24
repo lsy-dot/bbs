@@ -32,7 +32,14 @@ public class jumpToLoginController {
         System.out.println(1);
         return "follow";
     }
-
+    @RequestMapping("/follows")
+    public  String logins(HttpServletResponse response,HttpServletRequest request)
+            throws UnsupportedEncodingException {
+        String mainId=request.getParameter("mainId");
+        request.getSession().setAttribute("mainid",mainId);
+        System.out.println(1);
+        return "follow";
+    }
     @RequestMapping("/toAdmin")
     public  String toAdmin(HttpServletResponse response,HttpServletRequest request)
             throws UnsupportedEncodingException {

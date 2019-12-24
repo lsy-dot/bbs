@@ -91,7 +91,7 @@ public class MainController {
             map.put("point","奖励的分数不能超过100");
             return Msg.fail().add("errorFields",map);
         }else{
-            if(mPoint<=0){
+            if(mPoint<0){
                 map.put("point","奖励的分数必须大于0");
                 return Msg.fail().add("errorFields",map);
             }
@@ -107,6 +107,7 @@ public class MainController {
                 }
             }
         }
+        System.out.println("积分"+mPoint);
         Main main=new Main();
         main.setmSectionid(mSectionid);
         main.setmMaindate(new Date());

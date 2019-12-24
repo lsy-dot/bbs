@@ -371,10 +371,11 @@
         if(!$("#point").val())
             point=0;
         else point=parseInt(point);
+
         if(point>100){
             show_validate_msg("#point","error","奖励的积分数不得超过100");
             return false;
-        }else if(point<=0){
+        }else if(point<0){
             show_validate_msg("#point","error","奖励的积分数必须大于0");
             return false;
         }
@@ -408,6 +409,7 @@
         if(!$("#point").val())
             point=0;
         else point=parseInt(point);
+        // alert(point);
         //数据校验
         if(!validateInput()){
             return false;

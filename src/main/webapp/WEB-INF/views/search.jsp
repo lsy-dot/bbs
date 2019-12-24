@@ -52,7 +52,7 @@
                                 <ul class="nav nav-tabs kinds">
                                     <li role="presentation" id="searchmains"><a href="#">帖子</a></li>
                                     <li role="presentation" id="searchusers"><a href="#">用户</a></li>
-                                    <li role="presentation"><a href="#">其他</a></li>
+<%--                                    <li role="presentation"><a href="#">其他</a></li>--%>
                                 </ul>
                             </div>
                         </div>

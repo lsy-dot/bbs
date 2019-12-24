@@ -111,7 +111,7 @@
 
                 </div>
             </div>
-            <a id="edit"></a>
+            <a id="edits"></a>
             <!--编辑区-->
             <div class="row">
                 <!--此区域进行发帖操作-->
@@ -231,11 +231,13 @@
             //这里是帖子所在的版块信息
             var sectionname=$("<td></td>").append(item.section.sSectionname);
             //增加编辑按钮
-            var editBtn=$("<button></button>").addClass("btn btn-success btn-sm edit_btn")
-                .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("<a href='#edit'>编辑</a>");
+
+            var editBtn=$("<button></button>").addClass("btn btn-fail btn-sm edit_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
+            var aeditBtn=$("<a href='#edits'></a>").append(editBtn);
             //为编辑按钮添加一个自定义的属性
             editBtn.attr("edit-id",item.mMainid);
-            var editTd=$("<td></td>").append(editBtn);
+            var editTd=$("<td></td>").append(aeditBtn);
             //append方法执行完返回的还是原来的元素
             $("<tr></tr>")
                 .append(checkBoxTd)

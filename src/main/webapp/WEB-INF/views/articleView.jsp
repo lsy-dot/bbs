@@ -151,9 +151,9 @@ function timestampToTime(timestamp) {
     $(document).on("click",".edit_btn",function () {
         var mainid=$(this).attr("mainid");
         // alert(mainid);
-        window.location.href='${APP_PATH}/jumpToLogin/follow?mainId='+mainid;
+        window.open("${APP_PATH}/jumpToLogin/follows?mainId="+mainid);
+        <%--window.location.href='${APP_PATH}/jumpToLogin/follows?mainId='+mainid;--%>
                 // alert("1111")
-
 });
 //删除按钮实现
 $(document).on("click",".delete_btn",function () {

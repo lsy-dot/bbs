@@ -74,18 +74,7 @@ public void saveSelfInfo(HttpServletRequest request, HttpServletResponse respons
         String workplace = request.getParameter("workplace");
         String email = request.getParameter("email");
         String intro= request.getParameter("intro");
-//        System.out.println(userid);
-//        System.out.println(name);
-//        System.out.println(age);
-//        System.out.println(sex);
-//        System.out.println(workplace);
-//        System.out.println(workproperty);
-//        System.out.println(intro);
-//        System.out.println(email);
-//        System.out.println(password);
-//        UserExample example = new UserExample();
-//        example.or();
-//        example.or().andUUseridEqualTo(userid);
+
         User user1=new User();
         user1.setuUserid(userid);
         user1.setuPassword(password);
@@ -97,27 +86,6 @@ public void saveSelfInfo(HttpServletRequest request, HttpServletResponse respons
         user1.setuWorkproperty(workproperty);
         user1.setuWorkplace(workplace);
         user1.setuIntro(intro);
-//      userMapper.updateByPrimaryKeySelective(user1);
-//        User user1=new User();
-//        user1.setuUserid(userid);
-//        user1.setuPassword(password);
-//        user1.setuName(name);
-//        user1.setuNickname(nickname);
-//        user1.setuSex(sex);
-//        user1.setuAge(age);
-//        user1.setuEmail(email);
-//        user1.setuWorkproperty(workproperty);
-//        user1.setuWorkplace(workplace);
-//        user1.setuIntro(intro);
-//        System.out.println(email);
-//        System.out.println(intro);
-//        System.out.println(user1.toString());
-//                SelfInfoServiceImpl selfInfoService = (SelfInfoServiceImpl)
-//                        new AnnotationConfigApplicationContext(
-//                                "applicationContext.xml").getBean(
-//                                "selfInfo" +
-//                                        "+Service");
-//                System.out.println(selfInfoService);
         selfInfoService.saveAllselfInfo(user1);
 
 }
