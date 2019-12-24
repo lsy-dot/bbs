@@ -91,14 +91,6 @@ public class UserControllerqi {
                            @RequestParam("uPassword") String uPassword,
                            @RequestParam("uSex") String uSex,
                            @RequestParam("uWorkplace") String uWorkplace){
-//        String uName = request.getParameter("uName");
-//        String uAge = request.getParameter("uAge");
-//        String uUserid = request.getParameter("uUserid");
-//        String uNickname = request.getParameter("uNickname");
-//        String uEmail = request.getParameter("uEmail");
-//        String uPassword = request.getParameter("uPassword");
-//        String uSex = request.getParameter("uSex");
-//        String uWorkplace = request.getParameter("uWorkplace");
         User User = new User();
         User.setuUserid(uUserid);
         User.setuAge(uAge);

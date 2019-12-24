@@ -306,7 +306,20 @@ public class MainController {
      */
     @RequestMapping("/addPerfect")
     @ResponseBody
-    public Msg addSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId){
+    public Msg addSomePerfectMains(@RequestParam("perfects")String perfects,@RequestParam("sectionId")Integer sectionId,HttpSession session){
+        Map<String,Object> map=new HashMap<>();//用来存储错误的字段
+
+        if(session.getAttribute("userid")==null){
+            map.put("usernotlogin","您还未登录，请登录后进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
+        int userid=(Integer)session.getAttribute("userid");
+        Section section=sectionService.findSectionBySectionId(sectionId);
+
+        if(userid!=section.getsBanzhuid()){
+            map.put("notbanzhu","您不是该版的版主，无法进行置顶操作！");
+            return Msg.fail().add("errorFields",map);
+        }
 
         if(perfects.contains("-")){
             String[] str_ids=perfects.split("-");

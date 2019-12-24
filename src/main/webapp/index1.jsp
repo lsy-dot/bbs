@@ -66,15 +66,17 @@
             </div><!-- /.container-fluid -->
         </nav>
     </div>
-
+<div class="main">
     <!--右部的主页内容栏-->
-    <div class="right-main">
+    <div class="main-section">
         <div class="container allsections">
-<%--            <div class="row sections">--%>
+            <%--            <div class="row sections">--%>
 
-<%--            </div>--%>
+            <%--            </div>--%>
         </div>
     </div>
+</div>
+
 <script>
     //页面首次加载
     $(function () {

@@ -31,7 +31,7 @@
 <body>
     <div class="containers">
             <!--上方的导航栏-->
-        <%@include file="nav-top.jsp"%>
+            <%@include file="nav-top.jsp"%>
             <!--右部的主页内容栏-->
             <div class="right-main">
                 <div class="container">
@@ -51,14 +51,14 @@
                                     <div class="col-md-12"><!--存放所有的帖子-->
                                         <table class="table table-hover" id="mains_table">
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>标题</th>
-                                                    <th>发帖人</th>
-                                                    <th>发帖时间</th>
-                                                    <th>回复数</th>
-                                                    <th>最后发表</th>
-                                                </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>标题</th>
+                                                <th>发帖人</th>
+                                                <th>发帖时间</th>
+                                                <th>回复数</th>
+                                                <th>最后发表</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
@@ -95,7 +95,7 @@
                                 <div class="row">
                                     <div class="input-group title">
                                         <input type="text" name="title" id="P-title" class="form-control" style="width:1150px;height:50px" placeholder="请填写标题（字数不多于50）"/>
-<%--                                        <span>注：标题长度不超过50个字</span>--%>
+                                        <%--                                        <span>注：标题长度不超过50个字</span>--%>
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
