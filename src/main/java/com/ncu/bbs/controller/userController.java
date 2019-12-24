@@ -2,6 +2,7 @@ package com.ncu.bbs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ncu.bbs.bean.Msg;
 import com.ncu.bbs.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -137,6 +138,19 @@ public class userController {
         int mainpoint=Integer.parseInt(smainpoint);
         userService.addPoint(mainid,followerid,bonuspoint,mainpoint);
 
+    }
+    @PostMapping(value = "/checkUserId")
+    @ResponseBody
+    public Msg checkUserId(String username) throws JsonProcessingException {
+        HashMap<String,Boolean> hashMap = new HashMap();
+        User user = userService.getUserByname(username);
+        if (user != null ) {
+            hashMap.put("valid",true);
+            return Msg.success();
+        } else {
+            hashMap.put("valid",false);
+            return Msg.fail();
+        }
     }
 
 }

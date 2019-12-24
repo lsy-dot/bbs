@@ -372,11 +372,35 @@
             }
         });
     }
+    function checkUserid(username){
+        //userid=parseInt(userid);
+        var data;
+        $.ajax({
+            url:"${APP_PATH}/user/checkUserId",
+            data:{username:username},
+            type:"POST",
+            async:false,
+            success:function (result) {
+                if (result.code == 100) {
+                    data = true;
+                } else if (result.code == 200) {
+                    data = false;
+                }
+                // alert(result.code);
+            }
+        });
+        // alert(data);
+        return data;
+    }
     //点击更新，更新板块信息
     $("#section_update_btn").click(function () {
         var sBanzhuid=$("#sBanzhuid_update_input").val();
         var sSectionname=$("#sSectionname_update_input").val();
         var sDescription=$("#sDescription_update_input").val();
+        if(!checkUserid(sBanzhuid)){
+            alert("所要设定的版主不存在，请重新输入正确的版主id");
+            return false;
+        }
         var data={
             "originid":$("#sBanzhuid_update_input").attr("banzhuid"),
             "banzhuUserid":sBanzhuid,
