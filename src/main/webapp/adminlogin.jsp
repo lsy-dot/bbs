@@ -21,7 +21,7 @@
     <script type="text/javascript" src="${APP_PATH}/statics/bootstrapValidator/dist/js/bootstrapValidator.js"></script>
 
 </head>
-<body >
+<body style="background-image: url('${APP_PATH}/statics/images/adminLogin.jpg')">
 <form action="${APP_PATH}/checkLogin" method="post" id="adminloginform">
     <h1>欢迎管理员</h1>
     <hr/>
